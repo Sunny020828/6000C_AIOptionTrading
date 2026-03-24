@@ -1,0 +1,37 @@
+2026-03-21 00:28:31,099 | INFO | RUN START | run_id=timeline_20260320_162831_bf8114 | start_date=2024-01-01 | end_date=2024-12-31 | model_name=deepseek-reasoner | account_value=1000000.00 | risk_pct=0.0100 | save_db=True
+2026-03-21 00:28:42,113 | INFO | Timeline ready | run_id=timeline_20260320_162831_bf8114 | n_windows=11
+2026-03-21 00:28:42,159 | INFO | [01/11] MONTH START | decision_date=2024-01-31 00:00:00 | entry_date=2024-02-01 00:00:00 | exit_date=2024-02-29 00:00:00 | cumulative_offset_before=0.00
+2026-03-21 00:34:15,608 | INFO | [2024-01-31] MONTH END | scenario=bear_medianvol | strategy=put_debit_spread | cum_pnl=-4600.0 | return_pct=-0.0046 | sharpe=-4.445918567256043 | max_dd=-0.005299999999999971 | month_elapsed=333.448s
+2026-03-21 00:34:15,608 | INFO | [02/11] MONTH START | decision_date=2024-02-29 00:00:00 | entry_date=2024-03-01 00:00:00 | exit_date=2024-03-29 00:00:00 | cumulative_offset_before=-4600.00
+2026-03-21 00:40:10,088 | INFO | [2024-02-29] MONTH END | scenario=bear_highvol | strategy=call_credit_spread | cum_pnl=-350.0 | return_pct=-0.00035 | sharpe=-0.5635253885746331 | max_dd=-0.0012999999999999678 | month_elapsed=354.479s
+2026-03-21 00:40:10,089 | INFO | [03/11] MONTH START | decision_date=2024-03-29 00:00:00 | entry_date=2024-04-01 00:00:00 | exit_date=2024-04-30 00:00:00 | cumulative_offset_before=-4950.00
+2026-03-21 00:45:23,944 | ERROR | [2024-03-29 00:00:00] MONTH FAILED | entry_date=2024-04-01 00:00:00 | exit_date=2024-04-30 00:00:00 | error=Error code: 400 - {'error': {'message': 'Content Exists Risk', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}
+Traceback (most recent call last):
+  File "/Users/ostrichzhang/Desktop/HKUST/25-26Spring/6000C/MFIT6000CAlgoTrading/pipeline.py", line 433, in run_full_timeline
+    reasoning, final_text = call_llm(
+  File "/Users/ostrichzhang/Desktop/HKUST/25-26Spring/6000C/MFIT6000CAlgoTrading/utils/llm.py", line 99, in call_llm
+    response = client.chat.completions.create(
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1211, in create
+    return self._post(
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/_base_client.py", line 1297, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/_base_client.py", line 1070, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Content Exists Risk', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}
+2026-03-21 00:45:23,954 | ERROR | RUN FAILED | run_id=timeline_20260320_162831_bf8114 | error=Error code: 400 - {'error': {'message': 'Content Exists Risk', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}
+Traceback (most recent call last):
+  File "/Users/ostrichzhang/Desktop/HKUST/25-26Spring/6000C/MFIT6000CAlgoTrading/pipeline.py", line 433, in run_full_timeline
+    reasoning, final_text = call_llm(
+  File "/Users/ostrichzhang/Desktop/HKUST/25-26Spring/6000C/MFIT6000CAlgoTrading/utils/llm.py", line 99, in call_llm
+    response = client.chat.completions.create(
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1211, in create
+    return self._post(
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/_base_client.py", line 1297, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/ostrichzhang/WorkSpace/SoftWare/miniconda3/envs/ophr/lib/python3.10/site-packages/openai/_base_client.py", line 1070, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': 'Content Exists Risk', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}

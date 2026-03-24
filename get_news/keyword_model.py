@@ -3,65 +3,64 @@ import json
 import re
 from pathlib import Path
 from string import Template
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 import asyncio
 from openai import OpenAI
+from utils.chat_completion import achat_complete, KEYWORDS_MODEL
 
-KEYWORDS_MODEL='gpt-oss:120b-cloud'
-API_KEY = 'sk-ef018c3ada414210851f7578ae15b15b'
-MODEL='deepseek-chat'
 # ============================================================
 # Constants
 # ============================================================
 
 TOPIC_LABEL = "Hang Seng Index"
 
-# Core anchors that should frequently appear in RSS-relevant queries
 HSI_CORE_TERMS = [
     "Hang Seng Index",
     "HSI",
+    "Hong Kong equities",
     "Hong Kong stocks",
-    "Hong Kong equity market",
     "Hong Kong market",
     "Hang Seng",
 ]
 
-# Macro / policy / flow / derivatives related signals
 HSI_SIGNAL_BUCKETS = {
-    "macro_policy": [
+    "china_policy": [
         "China stimulus",
-        "China policy",
+        "China fiscal stimulus",
+        "China monetary easing",
         "PBOC",
-        "Fed",
+        "RRR cut",
         "rate cut",
-        "interest rates",
-        "inflation",
-        "GDP",
-        "PMI",
-        "property sector",
-        "regulation",
+        "NPC",
+        "Ministry of Finance",
+        "property support",
+        "consumption stimulus",
     ],
-    "hk_market": [
+    "geopolitics_trade": [
+        "US China trade",
+        "tariffs",
+        "export controls",
+        "sanctions",
+        "EU China trade",
+        "trade tensions",
+        "semiconductor restrictions",
+        "Taiwan tensions",
+        "global trade shock",
+        "financial sanctions",
+    ],
+    "hk_transmission": [
         "HKEX",
         "southbound flows",
         "Stock Connect",
-        "northbound flows",
         "HIBOR",
         "HKD",
         "peg",
         "liquidity",
-        "earnings",
+        "funding costs",
+        "market turnover",
+        "cross border flows",
     ],
-    "derivatives_vol": [
-        "VHSI",
-        "volatility",
-        "implied volatility",
-        "options",
-        "index options",
-        "derivatives",
-        "risk sentiment",
-    ],
-    "sector_drivers": [
+    "sector_heavyweights": [
         "tech stocks",
         "property stocks",
         "banks",
@@ -71,32 +70,33 @@ HSI_SIGNAL_BUCKETS = {
         "Meituan",
         "AIA",
         "ICBC",
+        "China developers",
+    ],
+    "derivatives_vol": [
+        "VHSI",
+        "implied volatility",
+        "index options",
+        "derivatives",
+        "skew",
+        "hedging demand",
+        "risk sentiment",
     ],
 }
 
 # Handcrafted backup queries for deterministic fallback
 FALLBACK_RSS_QUERIES = [
-    "Hang Seng Index",
-    "HSI Hong Kong stocks",
-    "Hang Seng Index outlook",
-    "Hang Seng Index market close",
-    "Hang Seng Index China stimulus",
-    "Hang Seng Index Fed rates",
-    "Hang Seng Index PBOC policy",
-    "Hang Seng Index HKEX",
-    "Hang Seng Index southbound flows",
-    "Hang Seng Index Stock Connect",
-    "Hang Seng Index HIBOR",
-    "Hang Seng Index HKD peg",
-    "Hang Seng Index volatility",
-    "Hang Seng Index VHSI",
-    "Hang Seng Index options",
-    "Hang Seng tech stocks",
-    "Hang Seng property stocks",
-    "Hong Kong stocks China economy",
-    "Hong Kong stocks earnings",
-    "Hong Kong market risk sentiment",
+    "China stimulus Hong Kong stocks",
+    "PBOC easing Hong Kong equities",
+    "China property support Hang Seng",
+    "Fed rates Hong Kong market",
+    "US China trade Hong Kong stocks",
+    "Tariffs China tech Hong Kong",
+    "Stock Connect southbound flows",
+    "HIBOR HKD Hong Kong equities",
+    "Tencent Alibaba Hang Seng",
+    "VHSI Hang Seng options",
 ]
+
 
 FALLBACK_RSS_KEYWORDS = [
     "Hang Seng Index",
@@ -127,7 +127,7 @@ FALLBACK_RSS_KEYWORDS = [
 # ============================================================
 
 RSS_KEYWORD_SYSTEM = """
-You generate ultra-high-precision RSS keywords and queries for collecting news/articles relevant to the Hang Seng Index and its trading regime.
+You generate ultra-high-precision RSS keywords and queries for collecting news/articles that have predictive value for the Hang Seng Index regime and HSI options trading.
 
 Return JSON only:
 {
@@ -136,16 +136,16 @@ Return JSON only:
 }
 
 HARD RULES:
-- Output exactly 20 keywords and exactly 20 queries.
+- Output exactly 10 keywords and 10 queries.
 - Queries must be concise, natural headline-style search phrases for RSS matching.
 - Each query must be <= 8 words.
 - No parentheses, no quotes, no colon, no boolean operators.
-- Prefer terms that appear directly in financial news headlines.
-- Queries must stay tightly related to Hang Seng Index, Hong Kong equities, Hong Kong macro/liquidity, China macro spillover to Hong Kong, or HSI options/volatility.
-- Avoid generic world macro queries with no Hong Kong / HSI anchor.
+- Prefer causal and leading indicators over market wrap or market close commentary.
+- Prioritize China policy, fiscal/monetary easing, trade tensions, tariffs, export controls, Hong Kong liquidity, Stock Connect flows, HKD/HIBOR, and heavyweight sector drivers.
+- Keep queries tightly anchored to Hong Kong equities, Hang Seng, or clear China-to-Hong-Kong transmission.
+- Avoid generic macro queries with no Hong Kong or China equities linkage.
 - Avoid duplicate or near-duplicate wording.
 """
-
 
 RSS_KEYWORD_USER_TMPL = Template("""
 Topic: $topic
@@ -157,15 +157,19 @@ Relevant signal buckets:
 $signal_buckets
 
 Task:
-Generate high-precision RSS keywords and queries for collecting news that can help classify HSI market regime and support HSI options/index trading.
+Generate high-precision RSS keywords and queries for collecting news that helps predict HSI market regime and supports HSI options/index trading.
 
-Coverage should include:
-- HSI index moves and market commentary
-- Hong Kong equity market liquidity and flows
-- China macro / policy signals that affect HSI
-- Hong Kong rates / HKD / HIBOR / Fed spillover
-- HSI volatility / options / derivatives
-- Major sector and heavyweight drivers in HSI
+Prioritize:
+- China fiscal and monetary policy shifts
+- Trade, tariff, sanctions, export-control, and geopolitical shocks affecting China/Hong Kong equities
+- Hong Kong liquidity, HKD, HIBOR, Stock Connect, and cross-border flows
+- Heavyweight and sector drivers that materially move HSI
+- Volatility and options signals only as secondary confirmation
+
+De-prioritize:
+- market close summaries
+- generic daily market commentary
+- purely backward-looking index recap articles
 
 Return JSON only.
 """.strip())
@@ -174,32 +178,6 @@ Return JSON only.
 # ============================================================
 # Helpers
 # ============================================================
-
-def chat_complete(model: str, sysmsg: str, user: str) -> str:
-    """
-    Synchronous call, using the exact signature you requested.
-    """
-    client = OpenAI(api_key=API_KEY, base_url="https://api.deepseek.com")
-    model='deepseek-reasoner'
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": sysmsg},
-            {"role": "user", "content": user},
-        ],
-        stream=False,
-        temperature=0.14,
-    )
-    msg = response.choices[0].message
-    content = (msg.content or "").strip()
-    return content
-
-async def achat_complete(model: str, sysmsg: str, user: str) -> str:
-    """
-    Async wrapper: run the synchronous call in a thread to allow concurrency with asyncio.
-    """
-    loop = asyncio.get_running_loop()
-    return await loop.run_in_executor(None, lambda: chat_complete(model, sysmsg, user))
 
 
 def _dedup_keep(xs: List[str], n: int | None = None) -> List[str]:
@@ -285,11 +263,154 @@ def _is_hsi_relevant_query(q: str) -> bool:
     return any(a in ql for a in anchors)
 
 
+from typing import Dict, Any, List
+
+
+def build_hsi_kwq_bundle() -> Dict[str, Dict[str, Any]]:
+    keywords_by_type = {
+        "macro": {
+            "en": [
+                "China stimulus",
+                "PBOC",
+                "Fed",
+                "US China trade",
+                "tariffs",
+                "property support",
+            ],
+            "zh": [
+                "中国刺激政策",
+                "央行",
+                "美联储",
+                "中美贸易",
+                "关税",
+                "地产支持",
+            ],
+        },
+        "spillover": {
+            "en": [
+                "HKD",
+                "HIBOR",
+                "Stock Connect",
+                "southbound flows",
+                "Hong Kong liquidity",
+                "China Hong Kong spillover",
+            ],
+            "zh": [
+                "港元",
+                "HIBOR",
+                "港股通",
+                "南向资金",
+                "香港流动性",
+                "中港传导",
+            ],
+        },
+        "index_direct": {
+            "en": [
+                "Hang Seng Index",
+                "HSI",
+                "VHSI",
+                "index options",
+                "sector rotation",
+                "Tencent Alibaba",
+            ],
+            "zh": [
+                "恒生指数",
+                "恒指",
+                "恒指波动率",
+                "指数期权",
+                "板块轮动",
+                "腾讯 阿里巴巴",
+            ],
+        },
+    }
+
+    queries_by_type = {
+        "macro": {
+            "en": [
+                "China stimulus Hong Kong stocks",
+                "PBOC easing Hong Kong equities",
+                "Fed rates Hong Kong market",
+                "US China trade Hong Kong stocks",
+            ],
+            "zh": [
+                "中国刺激政策 港股",
+                "央行宽松 香港股市",
+                "美联储 利率 港股",
+                "中美贸易 港股",
+            ],
+        },
+        "spillover": {
+            "en": [
+                "HKD HIBOR Hong Kong equities",
+                "Stock Connect southbound flows",
+                "China property support Hang Seng",
+            ],
+            "zh": [
+                "港元 HIBOR 港股",
+                "南向资金 港股通",
+                "中国地产支持 恒生指数",
+            ],
+        },
+        "index_direct": {
+            "en": [
+                "Tencent Alibaba Hang Seng",
+                "VHSI Hang Seng options",
+                "Hong Kong stocks sector rotation",
+            ],
+            "zh": [
+                "腾讯 阿里巴巴 恒指",
+                "恒指 波动率 期权",
+                "港股 板块轮动",
+            ],
+        },
+    }
+
+    query_plan: List[Dict[str, Any]] = []
+
+    for news_type, bucket in queries_by_type.items():
+        for q in bucket.get("en", []):
+            query_plan.append({
+                "query": q,
+                "news_type": news_type,
+                "query_lang": "en",
+                "locales": [
+                    {"name": "en_hk", "language": "en-US", "country_code": "HK"},
+                ],
+            })
+
+        for q in bucket.get("zh", []):
+            query_plan.append({
+                "query": q,
+                "news_type": news_type,
+                "query_lang": "zh",
+                "locales": [
+                    {"name": "zh_cn", "language": "zh-CN", "country_code": "CN"},
+                    {"name": "zh_hk", "language": "zh-HK", "country_code": "HK"},
+                ],
+            })
+
+    flat_keywords: List[str] = []
+    for bucket in keywords_by_type.values():
+        flat_keywords.extend(bucket.get("en", []))
+        flat_keywords.extend(bucket.get("zh", []))
+
+    flat_queries = [x["query"] for x in query_plan]
+
+    return {
+        "rss": {
+            "keywords_by_type": keywords_by_type,
+            "queries_by_type": queries_by_type,
+            "keywords": list(dict.fromkeys(flat_keywords)),
+            "queries": list(dict.fromkeys(flat_queries)),
+            "query_plan": query_plan,
+        }
+    }
+
 # ============================================================
 # Public API
 # ============================================================
 
-async def suggest_keywords_for_hsi() -> Dict[str, Dict[str, List[str]]]:
+async def suggest_keywords_for_hsi(use_static=False) -> Dict[str, Dict[str, List[str]]]:
     """
     RSS-only keyword/query generator for HSI news collection.
 
@@ -301,46 +422,49 @@ async def suggest_keywords_for_hsi() -> Dict[str, Dict[str, List[str]]]:
       }
     }
     """
+    if use_static:
+        return build_hsi_kwq_bundle()
+    else:
+        user_rss = RSS_KEYWORD_USER_TMPL.substitute(
+            topic=TOPIC_LABEL,
+            core_anchors=_fmt_lines(HSI_CORE_TERMS),
+            signal_buckets=_fmt_signal_buckets(HSI_SIGNAL_BUCKETS),
+        )
 
-    user_rss = RSS_KEYWORD_USER_TMPL.substitute(
-        topic=TOPIC_LABEL,
-        core_anchors=_fmt_lines(HSI_CORE_TERMS),
-        signal_buckets=_fmt_signal_buckets(HSI_SIGNAL_BUCKETS),
-    )
+        raw_rss = await achat_complete(
+            KEYWORDS_MODEL,
+            RSS_KEYWORD_SYSTEM,
+            user_rss
+        )
 
-    raw_rss = await achat_complete(
-        KEYWORDS_MODEL,
-        RSS_KEYWORD_SYSTEM,
-    )
-
-    js = {}
-    try:
-        s, e = raw_rss.find("{"), raw_rss.rfind("}")
-        if s >= 0 and e > s:
-            js = json.loads(raw_rss[s:e + 1])
-    except Exception:
         js = {}
+        try:
+            s, e = raw_rss.find("{"), raw_rss.rfind("}")
+            if s >= 0 and e > s:
+                js = json.loads(raw_rss[s:e + 1])
+        except Exception:
+            js = {}
 
-    rss_keywords = [_clean_keyword(x) for x in js.get("keywords", [])]
-    rss_queries = [_clean_query(x) for x in js.get("queries", [])]
+        rss_keywords = [_clean_keyword(x) for x in js.get("keywords", [])]
+        rss_queries = [_clean_query(x) for x in js.get("queries", [])]
 
-    # filter low-quality / drifted queries
-    rss_keywords = [x for x in rss_keywords if x]
-    rss_queries = [x for x in rss_queries if x and _is_hsi_relevant_query(x)]
+        # filter low-quality / drifted queries
+        rss_keywords = [x for x in rss_keywords if x]
+        rss_queries = [x for x in rss_queries if x and _is_hsi_relevant_query(x)]
 
-    rss_keywords = _dedup_keep(rss_keywords)
-    rss_queries = _dedup_keep(rss_queries)
+        rss_keywords = _dedup_keep(rss_keywords)
+        rss_queries = _dedup_keep(rss_queries)
 
-    # pad with deterministic fallback
-    rss_keywords = _pad_to(rss_keywords, FALLBACK_RSS_KEYWORDS, 20)
-    rss_queries = _pad_to(rss_queries, FALLBACK_RSS_QUERIES, 20)
+        # pad with deterministic fallback
+        rss_keywords = _pad_to(rss_keywords, FALLBACK_RSS_KEYWORDS, 20)
+        rss_queries = _pad_to(rss_queries, FALLBACK_RSS_QUERIES, 20)
 
-    return {
-        "rss": {
-            "keywords": rss_keywords,
-            "queries": rss_queries,
+        return {
+            "rss": {
+                "keywords": rss_keywords,
+                "queries": rss_queries,
+            }
         }
-    }
 
 
 def build_topic_queries(

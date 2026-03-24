@@ -1,5 +1,5 @@
 # File: src/loansys_llm_cro/urls.py
-from fetch_fulltext import get_google_params, get_origin_url
+from get_news.fetch_fulltext import get_google_params, get_origin_url
 import urllib
 import re
 import datetime

@@ -1,553 +1,428 @@
 # File: src/loansys_llm_cro/models/reader_model.py
+
 import asyncio
 import datetime
 import json
+import os
 import re
+import hashlib
 from typing import List, Dict, Any, Optional
 
-import httpx
-import pymysql
-from tqdm.auto import tqdm
-import os
-from urls import *  # provides in_range, canonicalize_url, url_hash, publisher_from_url, etc.
-from loansys_llm_cro.utils import *  # IMPORTANT: reader_model uses many globals from utils (HTTP_TIMEOUT, USER_AGENT, etc.)
-from loansys_llm_cro.db.credential import DB_CONFIG
-from loansys_llm_cro.db.storage import TABLE_EVIDENCE, evidence_exists_by_hash
-from fetch_fulltext import read
-from news_search import harvest_news
-from keyword_model import build_topic_queries, achat_complete
+from dateutil.relativedelta import relativedelta
+
+from get_news.urls import *
+from get_news.news_search import harvest_news
+from get_news.keyword_model import build_topic_queries
+
+from utils.utils import *
+from utils.chat_completion import achat_complete, READER_MODEL
+from db.operations import save_news_one
+from db.init import get_connection
+from utils.utils import TABLE_NEWS
 
 
-BATCH_SIZE = int(os.getenv("READER_BATCH_SIZE", "50"))
-MIN_VALID_TO_STOP = int(os.getenv("READER_MIN_VALID_TO_CONTINUE", "10"))
+# ============================================================
+# Config
+# ============================================================
 
-# -----------------------------
-# Local helper (utils.py does NOT have date_sort_key)
-# -----------------------------
-def date_sort_key(item: Dict[str, Any]) -> str:
-    """
-    Sort key for candidate items by date.
-    Assumes ISO date strings (YYYY-MM-DD) sort lexicographically.
-    """
-    d = item.get("approx_date") or item.get("time") or ""
-    return str(d or "")
+# reader 强制走 deepseek api，不再用本地 ollama
+# READER_MODEL = os.getenv("READER_REMOTE_MODEL", "deepseek-reasoner")
 
+# 每次送给模型的候选上限，避免 prompt 太大
+READER_CANDIDATE_LIMIT = int(os.getenv("READER_CANDIDATE_LIMIT", "25"))
 
-# =========================
-# 2) reader_model
-# =========================
-READER_SYSTEM = """You are a fast, no-nonsense **news relevance judge** for e-commerce industries on Amazon.
-
-ARTICLE GATE (run this BEFORE scoring relevance):
-- Determine if the URL/fulltext represents a **single article/press release/advisory** (with coherent paragraphs and ideally a publish date/byline).
-- Treat as **NOT an article page** if it looks like: homepage, topic/section/tag/category/archive pages, company/product landing pages, shopping/marketplace listings, author index, “news and articles” hubs, search results, media libraries, podcast index, or pages whose main content is a list of headlines/links.
-- URL patterns that usually indicate NOT an article: paths starting with or ending in `topic/`, `section/`, `tag/`, `category/`, `press/`, `press-releases/`, `news/` (when it’s a hub), `news-and-articles/`, `archive/`, `company/`, `subjects/`, `by/`, `pages/`; NYT-like `nytimes.com/topic/...`, `.../section/...`; `.rss`, `.atom`, `.xml`, `/feed`.
-- If **NOT an article page**: OUTPUT JSON with EXACT schema and these values:
-  {
-    "is_article": false,
-    "relevant score": 1,
-    "summary": "",
-    "reason": "not an article page",
-    "mechanisms": [],
-    "impact_direction": "unclear",
-    "impact_channels": [],
-    "regions": [],
-    "has_china_linkage": false,
-    "has_amazon_linkage": false,
-    "time_horizon": "unclear"
-  }
+# 让模型最多挑多少篇
+READER_TOP_K = int(os.getenv("READER_TOP_K", "20"))
 
 
-Your job (ONLY if the page passes the Article Gate):
-1) Read the **Fulltext** and use the **Keywords List** to decide whether the article materially affects the specified **Industry/Category** on **Amazon** in the user-provided market/country context.
-2) If relevant, produce:
-   - a concise English abstract (6-8 sentences, ≤300 words) stating the concrete mechanism of impact (policy/fees/recalls/compliance/logistics/seasonality/costs/prices/demand/macro shocks), and
-   - a **one-sentence reason** explaining **why** you assigned this score (what signals/mechanisms justify it).
-3) Output **JSON only** with EXACT schema (no extra keys, no prose):
+# ============================================================
+# Prompt
+# ============================================================
+
+READER_SYSTEM = """
+You are a disciplined financial news selector for the Hang Seng Index (HSI) options market.
+
+Your task:
+From a batch of candidate news items, choose the TOP most useful items for forecasting the HSI options market.
+
+Classify each selected item into exactly one predefined news_type:
+- macro: macro driver such as China fiscal or monetary policy, PBOC, Fed spillover, tariffs, trade tensions, sanctions, export controls, geopolitics, growth shock, or property policy.
+- spillover: transmission into Hong Kong equities through HKD, HIBOR, Stock Connect, southbound flows, HKEX activity, cross-border liquidity, or clear China-to-Hong Kong market spillover.
+- index_direct: direct market confirmation through HSI direction, sector leadership, heavyweight movers, VHSI, implied or realized volatility, options sentiment, skew, hedging demand, or risk regime.
+
+Selection principles:
+- Prefer causal and forward-looking information over backward-looking market recap.
+- Prefer articles useful for forecasting HSI direction, volatility, liquidity, or options regime.
+- Prefer Hong Kong / China market transmission over generic world macro commentary.
+- Prefer market-wide or index-relevant impact over isolated stories.
+- Across the selected set, try to cover macro + spillover + index_direct whenever the candidate pool allows it.
+- Avoid generic market close summaries, descriptive recap, lifestyle, entertainment, sports, crime, and non-market local stories.
+
+Return JSON only with EXACT schema:
 {
-  "is_article": true,
-  "relevant score": <integer 1-10>,
-  "summary": "<English abstract>",
-  "reason": "<≤50 words why this score>",
-  "mechanisms": [
-    "tariff" | "platform_fee" | "logistics" | "recall_safety" |
-    "demand" | "macro_fx" | "competition" | "other"
-  ],
-  "impact_direction": "negative" | "positive" | "mixed" | "unclear",
-  "impact_channels": [
-    "sales_level" | "volatility" | "costs" | "inventory" | "other"
-  ],
-  "regions": [
-    "US" | "EU" | "UK" | "global" | "other"
-  ],
-  "has_china_linkage": true/false,
-  "has_amazon_linkage": true/false,
-  "time_horizon": "0-1 months" | "1-3 months" | "3-12 months" | "unclear"
+  "selected": [
+    {"id": 1, "news_type": "macro"},
+    {"id": 2, "news_type": "spillover"},
+    {"id": 3, "news_type": "index_direct"}
+  ]
 }
-- Use "mechanisms" and "impact_channels" to tag how this article affects Amazon sellers in the specified market:
-  tariffs, platform fees, logistics, recalls/safety, demand, macro FX, etc.
-- "has_china_linkage" should be true if CN exporters, CN manufacturing, CN lanes, or CN-based sellers are clearly involved.
-- "has_amazon_linkage" should be true if the article is about Amazon marketplace, FBA/SFP, Buy with Prime, Amazon fees, or Amazon listing/recall actions.
-
-(Output constraints and rubric omitted here for brevity in this file; keep your original as-is.)
 """
 
 
-async def fetch_fulltext(url: str) -> str:
-    if not url:
-        return ""
+# ============================================================
+# Helpers
+# ============================================================
+
+def url_hash(url: str) -> str:
+    return hashlib.sha256(url.strip().encode("utf-8")).hexdigest()
+
+
+def safe_json_extract(raw: str) -> Dict[str, Any]:
+    if not raw:
+        return {}
+
+    raw = raw.strip()
+
     try:
-        text = ""
-        if read:
-            try:
-                text = await asyncio.to_thread(read, url)
-            except Exception:
-                text = ""
-
-        if not text:
-            async with httpx.AsyncClient(timeout=HTTP_TIMEOUT, headers={"User-Agent": USER_AGENT}) as client_http:
-                r = await client_http.get(url)
-                r.raise_for_status()
-                text = clean_html_to_text(r.text)
-
-        if text and len(text) > 60000:
-            text = text[:60000]
-        return text.strip()
+        return json.loads(raw)
     except Exception:
-        return ""
+        pass
+
+    s, e = raw.find("{"), raw.rfind("}")
+    if s >= 0 and e > s:
+        try:
+            return json.loads(raw[s:e + 1])
+        except Exception:
+            pass
+
+    return {}
 
 
-def build_reader_user(
-    title: str,
-    abstract: str,
-    fulltext: str,
+def parse_selected_ids(js: Dict[str, Any], raw: str) -> List[int]:
+    ids = js.get("selected_ids")
+    if isinstance(ids, list):
+        out = []
+        for x in ids:
+            try:
+                out.append(int(x))
+            except Exception:
+                continue
+        return out
+
+    # fallback: regex extract
+    m = re.search(r'"selected_ids"\s*:\s*\[([^\]]*)\]', raw, flags=re.I | re.S)
+    if m:
+        nums = re.findall(r'\d+', m.group(1))
+        return [int(x) for x in nums]
+
+    # fallback: whole raw
+    nums = re.findall(r'\b\d+\b', raw)
+    return [int(x) for x in nums[:READER_TOP_K]]
+
+
+def dedup_by_url_hash(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    seen = set()
+    out = []
+    for it in items:
+        source_url = (it.get("origin_url") or it.get("url") or "").strip()
+        if not source_url:
+            continue
+
+        try:
+            canon_url = canonicalize_url(source_url) or source_url
+        except Exception:
+            canon_url = source_url
+
+        chash = url_hash(canon_url)
+        if chash in seen:
+            continue
+        seen.add(chash)
+
+        it = dict(it)
+        it["_canon_url"] = canon_url
+        it["_url_hash"] = chash
+        out.append(it)
+    return out
+
+
+# ============================================================
+# Prompt builder
+# ============================================================
+
+def build_batch_selection_user(
+    items: List[Dict[str, Any]],
     keywords: List[str],
     *,
-    url: str = "",
-    industry: str = "",
-    country_code: str = "",
-    currency: str = "",
-    query: str = "",
-    query_tier: str = "",
-    source_api: str = "",
-    ) -> str:
-    head = "Keywords List: " + ", ".join([k for k in keywords if k]) + "\n\n"
-    meta = []
-    if industry:
-        meta.append(f"Industry/Category: {industry}")
-    if country_code:
-        meta.append(f"Country: {country_code}")
-    if currency:
-        meta.append(f"Currency: {currency}")
-    if query:
-        meta.append(f"Search query: {query}")
-    if query_tier:
-        meta.append(f"Query tier: {query_tier}")
-    if source_api:
-        meta.append(f"Source API: {source_api}")  # e.g. cse / rss
+    topic: str = "Hang Seng Index",
+    country_code: str = "HK",
+) -> str:
+    keyword_text = ", ".join([k for k in keywords if k][:30]) or "(none)"
 
-    body = (
-        "\n".join(meta) + ("\n\n" if meta else "") +
-        f"Title: {title or '(none)'}\n"
-        f"URL: {url or '(none)'}\n"
-        f"Snippet (from search): {abstract or '(none)'}\n\n"
-        f"Fulltext (raw, may contain boilerplate):\n{fulltext or '(failed)'}\n\n"
-        "Return JSON only."
-    )
+    header = [
+        f"Topic: {topic}",
+        f"Country code: {country_code}",
+        "Market: Hong Kong",
+        f"Keywords List: {keyword_text}",
+        f"Please select the top {READER_TOP_K} most relevant news items.",
+        "",
+        "Candidate news items:",
+        ""
+    ]
 
-    return head + body
+    blocks = []
+    for idx, item in enumerate(items, start=1):
+        title = trim_to_chars((item.get("title") or "").strip(), 300)
+        abstract = trim_to_chars((item.get("abstract") or "").strip(), 600)
+        approx_date = item.get("approx_date") or "(none)"
+        source_api = item.get("source_api") or item.get("source") or "rss"
+        query = (item.get("query") or "").strip() or "(none)"
+
+        block = (
+            f"[{idx}]\n"
+            f"Date: {approx_date}\n"
+            f"Source API: {source_api}\n"
+            f"Query: {query}\n"
+            f"Title: {title or '(none)'}\n"
+            f"Abstract: {abstract or '(none)'}\n"
+        )
+        blocks.append(block)
+
+    footer = "\nReturn JSON only."
+
+    return "\n".join(header) + "\n".join(blocks) + footer
 
 
-MODEL_MAX_CONN = int(os.getenv("MODEL_MAX_CONN", "3"))
-MODEL_SEM = asyncio.Semaphore(MODEL_MAX_CONN)
-async def process_one_article(article: Dict[str, Any], keywords: List[str]) -> Optional[Dict[str, str]]:
-    """
-    Assumes upstream provides canonical source URL at article["url"].
-    """
-    title: str = (article.get("title") or "").strip()
-    abstract: str = (article.get("abstract") or "").strip()
-    canon_url: str = (article.get("url") or "").strip()
-    industry: str = article.get("industry", "")
-    country_code: str = article.get("country_code", "")
-    currency: str = article.get("currency", "")
-    query: str = (article.get("query") or "").strip()
-    query_tier: str = (article.get("query_tier") or "").strip()
-    source_api: str = (article.get("source_api") or "").strip()
+# ============================================================
+# LLM batch selector
+# ============================================================
 
-    if not canon_url:
-        return None
+async def select_top_articles_with_llm(
+    items: List[Dict[str, Any]],
+    keywords: List[str],
+    *,
+    topic: str,
+    country_code: str,
+) -> List[Dict[str, Any]]:
+    if not items:
+        return []
 
-    try:
-        chash = url_hash(canon_url)
-    except Exception:
-        chash = ""
-
-    try:
-        fulltext = await fetch_fulltext(canon_url)
-    except Exception:
-        fulltext = ""
-    if not fulltext:
-        fulltext = (title + ". " + abstract).strip()
-
-    user = build_reader_user(
-        title=title,
-        abstract=abstract,
-        fulltext=fulltext,
+    user = build_batch_selection_user(
+        items=items,
         keywords=keywords,
-        url=canon_url,
-        industry=industry,
+        topic=topic,
         country_code=country_code,
-        currency=currency,
-        query=query,
-        query_tier=query_tier,
-        source_api=source_api,
     )
 
     try:
-        async with MODEL_SEM:
-            raw = await achat_complete(READER_MODEL, READER_SYSTEM, user, temperature=TEMPERATURE, seed=SEED)
+        raw = await achat_complete(
+            READER_MODEL,
+            READER_SYSTEM,
+            user,
+        )
     except Exception as e:
-        print(f"[reader][error-model] model={READER_MODEL} url={canon_url} err={repr(e)}")
-        return None
-
-    # if not raw or len(raw.strip()) < 10:
-    #     print(f"[reader][empty-raw] url={canon_url} raw_len={len(raw or '')}")
+        print(f"[reader][batch-select-error] model={READER_MODEL} err={repr(e)}")
+        return []
 
     try:
-        s, e = raw.find("{"), raw.rfind("}")
-        js = json.loads(raw[s:e + 1]) if (s >= 0 and e > s) else {}
+        js = safe_json_extract(raw)
+        selected_ids = parse_selected_ids(js, raw)
 
-        score = js.get("relevant score", js.get("score"))
-        try:
-            score = int(score)
-        except Exception:
-            m = re.search(r'"relevant\s*score"\s*:\s*(\d+)', raw, flags=re.I)
-            if not m:
-                m = re.search(r'"score"\s*:\s*(\d+)', raw, flags=re.I)
-            score = int(m.group(1)) if m else None
+        if not selected_ids:
+            print("[reader][batch-select-empty] no ids parsed")
+            return []
 
-        reason = (js.get("reason") or js.get("why") or "").strip()
-        if not reason:
-            if score is None:
-                # print("[reader][no-score-raw-head]", (raw or "")[:300])
-                reason = "No parsable score."
-            elif score >= 9:
-                reason = "Explicit category-level tariff/recall/logistics change impacting Amazon CN sellers."
-            elif score >= 7:
-                reason = "Category and CN Amazon sellers likely affected by policy/fees/compliance/logistics."
-            elif score >= 4:
-                reason = "General or indirect signals; limited category linkage."
-            else:
-                reason = "Weak linkage to the target category/sellers."
+        # 保留顺序、去重、过滤越界
+        seen = set()
+        picked = []
+        for i in selected_ids:
+            if i in seen:
+                continue
+            seen.add(i)
+            if 1 <= i <= len(items):
+                picked.append(items[i - 1])
 
-        print(f"[reader] {score or '-'} | {canon_url} | {title[:80]} | reason: {reason[:60]}")
-
-        if score is None or score < READER_SCORE_THRESHOLD:
-            return None
-
-        is_article = js.get("is_article")
-        if isinstance(is_article, str):
-            is_article = is_article.strip().lower() in ("true", "1", "yes", "y")
-        if is_article is None:
-            is_article = True
-
-        mechanisms = js.get("mechanisms") or []
-        impact_direction = js.get("impact_direction") or ""
-        impact_channels = js.get("impact_channels") or []
-        regions = js.get("regions") or []
-        has_china_linkage = bool(js.get("has_china_linkage"))
-        has_amazon_linkage = bool(js.get("has_amazon_linkage"))
-        time_horizon = js.get("time_horizon") or ""
-
-        summary = trim_to_chars((js.get("summary") or "").strip(), 200)
-        if not summary:
-            return None
-
-        try:
-            existed_prior = (
-                evidence_exists_by_hash(chash, country_code=country_code, category_root=industry)
-                if chash else False
-            )
-        except Exception:
-            existed_prior = False
-
-        date_str = article.get("approx_date") or ""
-        issuer = publisher_from_url(canon_url)
-
-        return {
-            "title": title,
-            "url": canon_url,
-            "url_hash": chash,
-            "summary": summary,
-            "fulltext": fulltext,
-            "summary_line": f"time: {date_str or '(unknown)'} | issuer: {issuer or '(unknown)'} | abstract: {summary}",
-            "score": str(score),
-            "score_reason": reason,
-            "time": date_str,
-            "issuer": issuer,
-            "reason": reason,
-            "is_new": (not existed_prior),
-            "is_article": is_article,
-            "mechanisms": mechanisms,
-            "impact_direction": impact_direction,
-            "impact_channels": impact_channels,
-            "regions": regions,
-            "has_china_linkage": has_china_linkage,
-            "has_amazon_linkage": has_amazon_linkage,
-            "time_horizon": time_horizon,
-        }
+        return picked[:READER_TOP_K]
 
     except Exception as e:
-        print(f"[reader][parse-failed] url={canon_url} err={e}")
-        return None
+        print(f"[reader][batch-select-parse-failed] err={repr(e)}")
+        return []
 
+
+# ============================================================
+# Main pipeline
+# ============================================================
 
 async def refine_for_market(
     country_code: str,
-    currency: str,
-    category_root: str,
-    keywords: List[str],
     *,
-    start_date: Optional[datetime.date] = None,
-    end_date: Optional[datetime.date] = None,
-    kwq_bundle: Optional[Dict[str, Dict[str, List[str]]]] = None,
-    rss_only: bool = False,
-) -> List[Dict[str, str]]:
-    sd = start_date or DATE_RANGE_START
-    ed = end_date or DATE_RANGE_END
-    is_today_win = (ed is None) or (ed == datetime.date.today())
+    anchor_date: Optional[datetime.date] = None,
+    lookback_months: int = 3,
+    kwq_bundle: Optional[Dict[str, Any]] = None,
+) -> List[Dict[str, Any]]:
+    sd = anchor_date - relativedelta(months=lookback_months) if anchor_date else None
+    ed = anchor_date
 
-    topic, _ = build_topic_queries(category_root, keywords, [], country_code=country_code)
+    rss = (kwq_bundle or {}).get("rss", {}) or {}
+    keywords: List[str] = [str(x).strip() for x in (rss.get("keywords") or []) if str(x).strip()]
+    queries_by_type = rss.get("queries_by_type") or {}
 
-    # Load known URL hashes for this market category
+    # topic 可以继续保留；如果 build_topic_queries 还想复用，就从 bundle 里的 keywords 生成
+    if keywords:
+        try:
+            topic, _ = build_topic_queries(keywords, [])
+        except Exception:
+            topic = "HSI options market news"
+    else:
+        topic = "HSI options market news"
+
     known_url_hashes: set[str] = set()
     try:
-        conn = pymysql.connect(
-            host=DB_CONFIG["host"],
-            port=int(DB_CONFIG["port"]),
-            user=DB_CONFIG["user"],
-            password=DB_CONFIG["password"],
-            database=DB_CONFIG["database"],
-            charset=DB_CONFIG.get("charset", "utf8mb4"),
-            autocommit=True,
-        )
+        conn = get_connection(include_database=True)
         try:
             with conn.cursor() as cur:
-                cur.execute(
-                    f"SELECT url FROM {TABLE_EVIDENCE} WHERE country_code = %s AND category_root = %s;",
-                    ((country_code or "").strip(), (category_root or "").strip()),
-                )
-                for (db_url,) in cur.fetchall():
-                    u = canonicalize_url(db_url or "")
-                    if u:
-                        known_url_hashes.add(url_hash(u))
+                cur.execute(f"SELECT url_hash FROM {TABLE_NEWS};")
+                for (db_url_hash,) in cur.fetchall():
+                    if db_url_hash:
+                        known_url_hashes.add(str(db_url_hash))
         finally:
             conn.close()
     except Exception as e:
         print(f"[reader][known-hash-load-failed] {e}")
 
-    valid_this_run: List[Dict[str, str]] = []
-    seen_in_current_run: set[str] = set()
-
-    ARTICLE_CAP = 30
-    articles_cnt = 0
-    reached_cap = False
-
-    def _is_article_by_reason(r: Dict[str, Any]) -> bool:
-        v = r.get("is_article")
-        if isinstance(v, bool):
-            return v
-        if isinstance(v, (int, float)):
-            return v != 0
-        if isinstance(v, str):
-            s = v.strip().lower()
-            if s in ("true", "yes", "y", "1"):
-                return True
-            if s in ("false", "no", "n", "0"):
-                return False
-
-        reason = str(r.get("reason", "") or "").lower()
-        if reason:
-            return ("not an article page" not in reason)
-
-        title = (r.get("title") or "").strip()
-        url = (r.get("canonical_url") or r.get("url") or "").strip()
-        return len(title) >= 6 and url.startswith("http")
-
-
-    async def _refine_batch(items: List[Dict[str, Any]], *, phase: str):
-        nonlocal valid_this_run, seen_in_current_run, articles_cnt, reached_cap
-
-        # items_sorted = sorted(items, key=date_sort_key, reverse=True)
-        items_sorted = sorted(items, key=date_sort_key, reverse=True)
-        items_sorted.sort(key=lambda it: (it.get("_tier_rank", 9), it.get("_seq", 10**12)))
-
-        pool = [it for it in items_sorted if in_range(it.get("approx_date"), sd, ed)]
-        if not pool:
-            print(f"[reader][{phase}] no items in date window {sd}→{ed}; skipping.")
-            return
-
-        # -----------------------------
-        # Batch controls
-        # -----------------------------
-
-
-        # recommended that "valid cnt" be calculated based on the newly added valid entries in this phase (to avoid mutual interference between CSE and RSS).
-        valid_before_phase = len(valid_this_run)
-
-        sem = asyncio.Semaphore(MAX_CONN)
-
-        async def _one(article: Dict[str, Any]) -> Optional[Dict[str, str]]:
-            async with sem:
-                article.setdefault("industry", category_root)
-                article.setdefault("country_code", country_code)
-                article.setdefault("currency", currency)
-                return await process_one_article(article, keywords)
-
-        print(
-            f"[reader][{phase}] start refining candidates={len(pool)} "
-            f"(batch_size={BATCH_SIZE}, stop_when_phase_added>={MIN_VALID_TO_STOP})"
+    try:
+        target_recent = 24
+        stop_after_valid = 30
+        type_targets = {
+            "macro": 8,
+            "spillover": 8,
+            "index_direct": 8,
+        }
+        locale_soft_targets = {
+            "en_hk": 10,
+            "zh_cn": 7,
+            "zh_hk": 7,
+        }
+        raw_rss = harvest_news(
+            kwq_bundle=kwq_bundle or {},
+            target_recent=target_recent,
+            max_queries=None,             
+            anchor_date=anchor_date,
+            lookback_months=lookback_months,
+            stop_after_valid=stop_after_valid,
+            type_targets=type_targets,
+            locale_soft_targets=locale_soft_targets,
+            verbose=True,
+            # 不要再传 language="en"
+            # 不要再强制单一 country_code/language 模式
         )
+    except Exception as e:
+        print(f"[refine][RSS-error] {e}")
+        return []
 
-        # -----------------------------
-        # Process in batches
-        # -----------------------------
-        total = len(pool)
-        batch_idx = 0
+    # 1) 日期过滤
+    items_sorted = sorted(raw_rss, key=lambda x: str(x.get("approx_date")), reverse=True)
+    pool = [it for it in items_sorted if in_range(it.get("approx_date"), sd, ed)]
+    if not pool:
+        print(f"[reader] no items in date window {sd}→{ed}; skipping.")
+        return []
 
-        for start in range(0, total, BATCH_SIZE):
-            if reached_cap:
-                break
+    # 2) 去重
+    pool = dedup_by_url_hash(pool)
 
-            batch_idx += 1
-            end = min(total, start + BATCH_SIZE)
-            batch_pool = pool[start:end]
+    # 3) 去掉数据库里已有的，优先让模型看新的
+    new_pool = [it for it in pool if it.get("_url_hash") not in known_url_hashes]
+    old_pool = [it for it in pool if it.get("_url_hash") in known_url_hashes]
 
-            # If phase already has enough valid, stop before launching new work
-            phase_added_so_far = len(valid_this_run) - valid_before_phase
-            if phase_added_so_far >= MIN_VALID_TO_STOP:
-                print(f"[reader][{phase}] stop early before batch {batch_idx}: phase_added={phase_added_so_far}")
-                break
+    candidate_pool = (new_pool + old_pool)[:READER_CANDIDATE_LIMIT]
 
-            print(f"[reader][{phase}] batch {batch_idx}: size={len(batch_pool)} (idx {start}..{end-1})")
+    if not candidate_pool:
+        print("[reader] candidate pool is empty after dedup/filter.")
+        return []
 
-            tasks = [asyncio.create_task(_one(it)) for it in batch_pool]
+    print(
+        f"[reader] batch-select candidates={len(candidate_pool)} "
+        f"(new={len(new_pool)}, old={len(old_pool)}, top_k={READER_TOP_K})"
+    )
 
-            with tqdm(total=len(tasks), desc=f"reader:{(category_root or '')[:24]}:{phase}:b{batch_idx}", unit="art") as bar:
-                try:
-                    for fut in asyncio.as_completed(tasks):
-                        if reached_cap:
-                            break
+    selected = await select_top_articles_with_llm(
+        items=candidate_pool,
+        keywords=keywords,   # 现在从 bundle 来
+        topic=topic,
+        country_code=country_code or "HK",
+    )
 
-                        r = await fut
-                        bar.update(1)
+    if not selected:
+        print("[reader] LLM selected no articles.")
+        return []
 
-                        if r is None or isinstance(r, Exception):
-                            continue
+    valid_this_run: List[Dict[str, Any]] = []
 
-                        u = r.get("canonical_url") or r.get("url") or ""
-                        chash = r.get("url_hash") or (url_hash(u) if u else "")
-                        if not u or not chash:
-                            continue
+    conn = None
+    try:
+        conn = get_connection()
 
-                        if chash in seen_in_current_run:
-                            continue
+        for item in selected:
+            canon_url = item.get("_canon_url") or (item.get("origin_url") or item.get("url") or "").strip()
+            chash = item.get("_url_hash") or (url_hash(canon_url) if canon_url else "")
 
-                        approx_date = r.get("time") or ""
-                        if not in_range(approx_date, sd, ed):
-                            continue
+            if not canon_url or not chash:
+                continue
 
-                        seen_in_current_run.add(chash)
-                        r["is_new"] = (chash not in known_url_hashes)
-                        valid_this_run.append(r)
+            title = (item.get("title") or "").strip()
+            abstract = (item.get("abstract") or "").strip()
+            approx_date = item.get("approx_date") or None
+            source = publisher_from_url(canon_url) or item.get("source_api") or item.get("source") or "rss"
 
-                        if _is_article_by_reason(r):
-                            articles_cnt += 1
-                            if articles_cnt >= ARTICLE_CAP:
-                                reached_cap = True
-
-                        tag = "added-new" if r["is_new"] else "added-known"
-                        print(f"[reader][{phase}][{tag}] {r.get('score','-')} | {u} | {r.get('title','')[:80]}")
-
-                finally:
-                    # If we stop early, cancel remaining tasks in this batch
-                    if reached_cap:
-                        for t in tasks:
-                            if not t.done():
-                                t.cancel()
-                    bar.close()
-
-            phase_added_so_far = len(valid_this_run) - valid_before_phase
-            print(
-                f"[reader][{phase}] batch {batch_idx} done → "
-                f"phase_added={phase_added_so_far} | total_valid={len(valid_this_run)} | "
-                f"articles_cnt={articles_cnt} | reached_cap={reached_cap}"
+            # 优先记录具体 query；没有的话退到 news_type；再不行退到 bundle keywords
+            keyword = (
+                (item.get("query") or "").strip()
+                or (item.get("news_type") or "").strip()
+                or ", ".join(keywords[:10])
             )
 
-            # only if valid cnt < 10 continue next batch
-            if phase_added_so_far >= MIN_VALID_TO_STOP:
-                print(f"[reader][{phase}] stop early after batch {batch_idx}: phase_added={phase_added_so_far}")
-                break
+            row = {
+                "title": title,
+                "url": canon_url,
+                "url_hash": chash,
+                "source": source,
+                "approx_date": approx_date,
+                "keyword": keyword,
+                "summary": abstract or title,
+                "content": abstract or title,
+                "relevance_score": None,
+                "is_new": (chash not in known_url_hashes),
 
-        print(f"[reader][{phase}] phase done → valid={len(valid_this_run)} | articles_cnt={articles_cnt} | reached_cap={reached_cap}")
+                # 这些字段如果你表里暂时没有，就先别存 DB，但保留在返回值里很有用
+                "lang": item.get("lang"),
+                "news_type": item.get("news_type"),
+                "query_lang": item.get("query_lang"),
+                "search_language": item.get("search_language"),
+                "search_country_code": item.get("search_country_code"),
+                "search_locale": item.get("search_locale"),
+            }
 
-
-    if rss_only:
-            # ✅ Force RSS only, regardless of today_win
-            if not reached_cap:
-                try:
-                    raw_rss = harvest_news(
-                        topic,
-                        kwq_bundle or {},
-                        target_recent=max(TARGET_RECENT, 30),
-                        max_queries=200,
-                        start_date=sd,
-                        end_date=ed,
-                        use_api="rss",
-                        country_code=country_code,
-                        market_name=country_name_for(country_code),
-                    )
-                    await _refine_batch(raw_rss, phase="RSS(FORCED)")
-                except Exception as e:
-                    print(f"[refine][RSS-forced-phase-error] {e}")
-    else:
-        # Phase 1: CSE (only for today window)
-        if is_today_win and not reached_cap:
             try:
-                raw_cse = harvest_news(
-                    topic,
-                    kwq_bundle or {},
-                    target_recent=TARGET_RECENT,
-                    max_queries=120,
-                    start_date=sd,
-                    end_date=ed,
-                    use_api="cse",
-                    country_code=country_code,
-                    market_name=country_name_for(country_code),
-                )
-                await _refine_batch(raw_cse, phase="CSE")
+                save_news_one(conn, row)
+                conn.commit()
+                known_url_hashes.add(chash)
             except Exception as e:
-                print(f"[refine][CSE-phase-error] {e}")
+                conn.rollback()
+                print(f"[reader][db-save-failed] {canon_url} | err={e}")
+                continue
 
-        # Phase 2: RSS (fallback / non-today)
-        MIN_VALID = max(6, TARGET_RECENT // 3)
-        need_rss = (not is_today_win) or (len(valid_this_run) < MIN_VALID)
-        if need_rss and not reached_cap:
-            try:
-                raw_rss = harvest_news(
-                    topic,
-                    kwq_bundle or {},
-                    target_recent=max(TARGET_RECENT, 30),
-                    max_queries=200,
-                    start_date=sd,
-                    end_date=ed,
-                    use_api="rss",
-                    country_code=country_code,
-                    market_name=country_name_for(country_code),
-                )
-                await _refine_batch(raw_rss, phase="RSS")
-            except Exception as e:
-                print(f"[refine][RSS-phase-error] {e}")
+            valid_this_run.append(row)
 
-    valid_this_run.sort(key=date_sort_key, reverse=True)
+            tag = "added-new" if row["is_new"] else "added-known"
+            print(
+                f"[reader][{tag}] "
+                f"type={row.get('news_type')} "
+                f"lang={row.get('lang')} "
+                f"{canon_url} | {title[:80]}"
+            )
+
+    finally:
+        if conn is not None:
+            conn.close()
+
+    valid_this_run.sort(key=lambda x: str(x.get("approx_date")), reverse=True)
     return valid_this_run

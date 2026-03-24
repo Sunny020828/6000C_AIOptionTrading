@@ -215,8 +215,8 @@ def read(url: str) -> str:
 
 
 if __name__ == "__main__":
-    rss_url = "https://news.google.com/rss/articles/CBMixAFBVV95cUxNTzdkampZMFdfbUU2alQzQlhTeVhNM000LTFFZVZoc3Bxal92cnlyWlJpUk5DS3BGMU9aN09uUFBBY0hkMlF0aXN0UGhjUUpzMThJOURRTWhQVkhOaWhuci1RUllNS2ljYWZvQ2xCYURWNkdlQ3BjVnhRYmpJZGV6MTdLTXhXclpxZ2hLZ1lHS0dfLXA2bUVqM01TeXc5RF91TDlZTExLcGJUSmk3eWRpSFBoemY0aGM3WnYxeWpmME5IYm1r?oc=5"
-
+    # rss_url = "https://news.google.com/rss/articles/CBMixAFBVV95cUxNTzdkampZMFdfbUU2alQzQlhTeVhNM000LTFFZVZoc3Bxal92cnlyWlJpUk5DS3BGMU9aN09uUFBBY0hkMlF0aXN0UGhjUUpzMThJOURRTWhQVkhOaWhuci1RUllNS2ljYWZvQ2xCYURWNkdlQ3BjVnhRYmpJZGV6MTdLTXhXclpxZ2hLZ1lHS0dfLXA2bUVqM01TeXc5RF91TDlZTExLcGJUSmk3eWRpSFBoemY0aGM3WnYxeWpmME5IYm1r?oc=5"
+    rss_url='https://www.bloomberg.com/news/articles/2024-04-29/hong-kong-s-hang-seng-index-jumps-20-from-january-low-heads-for-bull-market'
     print(f"USE_PROXY={USE_PROXY}, LOCAL_PROXY={LOCAL_PROXY}")
 
     source, sign, ts = get_google_params(rss_url)

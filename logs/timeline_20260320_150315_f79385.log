@@ -1,0 +1,30 @@
+2026-03-20 23:03:15,973 | INFO | RUN START | run_id=timeline_20260320_150315_f79385 | start_date=2024-01-01 | end_date=2024-12-31 | model_name=deepseek-reasoner | account_value=1000000.00 | risk_pct=0.0100 | save_db=True
+2026-03-20 23:03:26,376 | INFO | Timeline ready | run_id=timeline_20260320_150315_f79385 | n_windows=11
+2026-03-20 23:03:26,421 | INFO | [01/11] MONTH START | decision_date=2024-01-31 00:00:00 | entry_date=2024-02-01 00:00:00 | exit_date=2024-02-29 00:00:00 | cumulative_offset_before=0.00
+2026-03-20 23:04:38,260 | INFO | [2024-01-31] MONTH END | scenario=bear_highvol | strategy=call_credit_spread | cum_pnl=1200.0 | return_pct=0.0012 | sharpe=1.3144672375985733 | max_dd=-0.0013497975303704557 | month_elapsed=71.840s
+2026-03-20 23:04:38,261 | INFO | [02/11] MONTH START | decision_date=2024-02-29 00:00:00 | entry_date=2024-03-01 00:00:00 | exit_date=2024-03-29 00:00:00 | cumulative_offset_before=1200.00
+2026-03-20 23:05:35,801 | INFO | [2024-02-29] MONTH END | scenario=range_lowvol | strategy=iron_condor | cum_pnl=-500.0 | return_pct=-0.0005 | sharpe=-0.7143625668161255 | max_dd=-0.0013999999999999568 | month_elapsed=57.526s
+2026-03-20 23:05:35,802 | INFO | [03/11] MONTH START | decision_date=2024-03-29 00:00:00 | entry_date=2024-04-01 00:00:00 | exit_date=2024-04-30 00:00:00 | cumulative_offset_before=700.00
+2026-03-20 23:06:32,812 | WARNING | [2024-03-29] Empty mtm_df returned from backtest.
+2026-03-20 23:06:32,822 | INFO | [2024-03-29] MONTH END | scenario=range_lowvol | strategy=None | cum_pnl=nan | return_pct=nan | sharpe=nan | max_dd=nan | month_elapsed=57.009s
+2026-03-20 23:06:32,822 | INFO | [04/11] MONTH START | decision_date=2024-04-30 00:00:00 | entry_date=2024-05-01 00:00:00 | exit_date=2024-05-31 00:00:00 | cumulative_offset_before=700.00
+2026-03-20 23:07:44,650 | WARNING | [2024-04-30] Empty mtm_df returned from backtest.
+2026-03-20 23:07:44,662 | INFO | [2024-04-30] MONTH END | scenario=bear_medianvol | strategy=None | cum_pnl=nan | return_pct=nan | sharpe=nan | max_dd=nan | month_elapsed=71.838s
+2026-03-20 23:07:44,662 | INFO | [05/11] MONTH START | decision_date=2024-05-31 00:00:00 | entry_date=2024-06-03 00:00:00 | exit_date=2024-06-28 00:00:00 | cumulative_offset_before=700.00
+2026-03-20 23:08:55,200 | INFO | [2024-05-31] MONTH END | scenario=range_lowvol | strategy=iron_condor | cum_pnl=-1500.0 | return_pct=-0.0015 | sharpe=-1.6336629657123318 | max_dd=-0.002850000000000019 | month_elapsed=70.538s
+2026-03-20 23:08:55,200 | INFO | [06/11] MONTH START | decision_date=2024-06-28 00:00:00 | entry_date=2024-07-01 00:00:00 | exit_date=2024-07-31 00:00:00 | cumulative_offset_before=-800.00
+2026-03-20 23:09:51,388 | WARNING | [2024-06-28] Empty mtm_df returned from backtest.
+2026-03-20 23:09:51,398 | INFO | [2024-06-28] MONTH END | scenario=range_medianvol | strategy=None | cum_pnl=nan | return_pct=nan | sharpe=nan | max_dd=nan | month_elapsed=56.198s
+2026-03-20 23:09:51,399 | INFO | [07/11] MONTH START | decision_date=2024-07-31 00:00:00 | entry_date=2024-08-01 00:00:00 | exit_date=2024-08-30 00:00:00 | cumulative_offset_before=-800.00
+2026-03-20 23:10:42,401 | INFO | [2024-07-31] MONTH END | scenario=bear_medianvol | strategy=put_debit_spread | cum_pnl=-4500.0 | return_pct=-0.0045 | sharpe=-2.1704711575803897 | max_dd=-0.009403452908104848 | month_elapsed=51.002s
+2026-03-20 23:10:42,402 | INFO | [08/11] MONTH START | decision_date=2024-08-30 00:00:00 | entry_date=2024-09-02 00:00:00 | exit_date=2024-09-30 00:00:00 | cumulative_offset_before=-5300.00
+2026-03-20 23:12:13,526 | INFO | [2024-08-30] MONTH END | scenario=range_lowvol | strategy=iron_condor | cum_pnl=-1350.0 | return_pct=-0.00135 | sharpe=-1.6624114891253476 | max_dd=-0.0015496900619875742 | month_elapsed=91.124s
+2026-03-20 23:12:13,527 | INFO | [09/11] MONTH START | decision_date=2024-09-30 00:00:00 | entry_date=2024-10-01 00:00:00 | exit_date=2024-10-31 00:00:00 | cumulative_offset_before=-6650.00
+2026-03-20 23:13:34,308 | WARNING | [2024-09-30] Empty mtm_df returned from backtest.
+2026-03-20 23:13:34,317 | INFO | [2024-09-30] MONTH END | scenario=bear_highvol | strategy=None | cum_pnl=nan | return_pct=nan | sharpe=nan | max_dd=nan | month_elapsed=80.790s
+2026-03-20 23:13:34,318 | INFO | [10/11] MONTH START | decision_date=2024-10-31 00:00:00 | entry_date=2024-11-01 00:00:00 | exit_date=2024-11-29 00:00:00 | cumulative_offset_before=-6650.00
+2026-03-20 23:14:57,434 | INFO | [2024-10-31] MONTH END | scenario=bull_medianvol | strategy=call_debit_spread | cum_pnl=-4800.0 | return_pct=-0.0048 | sharpe=-1.7838626206145674 | max_dd=-0.009465922678357885 | month_elapsed=83.116s
+2026-03-20 23:14:57,434 | INFO | [11/11] MONTH START | decision_date=2024-11-29 00:00:00 | entry_date=2024-12-02 00:00:00 | exit_date=2024-12-31 00:00:00 | cumulative_offset_before=-11450.00
+2026-03-20 23:16:05,488 | INFO | [2024-11-29] MONTH END | scenario=range_lowvol | strategy=iron_condor | cum_pnl=-50.0 | return_pct=-5e-05 | sharpe=-0.08738981338412562 | max_dd=-0.001699320271891236 | month_elapsed=68.053s
+2026-03-20 23:16:05,493 | INFO | OVERALL METRICS={"n_days": 148, "cum_pnl": -11500.0, "return_pct": -0.0115, "ann_return_pct": -0.01950187242487944, "ann_vol_pct": 0.01660764465551515, "sharpe": -1.17427081500104, "max_drawdown_pct": -0.016830154857342072, "win_rate_daily": 0.41216216216216217}
+2026-03-20 23:16:05,493 | INFO | RUN END | run_id=timeline_20260320_150315_f79385 | total_elapsed=769.490s
