@@ -210,7 +210,7 @@ def save_performance_record(
         payload = {
             "decision_date": str(pd.to_datetime(decision_date).date()) if decision_date is not None else None,
             "direction_probs": direction_probs,
-            "volatility_probs": volatility_probs,
+        "volatility_probs": volatility_probs,
             "chosen_scenario": chosen_scenario,
             "raw_llm_json": parsed,
         }

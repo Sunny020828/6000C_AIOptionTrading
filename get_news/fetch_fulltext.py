@@ -86,7 +86,7 @@ def get_google_params(url: str):
     return source[0], sign[0], ts[0]
 
 
-def get_origin_url(source: str, sign: str, ts: str) -> str | None:
+def get_origin_url(source: str, sign: str, ts: str) -> str:
     """
     Construct a request using the extracted parameters and resolve
     the original article URL from Google News redirect.
@@ -144,7 +144,7 @@ def clean(txt: str) -> str:
     return html.unescape(txt).strip()
 
 
-def pick_amp(html_str: str, base: str) -> str | None:
+def pick_amp(html_str: str, base: str) -> str:
     m = re.search(r'rel=["\\\']amphtml["\\\']\\s+href=["\\\']([^"\\\']+)["\\\']', html_str, re.I)
     return urllib.parse.urljoin(base, m.group(1)) if m else None
 
@@ -215,8 +215,8 @@ def read(url: str) -> str:
 
 
 if __name__ == "__main__":
-    # rss_url = "https://news.google.com/rss/articles/CBMixAFBVV95cUxNTzdkampZMFdfbUU2alQzQlhTeVhNM000LTFFZVZoc3Bxal92cnlyWlJpUk5DS3BGMU9aN09uUFBBY0hkMlF0aXN0UGhjUUpzMThJOURRTWhQVkhOaWhuci1RUllNS2ljYWZvQ2xCYURWNkdlQ3BjVnhRYmpJZGV6MTdLTXhXclpxZ2hLZ1lHS0dfLXA2bUVqM01TeXc5RF91TDlZTExLcGJUSmk3eWRpSFBoemY0aGM3WnYxeWpmME5IYm1r?oc=5"
-    rss_url='https://www.bloomberg.com/news/articles/2024-04-29/hong-kong-s-hang-seng-index-jumps-20-from-january-low-heads-for-bull-market'
+    rss_url = "https://news.google.com/rss/articles/CBMixAFBVV95cUxNTzdkampZMFdfbUU2alQzQlhTeVhNM000LTFFZVZoc3Bxal92cnlyWlJpUk5DS3BGMU9aN09uUFBBY0hkMlF0aXN0UGhjUUpzMThJOURRTWhQVkhOaWhuci1RUllNS2ljYWZvQ2xCYURWNkdlQ3BjVnhRYmpJZGV6MTdLTXhXclpxZ2hLZ1lHS0dfLXA2bUVqM01TeXc5RF91TDlZTExLcGJUSmk3eWRpSFBoemY0aGM3WnYxeWpmME5IYm1r?oc=5"
+    # rss_url='https://www.bloomberg.com/news/articles/2024-04-29/hong-kong-s-hang-seng-index-jumps-20-from-january-low-heads-for-bull-market'
     print(f"USE_PROXY={USE_PROXY}, LOCAL_PROXY={LOCAL_PROXY}")
 
     source, sign, ts = get_google_params(rss_url)

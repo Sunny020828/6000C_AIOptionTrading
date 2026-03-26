@@ -21,8 +21,8 @@ def get_db_config(include_database: bool = False) -> dict:
     config = {
         "host": os.getenv("MYSQL_HOST", "127.0.0.1"),
         "port": int(os.getenv("MYSQL_PORT", 3306)),
-        "user": os.getenv("MYSQL_USER", "history_user"),
-        "password": os.getenv("MYSQL_PASSWORD", "StrongPassword123!"),
+        "user": os.getenv("MYSQL_USER", "root"),
+        "password": os.getenv("MYSQL_PASSWORD", "Strong!pass"),
         "autocommit": False,
     }
 
