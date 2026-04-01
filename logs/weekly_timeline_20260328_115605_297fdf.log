@@ -1,0 +1,198 @@
+2026-03-28 19:56:05,845 | INFO | RUN START | run_id=weekly_timeline_20260328_115605_297fdf | start_date=2024-01-01 | end_date=2024-12-31 | model_name=deepseek-reasoner | account_value=1000000.00 | risk_pct=0.0100 | save_db=True
+2026-03-28 19:56:13,680 | INFO | Weekly windows built | n_windows=52
+2026-03-28 19:56:13,690 | INFO | [01/52] WEEK START | decision_date=2024-01-07 | entry_date=2024-01-08 | exit_date=2024-01-12 | cumulative_offset_before=0.00
+2026-03-28 19:56:13,692 | INFO | WEEKLY PIPELINE START | week_start=2024-01-01 | week_end=2024-01-07 | candidate_limit=250 | max_pick_for_fulltext=35 | model=deepseek-reasoner
+2026-03-28 19:56:13,774 | INFO | candidates fetched=169
+2026-03-28 19:56:15,908 | INFO | llm selected count=0
+2026-03-28 19:56:15,909 | WARNING | [2024-01-07] news_result not ok | status=llm_selected_none | week_start=2024-01-01 | week_end=2024-01-07
+2026-03-28 19:56:15,922 | INFO | [02/52] WEEK START | decision_date=2024-01-14 | entry_date=2024-01-15 | exit_date=2024-01-19 | cumulative_offset_before=0.00
+2026-03-28 19:56:15,944 | INFO | [2024-01-14] use cached weekly analysis | week=2024-01-08→2024-01-14 | scenario=bear_medianvol
+2026-03-28 19:56:19,217 | INFO | [2024-01-14] REBALANCE | reasons=no_position | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:56:19,218 | INFO | [2024-01-14] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=2700.0 | elapsed_cum=13.37s
+2026-03-28 19:56:19,248 | INFO | [03/52] WEEK START | decision_date=2024-01-21 | entry_date=2024-01-22 | exit_date=2024-01-26 | cumulative_offset_before=2700.00
+2026-03-28 19:56:19,253 | INFO | [2024-01-21] use cached weekly analysis | week=2024-01-15→2024-01-21 | scenario=bear_highvol
+2026-03-28 19:56:22,773 | INFO | [2024-01-21] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 19:56:22,773 | INFO | [2024-01-21] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=2850.0 | elapsed_cum=16.93s
+2026-03-28 19:56:22,811 | INFO | [04/52] WEEK START | decision_date=2024-01-28 | entry_date=2024-01-29 | exit_date=2024-02-02 | cumulative_offset_before=2850.00
+2026-03-28 19:56:22,828 | INFO | [2024-01-28] use cached weekly analysis | week=2024-01-22→2024-01-28 | scenario=bull_highvol
+2026-03-28 19:56:26,291 | INFO | [2024-01-28] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_highvol | strategy_type=put_credit_spread
+2026-03-28 19:56:26,292 | INFO | [2024-01-28] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=Y | cum_pnl=2900.0 | elapsed_cum=20.45s
+2026-03-28 19:56:26,330 | INFO | [05/52] WEEK START | decision_date=2024-02-04 | entry_date=2024-02-05 | exit_date=2024-02-09 | cumulative_offset_before=2900.00
+2026-03-28 19:56:26,334 | INFO | [2024-02-04] use cached weekly analysis | week=2024-01-29→2024-02-04 | scenario=bear_highvol
+2026-03-28 19:56:30,073 | INFO | [2024-02-04] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 19:56:30,074 | INFO | [2024-02-04] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=2000.0 | elapsed_cum=24.23s
+2026-03-28 19:56:30,102 | INFO | [06/52] WEEK START | decision_date=2024-02-11 | entry_date=2024-02-12 | exit_date=2024-02-16 | cumulative_offset_before=2000.00
+2026-03-28 19:56:30,119 | INFO | [2024-02-11] use cached weekly analysis | week=2024-02-05→2024-02-11 | scenario=bull_medianvol
+2026-03-28 19:56:33,336 | INFO | [2024-02-11] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:56:33,337 | INFO | [2024-02-11] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=3950.0 | elapsed_cum=27.49s
+2026-03-28 19:56:33,369 | INFO | [07/52] WEEK START | decision_date=2024-02-18 | entry_date=2024-02-19 | exit_date=2024-02-23 | cumulative_offset_before=3950.00
+2026-03-28 19:56:33,390 | INFO | [2024-02-18] use cached weekly analysis | week=2024-02-12→2024-02-18 | scenario=range_highvol
+2026-03-28 19:56:37,136 | INFO | [2024-02-18] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 19:56:37,137 | INFO | [2024-02-18] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=4200.0 | elapsed_cum=31.29s
+2026-03-28 19:56:37,167 | INFO | [08/52] WEEK START | decision_date=2024-02-25 | entry_date=2024-02-26 | exit_date=2024-03-01 | cumulative_offset_before=4200.00
+2026-03-28 19:56:37,187 | INFO | [2024-02-25] use cached weekly analysis | week=2024-02-19→2024-02-25 | scenario=bull_medianvol
+2026-03-28 19:56:40,351 | INFO | [2024-02-25] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:56:40,351 | INFO | [2024-02-25] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=4050.0 | elapsed_cum=34.51s
+2026-03-28 19:56:40,377 | INFO | [09/52] WEEK START | decision_date=2024-03-03 | entry_date=2024-03-04 | exit_date=2024-03-08 | cumulative_offset_before=4050.00
+2026-03-28 19:56:40,399 | INFO | [2024-03-03] use cached weekly analysis | week=2024-02-26→2024-03-03 | scenario=bull_medianvol
+2026-03-28 19:56:42,557 | INFO | [2024-03-03] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=3000.0 | elapsed_cum=36.71s
+2026-03-28 19:56:42,608 | INFO | [10/52] WEEK START | decision_date=2024-03-10 | entry_date=2024-03-11 | exit_date=2024-03-15 | cumulative_offset_before=3000.00
+2026-03-28 19:56:42,664 | INFO | [2024-03-10] use cached weekly analysis | week=2024-03-04→2024-03-10 | scenario=bear_medianvol
+2026-03-28 19:56:44,892 | INFO | [2024-03-10] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=6300.0 | elapsed_cum=39.05s
+2026-03-28 19:56:44,932 | INFO | [11/52] WEEK START | decision_date=2024-03-17 | entry_date=2024-03-18 | exit_date=2024-03-22 | cumulative_offset_before=6300.00
+2026-03-28 19:56:44,936 | INFO | [2024-03-17] use cached weekly analysis | week=2024-03-11→2024-03-17 | scenario=bull_medianvol
+2026-03-28 19:56:48,006 | INFO | [2024-03-17] REBALANCE | reasons=dte_le_10 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:56:48,007 | INFO | [2024-03-17] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=4050.0 | elapsed_cum=42.16s
+2026-03-28 19:56:48,039 | INFO | [12/52] WEEK START | decision_date=2024-03-24 | entry_date=2024-03-25 | exit_date=2024-03-29 | cumulative_offset_before=4050.00
+2026-03-28 19:56:48,064 | INFO | [2024-03-24] use cached weekly analysis | week=2024-03-18→2024-03-24 | scenario=bull_medianvol
+2026-03-28 19:56:50,089 | INFO | [2024-03-24] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=4650.0 | elapsed_cum=44.24s
+2026-03-28 19:56:50,114 | INFO | [13/52] WEEK START | decision_date=2024-03-31 | entry_date=2024-04-01 | exit_date=2024-04-05 | cumulative_offset_before=4650.00
+2026-03-28 19:56:50,130 | INFO | [2024-03-31] use cached weekly analysis | week=2024-03-25→2024-03-31 | scenario=bear_medianvol
+2026-03-28 19:56:53,206 | INFO | [2024-03-31] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:56:53,207 | INFO | [2024-03-31] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=5100.0 | elapsed_cum=47.36s
+2026-03-28 19:56:53,231 | INFO | [14/52] WEEK START | decision_date=2024-04-07 | entry_date=2024-04-08 | exit_date=2024-04-12 | cumulative_offset_before=5100.00
+2026-03-28 19:56:53,233 | INFO | WEEKLY PIPELINE START | week_start=2024-04-01 | week_end=2024-04-07 | candidate_limit=250 | max_pick_for_fulltext=35 | model=deepseek-reasoner
+2026-03-28 19:56:53,257 | INFO | candidates fetched=163
+2026-03-28 19:56:54,044 | INFO | llm selected count=0
+2026-03-28 19:56:54,044 | WARNING | [2024-04-07] news_result not ok | status=llm_selected_none | week_start=2024-04-01 | week_end=2024-04-07
+2026-03-28 19:56:54,045 | INFO | [15/52] WEEK START | decision_date=2024-04-14 | entry_date=2024-04-15 | exit_date=2024-04-19 | cumulative_offset_before=5100.00
+2026-03-28 19:56:54,049 | INFO | [2024-04-14] use cached weekly analysis | week=2024-04-08→2024-04-14 | scenario=bear_medianvol
+2026-03-28 19:56:56,065 | INFO | [2024-04-14] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=9900.0 | elapsed_cum=50.22s
+2026-03-28 19:56:56,087 | INFO | [16/52] WEEK START | decision_date=2024-04-21 | entry_date=2024-04-22 | exit_date=2024-04-26 | cumulative_offset_before=9900.00
+2026-03-28 19:56:56,102 | INFO | [2024-04-21] use cached weekly analysis | week=2024-04-15→2024-04-21 | scenario=range_highvol
+2026-03-28 19:57:00,018 | INFO | [2024-04-21] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 19:57:00,018 | INFO | [2024-04-21] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=7750.0 | elapsed_cum=54.17s
+2026-03-28 19:57:00,048 | INFO | [17/52] WEEK START | decision_date=2024-04-28 | entry_date=2024-04-29 | exit_date=2024-05-03 | cumulative_offset_before=7750.00
+2026-03-28 19:57:00,054 | INFO | [2024-04-28] use cached weekly analysis | week=2024-04-22→2024-04-28 | scenario=bull_medianvol
+2026-03-28 19:57:03,176 | INFO | [2024-04-28] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:57:03,176 | INFO | [2024-04-28] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=11050.0 | elapsed_cum=57.33s
+2026-03-28 19:57:03,199 | INFO | [18/52] WEEK START | decision_date=2024-05-05 | entry_date=2024-05-06 | exit_date=2024-05-10 | cumulative_offset_before=11050.00
+2026-03-28 19:57:03,220 | INFO | [2024-05-05] use cached weekly analysis | week=2024-04-29→2024-05-05 | scenario=bull_medianvol
+2026-03-28 19:57:05,446 | INFO | [2024-05-05] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=11500.0 | elapsed_cum=59.60s
+2026-03-28 19:57:05,481 | INFO | [19/52] WEEK START | decision_date=2024-05-12 | entry_date=2024-05-13 | exit_date=2024-05-17 | cumulative_offset_before=11500.00
+2026-03-28 19:57:05,485 | INFO | [2024-05-12] use cached weekly analysis | week=2024-05-06→2024-05-12 | scenario=bull_medianvol
+2026-03-28 19:57:07,590 | INFO | [2024-05-12] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=9850.0 | elapsed_cum=61.74s
+2026-03-28 19:57:07,622 | INFO | [20/52] WEEK START | decision_date=2024-05-19 | entry_date=2024-05-20 | exit_date=2024-05-24 | cumulative_offset_before=9850.00
+2026-03-28 19:57:07,646 | INFO | [2024-05-19] use cached weekly analysis | week=2024-05-13→2024-05-19 | scenario=bull_medianvol
+2026-03-28 19:57:10,686 | INFO | [2024-05-19] REBALANCE | reasons=dte_le_10 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:57:10,687 | INFO | [2024-05-19] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=6950.0 | elapsed_cum=64.84s
+2026-03-28 19:57:10,710 | INFO | [21/52] WEEK START | decision_date=2024-05-26 | entry_date=2024-05-27 | exit_date=2024-05-31 | cumulative_offset_before=6950.00
+2026-03-28 19:57:10,714 | INFO | [2024-05-26] use cached weekly analysis | week=2024-05-20→2024-05-26 | scenario=bear_medianvol
+2026-03-28 19:57:13,766 | INFO | [2024-05-26] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:57:13,767 | INFO | [2024-05-26] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=11750.0 | elapsed_cum=67.92s
+2026-03-28 19:57:13,789 | INFO | [22/52] WEEK START | decision_date=2024-06-02 | entry_date=2024-06-03 | exit_date=2024-06-07 | cumulative_offset_before=11750.00
+2026-03-28 19:57:13,815 | INFO | [2024-06-02] use cached weekly analysis | week=2024-05-27→2024-06-02 | scenario=range_medianvol
+2026-03-28 19:57:17,755 | INFO | [2024-06-02] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 19:57:17,756 | INFO | [2024-06-02] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=10100.0 | elapsed_cum=71.91s
+2026-03-28 19:57:17,787 | INFO | [23/52] WEEK START | decision_date=2024-06-09 | entry_date=2024-06-10 | exit_date=2024-06-14 | cumulative_offset_before=10100.00
+2026-03-28 19:57:17,809 | INFO | [2024-06-09] use cached weekly analysis | week=2024-06-03→2024-06-09 | scenario=range_medianvol
+2026-03-28 19:57:20,793 | INFO | [2024-06-09] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=N | cum_pnl=10050.0 | elapsed_cum=74.95s
+2026-03-28 19:57:20,818 | INFO | [24/52] WEEK START | decision_date=2024-06-16 | entry_date=2024-06-17 | exit_date=2024-06-21 | cumulative_offset_before=10050.00
+2026-03-28 19:57:20,823 | INFO | [2024-06-16] use cached weekly analysis | week=2024-06-10→2024-06-16 | scenario=bear_medianvol
+2026-03-28 19:57:24,554 | INFO | [2024-06-16] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:57:24,554 | INFO | [2024-06-16] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=7950.0 | elapsed_cum=78.71s
+2026-03-28 19:57:24,621 | INFO | [25/52] WEEK START | decision_date=2024-06-23 | entry_date=2024-06-24 | exit_date=2024-06-28 | cumulative_offset_before=7950.00
+2026-03-28 19:57:24,676 | INFO | [2024-06-23] use cached weekly analysis | week=2024-06-17→2024-06-23 | scenario=bear_medianvol
+2026-03-28 19:57:26,949 | INFO | [2024-06-23] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=11050.0 | elapsed_cum=81.10s
+2026-03-28 19:57:26,984 | INFO | [26/52] WEEK START | decision_date=2024-06-30 | entry_date=2024-07-01 | exit_date=2024-07-05 | cumulative_offset_before=11050.00
+2026-03-28 19:57:26,999 | INFO | [2024-06-30] use cached weekly analysis | week=2024-06-24→2024-06-30 | scenario=bull_medianvol
+2026-03-28 19:57:30,079 | INFO | [2024-06-30] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:57:30,080 | INFO | [2024-06-30] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=10350.0 | elapsed_cum=84.23s
+2026-03-28 19:57:30,102 | INFO | [27/52] WEEK START | decision_date=2024-07-07 | entry_date=2024-07-08 | exit_date=2024-07-12 | cumulative_offset_before=10350.00
+2026-03-28 19:57:30,117 | INFO | [2024-07-07] use cached weekly analysis | week=2024-07-01→2024-07-07 | scenario=bear_medianvol
+2026-03-28 19:57:32,921 | INFO | [2024-07-07] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:57:32,922 | INFO | [2024-07-07] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=3550.0 | elapsed_cum=87.08s
+2026-03-28 19:57:32,946 | INFO | [28/52] WEEK START | decision_date=2024-07-14 | entry_date=2024-07-15 | exit_date=2024-07-19 | cumulative_offset_before=3550.00
+2026-03-28 19:57:32,961 | INFO | [2024-07-14] use cached weekly analysis | week=2024-07-08→2024-07-14 | scenario=bull_highvol
+2026-03-28 19:57:36,067 | INFO | [2024-07-14] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_highvol | strategy_type=put_credit_spread
+2026-03-28 19:57:36,067 | INFO | [2024-07-14] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=Y | cum_pnl=4500.0 | elapsed_cum=90.22s
+2026-03-28 19:57:36,094 | INFO | [29/52] WEEK START | decision_date=2024-07-21 | entry_date=2024-07-22 | exit_date=2024-07-26 | cumulative_offset_before=4500.00
+2026-03-28 19:57:36,110 | INFO | [2024-07-21] use cached weekly analysis | week=2024-07-15→2024-07-21 | scenario=bear_medianvol
+2026-03-28 19:57:38,243 | INFO | [2024-07-21] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=N | cum_pnl=5300.0 | elapsed_cum=92.40s
+2026-03-28 19:57:38,267 | INFO | [30/52] WEEK START | decision_date=2024-07-28 | entry_date=2024-07-29 | exit_date=2024-08-02 | cumulative_offset_before=5300.00
+2026-03-28 19:57:38,286 | INFO | [2024-07-28] use cached weekly analysis | week=2024-07-22→2024-07-28 | scenario=bear_medianvol
+2026-03-28 19:57:41,445 | INFO | [2024-07-28] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:57:41,445 | INFO | [2024-07-28] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=6200.0 | elapsed_cum=95.60s
+2026-03-28 19:57:41,467 | INFO | [31/52] WEEK START | decision_date=2024-08-04 | entry_date=2024-08-05 | exit_date=2024-08-09 | cumulative_offset_before=6200.00
+2026-03-28 19:57:41,495 | INFO | [2024-08-04] use cached weekly analysis | week=2024-07-29→2024-08-04 | scenario=bear_highvol
+2026-03-28 19:57:44,590 | INFO | [2024-08-04] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 19:57:44,590 | INFO | [2024-08-04] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=6250.0 | elapsed_cum=98.74s
+2026-03-28 19:57:44,611 | INFO | [32/52] WEEK START | decision_date=2024-08-11 | entry_date=2024-08-12 | exit_date=2024-08-16 | cumulative_offset_before=6250.00
+2026-03-28 19:57:44,635 | INFO | [2024-08-11] use cached weekly analysis | week=2024-08-05→2024-08-11 | scenario=bear_highvol
+2026-03-28 19:57:46,905 | INFO | [2024-08-11] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=N | cum_pnl=6200.0 | elapsed_cum=101.06s
+2026-03-28 19:57:46,929 | INFO | [33/52] WEEK START | decision_date=2024-08-18 | entry_date=2024-08-19 | exit_date=2024-08-23 | cumulative_offset_before=6200.00
+2026-03-28 19:57:46,946 | INFO | [2024-08-18] use cached weekly analysis | week=2024-08-12→2024-08-18 | scenario=bull_medianvol
+2026-03-28 19:57:50,042 | INFO | [2024-08-18] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:57:50,043 | INFO | [2024-08-18] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=5700.0 | elapsed_cum=104.20s
+2026-03-28 19:57:50,076 | INFO | [34/52] WEEK START | decision_date=2024-08-25 | entry_date=2024-08-26 | exit_date=2024-08-30 | cumulative_offset_before=5700.00
+2026-03-28 19:57:50,104 | INFO | [2024-08-25] use cached weekly analysis | week=2024-08-19→2024-08-25 | scenario=bull_medianvol
+2026-03-28 19:57:52,212 | INFO | [2024-08-25] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=8700.0 | elapsed_cum=106.37s
+2026-03-28 19:57:52,246 | INFO | [35/52] WEEK START | decision_date=2024-09-01 | entry_date=2024-09-02 | exit_date=2024-09-06 | cumulative_offset_before=8700.00
+2026-03-28 19:57:52,261 | INFO | [2024-09-01] use cached weekly analysis | week=2024-08-26→2024-09-01 | scenario=bear_highvol
+2026-03-28 19:57:55,319 | INFO | [2024-09-01] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 19:57:55,320 | INFO | [2024-09-01] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=7450.0 | elapsed_cum=109.47s
+2026-03-28 19:57:55,343 | INFO | [36/52] WEEK START | decision_date=2024-09-08 | entry_date=2024-09-09 | exit_date=2024-09-13 | cumulative_offset_before=7450.00
+2026-03-28 19:57:55,346 | INFO | [2024-09-08] use cached weekly analysis | week=2024-09-02→2024-09-08 | scenario=bear_medianvol
+2026-03-28 19:57:57,479 | INFO | [2024-09-08] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=N | cum_pnl=7500.0 | elapsed_cum=111.63s
+2026-03-28 19:57:57,510 | INFO | [37/52] WEEK START | decision_date=2024-09-15 | entry_date=2024-09-16 | exit_date=2024-09-20 | cumulative_offset_before=7500.00
+2026-03-28 19:57:57,532 | INFO | [2024-09-15] use cached weekly analysis | week=2024-09-09→2024-09-15 | scenario=range_medianvol
+2026-03-28 19:58:01,536 | INFO | [2024-09-15] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 19:58:01,537 | INFO | [2024-09-15] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=7300.0 | elapsed_cum=115.69s
+2026-03-28 19:58:01,559 | INFO | [38/52] WEEK START | decision_date=2024-09-22 | entry_date=2024-09-23 | exit_date=2024-09-27 | cumulative_offset_before=7300.00
+2026-03-28 19:58:01,577 | INFO | [2024-09-22] use cached weekly analysis | week=2024-09-16→2024-09-22 | scenario=bull_medianvol
+2026-03-28 19:58:04,675 | INFO | [2024-09-22] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 19:58:04,675 | INFO | [2024-09-22] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=11800.0 | elapsed_cum=118.83s
+2026-03-28 19:58:04,711 | INFO | [39/52] WEEK START | decision_date=2024-09-29 | entry_date=2024-09-30 | exit_date=2024-10-04 | cumulative_offset_before=11800.00
+2026-03-28 19:58:04,714 | INFO | [2024-09-29] use cached weekly analysis | week=2024-09-23→2024-09-29 | scenario=bull_highvol
+2026-03-28 19:58:07,821 | INFO | [2024-09-29] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.4 | scenario=bull_highvol | strategy_type=put_credit_spread
+2026-03-28 19:58:07,822 | INFO | [2024-09-29] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=Y | cum_pnl=11750.0 | elapsed_cum=121.98s
+2026-03-28 19:58:07,854 | INFO | [40/52] WEEK START | decision_date=2024-10-06 | entry_date=2024-10-07 | exit_date=2024-10-11 | cumulative_offset_before=11750.00
+2026-03-28 19:58:07,881 | INFO | [2024-10-06] use cached weekly analysis | week=2024-09-30→2024-10-06 | scenario=bull_highvol
+2026-03-28 19:58:09,895 | INFO | [2024-10-06] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=N | cum_pnl=11800.0 | elapsed_cum=124.05s
+2026-03-28 19:58:09,928 | INFO | [41/52] WEEK START | decision_date=2024-10-13 | entry_date=2024-10-14 | exit_date=2024-10-18 | cumulative_offset_before=11800.00
+2026-03-28 19:58:09,949 | INFO | [2024-10-13] use cached weekly analysis | week=2024-10-07→2024-10-13 | scenario=range_highvol
+2026-03-28 19:58:13,866 | INFO | [2024-10-13] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 19:58:13,867 | INFO | [2024-10-13] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=11850.0 | elapsed_cum=128.02s
+2026-03-28 19:58:13,900 | INFO | [42/52] WEEK START | decision_date=2024-10-20 | entry_date=2024-10-21 | exit_date=2024-10-25 | cumulative_offset_before=11850.00
+2026-03-28 19:58:13,929 | INFO | [2024-10-20] use cached weekly analysis | week=2024-10-14→2024-10-20 | scenario=bear_medianvol
+2026-03-28 19:58:16,049 | INFO | [2024-10-20] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:58:16,049 | INFO | [2024-10-20] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=6850.0 | elapsed_cum=130.20s
+2026-03-28 19:58:16,084 | INFO | [43/52] WEEK START | decision_date=2024-10-27 | entry_date=2024-10-28 | exit_date=2024-11-01 | cumulative_offset_before=6850.00
+2026-03-28 19:58:16,088 | INFO | [2024-10-27] use cached weekly analysis | week=2024-10-21→2024-10-27 | scenario=bear_medianvol
+2026-03-28 19:58:17,015 | INFO | [2024-10-27] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=6850.0 | elapsed_cum=131.17s
+2026-03-28 19:58:17,049 | INFO | [44/52] WEEK START | decision_date=2024-11-03 | entry_date=2024-11-04 | exit_date=2024-11-08 | cumulative_offset_before=6850.00
+2026-03-28 19:58:17,073 | INFO | [2024-11-03] use cached weekly analysis | week=2024-10-28→2024-11-03 | scenario=range_medianvol
+2026-03-28 19:58:20,821 | INFO | [2024-11-03] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 19:58:20,822 | INFO | [2024-11-03] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=5650.0 | elapsed_cum=134.98s
+2026-03-28 19:58:20,859 | INFO | [45/52] WEEK START | decision_date=2024-11-10 | entry_date=2024-11-11 | exit_date=2024-11-15 | cumulative_offset_before=5650.00
+2026-03-28 19:58:20,863 | INFO | [2024-11-10] use cached weekly analysis | week=2024-11-04→2024-11-10 | scenario=bear_highvol
+2026-03-28 19:58:24,076 | INFO | [2024-11-10] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 19:58:24,077 | INFO | [2024-11-10] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=3650.0 | elapsed_cum=138.23s
+2026-03-28 19:58:24,112 | INFO | [46/52] WEEK START | decision_date=2024-11-17 | entry_date=2024-11-18 | exit_date=2024-11-22 | cumulative_offset_before=3650.00
+2026-03-28 19:58:24,139 | INFO | [2024-11-17] use cached weekly analysis | week=2024-11-11→2024-11-17 | scenario=bear_medianvol
+2026-03-28 19:58:27,815 | INFO | [2024-11-17] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:58:27,817 | INFO | [2024-11-17] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=6050.0 | elapsed_cum=141.97s
+2026-03-28 19:58:27,852 | INFO | [47/52] WEEK START | decision_date=2024-11-24 | entry_date=2024-11-25 | exit_date=2024-11-29 | cumulative_offset_before=6050.00
+2026-03-28 19:58:27,873 | INFO | [2024-11-24] use cached weekly analysis | week=2024-11-18→2024-11-24 | scenario=range_medianvol
+2026-03-28 19:58:31,616 | INFO | [2024-11-24] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 19:58:31,616 | INFO | [2024-11-24] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=5650.0 | elapsed_cum=145.77s
+2026-03-28 19:58:31,652 | INFO | [48/52] WEEK START | decision_date=2024-12-01 | entry_date=2024-12-02 | exit_date=2024-12-06 | cumulative_offset_before=5650.00
+2026-03-28 19:58:31,656 | INFO | [2024-12-01] use cached weekly analysis | week=2024-11-25→2024-12-01 | scenario=range_medianvol
+2026-03-28 19:58:34,568 | INFO | [2024-12-01] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=N | cum_pnl=5600.0 | elapsed_cum=148.72s
+2026-03-28 19:58:34,593 | INFO | [49/52] WEEK START | decision_date=2024-12-08 | entry_date=2024-12-09 | exit_date=2024-12-13 | cumulative_offset_before=5600.00
+2026-03-28 19:58:34,595 | INFO | [2024-12-08] use cached weekly analysis | week=2024-12-02→2024-12-08 | scenario=range_medianvol
+2026-03-28 19:58:37,391 | INFO | [2024-12-08] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=N | cum_pnl=5500.0 | elapsed_cum=151.55s
+2026-03-28 19:58:37,414 | INFO | [50/52] WEEK START | decision_date=2024-12-15 | entry_date=2024-12-16 | exit_date=2024-12-20 | cumulative_offset_before=5500.00
+2026-03-28 19:58:37,433 | INFO | [2024-12-15] use cached weekly analysis | week=2024-12-09→2024-12-15 | scenario=bear_medianvol
+2026-03-28 19:58:39,320 | INFO | [2024-12-15] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.4 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 19:58:39,320 | INFO | [2024-12-15] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=500.0 | elapsed_cum=153.48s
+2026-03-28 19:58:39,354 | INFO | [51/52] WEEK START | decision_date=2024-12-22 | entry_date=2024-12-23 | exit_date=2024-12-27 | cumulative_offset_before=500.00
+2026-03-28 19:58:39,377 | INFO | [2024-12-22] use cached weekly analysis | week=2024-12-16→2024-12-22 | scenario=bear_medianvol
+2026-03-28 19:58:39,956 | INFO | [2024-12-22] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=500.0 | elapsed_cum=154.11s
+2026-03-28 19:58:39,988 | INFO | [52/52] WEEK START | decision_date=2024-12-29 | entry_date=2024-12-30 | exit_date=2024-12-31 | cumulative_offset_before=500.00
+2026-03-28 19:58:39,992 | INFO | [2024-12-29] use cached weekly analysis | week=2024-12-23→2024-12-29 | scenario=range_highvol
+2026-03-28 19:58:42,517 | INFO | [2024-12-29] REBALANCE | reasons=scenario_reversal_p_range_ge_0.4 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 19:58:42,518 | INFO | [2024-12-29] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=500.0 | elapsed_cum=156.67s
+2026-03-28 19:58:42,553 | INFO | Assemble done | weekly_df rows=50
+2026-03-28 19:58:42,568 | INFO | OVERALL METRICS={'n_days': 247, 'cum_pnl': 500.0, 'return_pct': 0.0005, 'ann_return_pct': 0.0005101240386546912, 'ann_vol_pct': np.float64(0.02073723379833467), 'sharpe': np.float64(0.024599425536479095), 'max_drawdown_pct': -0.012047003061123718, 'win_rate_daily': 0.3724696356275304}
+2026-03-28 19:58:42,569 | INFO | RUN END | run_id=weekly_timeline_20260328_115605_297fdf | total_elapsed=156.724s

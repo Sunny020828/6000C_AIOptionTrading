@@ -1,0 +1,59 @@
+2026-03-28 20:43:57,628 | INFO | Weekly windows built | n_windows=52
+2026-03-28 20:43:57,635 | INFO | [01/52] WEEK START | decision_date=2024-01-07 | entry_date=2024-01-08 | exit_date=2024-01-12 | cumulative_offset_before=0.00
+2026-03-28 20:43:57,637 | INFO | WEEKLY PIPELINE START | week_start=2024-01-01 | week_end=2024-01-07 | candidate_limit=250 | max_pick_for_fulltext=35 | model=deepseek-reasoner
+2026-03-28 20:43:57,675 | INFO | candidates fetched=169
+2026-03-28 20:43:58,768 | INFO | llm selected count=0
+2026-03-28 20:43:58,769 | WARNING | [2024-01-07] news_result not ok | status=llm_selected_none | week_start=2024-01-01 | week_end=2024-01-07
+2026-03-28 20:43:58,770 | INFO | [02/52] WEEK START | decision_date=2024-01-14 | entry_date=2024-01-15 | exit_date=2024-01-19 | cumulative_offset_before=0.00
+2026-03-28 20:43:58,794 | INFO | [2024-01-14] use cached weekly analysis | week=2024-01-08→2024-01-14 | scenario=bear_medianvol
+2026-03-28 20:43:58,794 | INFO | week_cycle begin | decision=2024-01-14 00:00:00 entry=2024-01-15 00:00:00 exit=2024-01-19 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=0.00 | carry_exec_scenario=None carry_strategy=None carry_qty_meta=None
+2026-03-28 20:43:58,796 | INFO | rebalance_decision | need=True reasons=['no_position']
+2026-03-28 20:43:58,796 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-01-15 00:00:00 acct=1000000 risk_pct=0.0200 mult=1.250 max_c=80
+2026-03-28 20:43:59,761 | INFO | option snapshot | trade_date=2024-01-15 00:00:00 underlying=16216.3301 target_exp=2024-02-28 00:00:00 dte_row0=15
+2026-03-28 20:43:59,776 | WARNING | reject spread | leg |delta| out of band [0.14,0.45] | leg=buy |d|=0.000 use_pct=False
+2026-03-28 20:43:59,776 | WARNING | vertical spread selection failed | date=2024-01-15 00:00:00 type=put_debit_spread
+2026-03-28 20:43:59,810 | WARNING | rebalance produced no signals | llm_scenario=bear_medianvol entry=2024-01-15 00:00:00
+2026-03-28 20:43:59,835 | INFO | week_cycle end | week_pnl=0.00 cum_pnl=0.00 | mtm_days=5 | metrics_cum=0.0
+2026-03-28 20:43:59,836 | INFO | [2024-01-14] REBALANCE | reasons=no_position | scenario=bear_medianvol | strategy_type=None
+2026-03-28 20:43:59,836 | INFO | [2024-01-14] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=0.0 | elapsed_cum=7.53s
+2026-03-28 20:43:59,863 | INFO | [03/52] WEEK START | decision_date=2024-01-21 | entry_date=2024-01-22 | exit_date=2024-01-26 | cumulative_offset_before=0.00
+2026-03-28 20:43:59,865 | INFO | [2024-01-21] use cached weekly analysis | week=2024-01-15→2024-01-21 | scenario=bear_highvol
+2026-03-28 20:43:59,866 | INFO | week_cycle begin | decision=2024-01-21 00:00:00 entry=2024-01-22 00:00:00 exit=2024-01-26 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=0.00 | carry_exec_scenario=bear_medianvol carry_strategy=None carry_qty_meta=None
+2026-03-28 20:43:59,866 | INFO | rebalance_decision | need=True reasons=['no_position']
+2026-03-28 20:43:59,867 | INFO | generate_trade_signals | scenario=bear_highvol date=2024-01-22 00:00:00 acct=1000000 risk_pct=0.0200 mult=1.250 max_c=80
+2026-03-28 20:44:00,990 | INFO | option snapshot | trade_date=2024-01-22 00:00:00 underlying=14961.1797 target_exp=2024-02-28 00:00:00 dte_row0=8
+2026-03-28 20:44:01,006 | WARNING | reject spread | strikes too far from spot | S=14961.18 k_buy=18300.0 k_sell=18400.0 opt=call
+2026-03-28 20:44:01,006 | WARNING | vertical spread selection failed | date=2024-01-22 00:00:00 type=call_credit_spread
+2026-03-28 20:44:01,039 | WARNING | rebalance produced no signals | llm_scenario=bear_highvol entry=2024-01-22 00:00:00
+2026-03-28 20:44:01,068 | INFO | week_cycle end | week_pnl=0.00 cum_pnl=0.00 | mtm_days=5 | metrics_cum=0.0
+2026-03-28 20:44:01,069 | INFO | [2024-01-21] REBALANCE | reasons=no_position | scenario=bear_highvol | strategy_type=None
+2026-03-28 20:44:01,069 | INFO | [2024-01-21] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=0.0 | elapsed_cum=8.76s
+2026-03-28 20:44:01,103 | INFO | [04/52] WEEK START | decision_date=2024-01-28 | entry_date=2024-01-29 | exit_date=2024-02-02 | cumulative_offset_before=0.00
+2026-03-28 20:44:01,106 | INFO | [2024-01-28] use cached weekly analysis | week=2024-01-22→2024-01-28 | scenario=bull_highvol
+2026-03-28 20:44:01,106 | INFO | week_cycle begin | decision=2024-01-28 00:00:00 entry=2024-01-29 00:00:00 exit=2024-02-02 00:00:00 | llm_scenario=bull_highvol | cum_pnl_in=0.00 | carry_exec_scenario=bear_highvol carry_strategy=None carry_qty_meta=None
+2026-03-28 20:44:01,107 | INFO | rebalance_decision | need=True reasons=['no_position']
+2026-03-28 20:44:01,107 | INFO | generate_trade_signals | scenario=bull_highvol date=2024-01-29 00:00:00 acct=1000000 risk_pct=0.0200 mult=1.250 max_c=80
+2026-03-28 20:44:02,190 | INFO | option snapshot | trade_date=2024-01-29 00:00:00 underlying=16077.2402 target_exp=2024-02-28 00:00:00 dte_row0=1
+2026-03-28 20:44:02,204 | WARNING | reject spread | leg |delta| out of band [0.14,0.45] | leg=buy |d|=0.000 use_pct=False
+2026-03-28 20:44:02,205 | WARNING | vertical spread selection failed | date=2024-01-29 00:00:00 type=put_credit_spread
+2026-03-28 20:44:02,236 | WARNING | rebalance produced no signals | llm_scenario=bull_highvol entry=2024-01-29 00:00:00
+2026-03-28 20:44:02,259 | INFO | week_cycle end | week_pnl=0.00 cum_pnl=0.00 | mtm_days=5 | metrics_cum=0.0
+2026-03-28 20:44:02,259 | INFO | [2024-01-28] REBALANCE | reasons=no_position | scenario=bull_highvol | strategy_type=None
+2026-03-28 20:44:02,259 | INFO | [2024-01-28] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=Y | cum_pnl=0.0 | elapsed_cum=9.95s
+2026-03-28 20:44:02,284 | INFO | [05/52] WEEK START | decision_date=2024-02-04 | entry_date=2024-02-05 | exit_date=2024-02-09 | cumulative_offset_before=0.00
+2026-03-28 20:44:02,286 | INFO | [2024-02-04] use cached weekly analysis | week=2024-01-29→2024-02-04 | scenario=bear_highvol
+2026-03-28 20:44:02,286 | INFO | week_cycle begin | decision=2024-02-04 00:00:00 entry=2024-02-05 00:00:00 exit=2024-02-09 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=0.00 | carry_exec_scenario=bull_highvol carry_strategy=None carry_qty_meta=None
+2026-03-28 20:44:02,287 | INFO | rebalance_decision | need=True reasons=['no_position']
+2026-03-28 20:44:02,287 | INFO | generate_trade_signals | scenario=bear_highvol date=2024-02-05 00:00:00 acct=1000000 risk_pct=0.0200 mult=1.250 max_c=80
+2026-03-28 20:44:03,316 | INFO | option snapshot | trade_date=2024-02-05 00:00:00 underlying=15510.0098 target_exp=2024-02-28 00:00:00 dte_row0=23
+2026-03-28 20:44:03,331 | WARNING | reject spread | leg |delta| out of band [0.14,0.45] | leg=buy |d|=0.999 use_pct=False
+2026-03-28 20:44:03,332 | WARNING | vertical spread selection failed | date=2024-02-05 00:00:00 type=call_credit_spread
+2026-03-28 20:44:03,428 | WARNING | rebalance produced no signals | llm_scenario=bear_highvol entry=2024-02-05 00:00:00
+2026-03-28 20:44:03,468 | INFO | week_cycle end | week_pnl=0.00 cum_pnl=0.00 | mtm_days=5 | metrics_cum=0.0
+2026-03-28 20:44:03,480 | INFO | [2024-02-04] REBALANCE | reasons=no_position | scenario=bear_highvol | strategy_type=None
+2026-03-28 20:44:03,480 | INFO | [2024-02-04] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=0.0 | elapsed_cum=11.17s
+2026-03-28 20:44:03,509 | INFO | [06/52] WEEK START | decision_date=2024-02-11 | entry_date=2024-02-12 | exit_date=2024-02-16 | cumulative_offset_before=0.00
+2026-03-28 20:44:03,511 | INFO | [2024-02-11] use cached weekly analysis | week=2024-02-05→2024-02-11 | scenario=bull_medianvol
+2026-03-28 20:44:03,512 | INFO | week_cycle begin | decision=2024-02-11 00:00:00 entry=2024-02-12 00:00:00 exit=2024-02-16 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=0.00 | carry_exec_scenario=bear_highvol carry_strategy=None carry_qty_meta=None
+2026-03-28 20:44:03,512 | INFO | rebalance_decision | need=True reasons=['no_position']
+2026-03-28 20:44:03,512 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-02-12 00:00:00 acct=1000000 risk_pct=0.0200 mult=1.250 max_c=80

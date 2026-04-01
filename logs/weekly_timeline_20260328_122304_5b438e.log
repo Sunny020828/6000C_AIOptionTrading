@@ -1,0 +1,750 @@
+2026-03-28 20:23:04,536 | INFO | RUN START | run_id=weekly_timeline_20260328_122304_5b438e | start_date=2024-01-01 | end_date=2024-12-31 | model_name=deepseek-reasoner | account_value=1000000.00 | risk_pct=0.1000 risk_budget_mult=1.250 scenario_rev_th=0.330 intraweek_stop=0.38 delta_limit=160 max_contracts=80 | save_db=True
+2026-03-28 20:23:10,808 | INFO | Weekly windows built | n_windows=52
+2026-03-28 20:23:10,815 | INFO | [01/52] WEEK START | decision_date=2024-01-07 | entry_date=2024-01-08 | exit_date=2024-01-12 | cumulative_offset_before=0.00
+2026-03-28 20:23:10,816 | INFO | WEEKLY PIPELINE START | week_start=2024-01-01 | week_end=2024-01-07 | candidate_limit=250 | max_pick_for_fulltext=35 | model=deepseek-reasoner
+2026-03-28 20:23:10,869 | INFO | candidates fetched=169
+2026-03-28 20:23:11,870 | INFO | llm selected count=0
+2026-03-28 20:23:11,871 | WARNING | [2024-01-07] news_result not ok | status=llm_selected_none | week_start=2024-01-01 | week_end=2024-01-07
+2026-03-28 20:23:11,871 | INFO | [02/52] WEEK START | decision_date=2024-01-14 | entry_date=2024-01-15 | exit_date=2024-01-19 | cumulative_offset_before=0.00
+2026-03-28 20:23:11,873 | INFO | [2024-01-14] use cached weekly analysis | week=2024-01-08→2024-01-14 | scenario=bear_medianvol
+2026-03-28 20:23:11,874 | INFO | week_cycle begin | decision=2024-01-14 00:00:00 entry=2024-01-15 00:00:00 exit=2024-01-19 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=0.00 | carry_exec_scenario=None carry_strategy=None carry_qty_meta=None
+2026-03-28 20:23:11,874 | INFO | rebalance_decision | need=True reasons=['no_position']
+2026-03-28 20:23:11,874 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-01-15 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:12,887 | INFO | option snapshot | trade_date=2024-01-15 00:00:00 underlying=16216.3301 target_exp=2024-02-28 00:00:00 dte_row0=15
+2026-03-28 20:23:12,906 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=3150.0000 | raw_qty=39 -> capped_qty=39 (cap=80)
+2026-03-28 20:23:12,906 | INFO | vertical spread | type=put_debit_spread k_buy=16400.0 k_sell=16300.0 max_loss_pts=63.0000 qty=39
+2026-03-28 20:23:12,938 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 39, 'expiry': Timestamp('2024-02-28 00:00:00'), 'underlying_price': 16216.330078125, 'buy_strike': 16400.0, 'sell_strike': 16300.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:13,388 | INFO | risk_mgmt budget | budget_pts=63.0000 qty=39 $=122850.00 (legacy sum avoided for IC)
+2026-03-28 20:23:13,389 | INFO | risk_mgmt | max_structural_risk=122850.00 stop_pct=0.380 stop_level_pnl=-46683.00 delta_limit=160
+2026-03-28 20:23:15,098 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:15,106 | INFO | week_cycle end | week_pnl=35100.00 cum_pnl=35100.00 | mtm_days=5 | metrics_cum=35100.0
+2026-03-28 20:23:15,107 | INFO | [2024-01-14] REBALANCE | reasons=no_position | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:23:15,107 | INFO | [2024-01-14] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=35100.0 | elapsed_cum=10.57s
+2026-03-28 20:23:15,137 | INFO | [03/52] WEEK START | decision_date=2024-01-21 | entry_date=2024-01-22 | exit_date=2024-01-26 | cumulative_offset_before=35100.00
+2026-03-28 20:23:15,139 | INFO | [2024-01-21] use cached weekly analysis | week=2024-01-15→2024-01-21 | scenario=bear_highvol
+2026-03-28 20:23:15,139 | INFO | week_cycle begin | decision=2024-01-21 00:00:00 entry=2024-01-22 00:00:00 exit=2024-01-26 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=35100.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=39
+2026-03-28 20:23:15,139 | INFO | reversal check | held=bear_medianvol new=bear_highvol | p_bear=0.5000 need>=0.3300 | direction_probs={'bull': 0.2, 'bear': 0.5, 'range': 0.3}
+2026-03-28 20:23:15,140 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:23:15,140 | INFO | generate_trade_signals | scenario=bear_highvol date=2024-01-22 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:16,158 | INFO | option snapshot | trade_date=2024-01-22 00:00:00 underlying=14961.1797 target_exp=2024-02-28 00:00:00 dte_row0=8
+2026-03-28 20:23:16,174 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=5050.0000 | raw_qty=24 -> capped_qty=24 (cap=80)
+2026-03-28 20:23:16,174 | INFO | vertical spread | type=call_credit_spread k_buy=18300.0 k_sell=18400.0 max_loss_pts=101.0000 qty=24
+2026-03-28 20:23:16,206 | INFO | opened/adjusted | strategy_type=call_credit_spread meta={'quantity': 24, 'expiry': Timestamp('2024-02-28 00:00:00'), 'underlying_price': 14961.1796875, 'buy_strike': 18300.0, 'sell_strike': 18400.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:16,684 | INFO | risk_mgmt budget | budget_pts=101.0000 qty=24 $=121200.00 (legacy sum avoided for IC)
+2026-03-28 20:23:16,685 | INFO | risk_mgmt | max_structural_risk=121200.00 stop_pct=0.380 stop_level_pnl=-46056.00 delta_limit=160
+2026-03-28 20:23:18,359 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:18,365 | INFO | week_cycle end | week_pnl=3600.00 cum_pnl=38700.00 | mtm_days=5 | metrics_cum=38700.0
+2026-03-28 20:23:18,366 | INFO | [2024-01-21] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 20:23:18,366 | INFO | [2024-01-21] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=38700.0 | elapsed_cum=13.83s
+2026-03-28 20:23:18,392 | INFO | [04/52] WEEK START | decision_date=2024-01-28 | entry_date=2024-01-29 | exit_date=2024-02-02 | cumulative_offset_before=38700.00
+2026-03-28 20:23:18,394 | INFO | [2024-01-28] use cached weekly analysis | week=2024-01-22→2024-01-28 | scenario=bull_highvol
+2026-03-28 20:23:18,394 | INFO | week_cycle begin | decision=2024-01-28 00:00:00 entry=2024-01-29 00:00:00 exit=2024-02-02 00:00:00 | llm_scenario=bull_highvol | cum_pnl_in=38700.00 | carry_exec_scenario=bear_highvol carry_strategy=call_credit_spread carry_qty_meta=24
+2026-03-28 20:23:18,395 | INFO | reversal check | held=bear_highvol new=bull_highvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.3, 'range': 0.3}
+2026-03-28 20:23:18,395 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:23:18,395 | INFO | generate_trade_signals | scenario=bull_highvol date=2024-01-29 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:19,392 | INFO | option snapshot | trade_date=2024-01-29 00:00:00 underlying=16077.2402 target_exp=2024-02-28 00:00:00 dte_row0=1
+2026-03-28 20:23:19,409 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=9400.0000 | raw_qty=13 -> capped_qty=13 (cap=80)
+2026-03-28 20:23:19,410 | INFO | vertical spread | type=put_credit_spread k_buy=16700.0 k_sell=16600.0 max_loss_pts=188.0000 qty=13
+2026-03-28 20:23:19,443 | INFO | opened/adjusted | strategy_type=put_credit_spread meta={'quantity': 13, 'expiry': Timestamp('2024-02-28 00:00:00'), 'underlying_price': 16077.240234375, 'buy_strike': 16700.0, 'sell_strike': 16600.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:19,896 | INFO | risk_mgmt budget | budget_pts=188.0000 qty=13 $=122200.00 (legacy sum avoided for IC)
+2026-03-28 20:23:19,896 | INFO | risk_mgmt | max_structural_risk=122200.00 stop_pct=0.380 stop_level_pnl=-46436.00 delta_limit=160
+2026-03-28 20:23:21,618 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:21,622 | INFO | week_cycle end | week_pnl=650.00 cum_pnl=39350.00 | mtm_days=5 | metrics_cum=39350.0
+2026-03-28 20:23:21,622 | INFO | [2024-01-28] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_highvol | strategy_type=put_credit_spread
+2026-03-28 20:23:21,623 | INFO | [2024-01-28] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=Y | cum_pnl=39350.0 | elapsed_cum=17.09s
+2026-03-28 20:23:21,649 | INFO | [05/52] WEEK START | decision_date=2024-02-04 | entry_date=2024-02-05 | exit_date=2024-02-09 | cumulative_offset_before=39350.00
+2026-03-28 20:23:21,651 | INFO | [2024-02-04] use cached weekly analysis | week=2024-01-29→2024-02-04 | scenario=bear_highvol
+2026-03-28 20:23:21,651 | INFO | week_cycle begin | decision=2024-02-04 00:00:00 entry=2024-02-05 00:00:00 exit=2024-02-09 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=39350.00 | carry_exec_scenario=bull_highvol carry_strategy=put_credit_spread carry_qty_meta=13
+2026-03-28 20:23:21,651 | INFO | reversal check | held=bull_highvol new=bear_highvol | p_bear=0.6000 need>=0.3300 | direction_probs={'bull': 0.2, 'bear': 0.6, 'range': 0.2}
+2026-03-28 20:23:21,651 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:23:21,651 | INFO | generate_trade_signals | scenario=bear_highvol date=2024-02-05 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:22,617 | INFO | option snapshot | trade_date=2024-02-05 00:00:00 underlying=15510.0098 target_exp=2024-02-28 00:00:00 dte_row0=23
+2026-03-28 20:23:22,632 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=8450.0000 | raw_qty=14 -> capped_qty=14 (cap=80)
+2026-03-28 20:23:22,633 | INFO | vertical spread | type=call_credit_spread k_buy=15200.0 k_sell=15300.0 max_loss_pts=169.0000 qty=14
+2026-03-28 20:23:22,663 | INFO | opened/adjusted | strategy_type=call_credit_spread meta={'quantity': 14, 'expiry': Timestamp('2024-02-28 00:00:00'), 'underlying_price': 15510.009765625, 'buy_strike': 15200.0, 'sell_strike': 15300.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:23,120 | INFO | risk_mgmt budget | budget_pts=169.0000 qty=14 $=118300.00 (legacy sum avoided for IC)
+2026-03-28 20:23:23,121 | INFO | risk_mgmt | max_structural_risk=118300.00 stop_pct=0.380 stop_level_pnl=-44954.00 delta_limit=160
+2026-03-28 20:23:24,859 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:24,864 | INFO | week_cycle end | week_pnl=-12600.00 cum_pnl=26750.00 | mtm_days=5 | metrics_cum=26750.0
+2026-03-28 20:23:24,864 | INFO | [2024-02-04] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 20:23:24,865 | INFO | [2024-02-04] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=26750.0 | elapsed_cum=20.33s
+2026-03-28 20:23:24,895 | INFO | [06/52] WEEK START | decision_date=2024-02-11 | entry_date=2024-02-12 | exit_date=2024-02-16 | cumulative_offset_before=26750.00
+2026-03-28 20:23:24,897 | INFO | [2024-02-11] use cached weekly analysis | week=2024-02-05→2024-02-11 | scenario=bull_medianvol
+2026-03-28 20:23:24,898 | INFO | week_cycle begin | decision=2024-02-11 00:00:00 entry=2024-02-12 00:00:00 exit=2024-02-16 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=26750.00 | carry_exec_scenario=bear_highvol carry_strategy=call_credit_spread carry_qty_meta=14
+2026-03-28 20:23:24,898 | INFO | reversal check | held=bear_highvol new=bull_medianvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.35, 'range': 0.25}
+2026-03-28 20:23:24,899 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:23:24,899 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-02-12 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:26,004 | INFO | option snapshot | trade_date=2024-02-14 00:00:00 underlying=15879.3799 target_exp=2024-03-27 00:00:00 dte_row0=14
+2026-03-28 20:23:26,029 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2550.0000 | raw_qty=49 -> capped_qty=49 (cap=80)
+2026-03-28 20:23:26,029 | INFO | vertical spread | type=call_debit_spread k_buy=15800.0 k_sell=15900.0 max_loss_pts=51.0000 qty=49
+2026-03-28 20:23:26,063 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 49, 'expiry': Timestamp('2024-03-27 00:00:00'), 'underlying_price': 15879.3798828125, 'buy_strike': 15800.0, 'sell_strike': 15900.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:26,710 | INFO | risk_mgmt budget | budget_pts=51.0000 qty=49 $=124950.00 (legacy sum avoided for IC)
+2026-03-28 20:23:26,711 | INFO | risk_mgmt | max_structural_risk=124950.00 stop_pct=0.380 stop_level_pnl=-47481.00 delta_limit=160
+2026-03-28 20:23:28,789 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:28,794 | INFO | week_cycle end | week_pnl=31850.00 cum_pnl=58600.00 | mtm_days=5 | metrics_cum=58600.0
+2026-03-28 20:23:28,794 | INFO | [2024-02-11] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:23:28,795 | INFO | [2024-02-11] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=58600.0 | elapsed_cum=24.26s
+2026-03-28 20:23:28,820 | INFO | [07/52] WEEK START | decision_date=2024-02-18 | entry_date=2024-02-19 | exit_date=2024-02-23 | cumulative_offset_before=58600.00
+2026-03-28 20:23:28,821 | INFO | [2024-02-18] use cached weekly analysis | week=2024-02-12→2024-02-18 | scenario=range_highvol
+2026-03-28 20:23:28,822 | INFO | week_cycle begin | decision=2024-02-18 00:00:00 entry=2024-02-19 00:00:00 exit=2024-02-23 00:00:00 | llm_scenario=range_highvol | cum_pnl_in=58600.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=49
+2026-03-28 20:23:28,822 | INFO | reversal check | held=bull_medianvol new=range_highvol | p_range=0.4000 need>=0.3300 | direction_probs={'bull': 0.25, 'bear': 0.35, 'range': 0.4}
+2026-03-28 20:23:28,823 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:23:28,823 | INFO | generate_trade_signals | scenario=range_highvol date=2024-02-19 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:29,835 | INFO | option snapshot | trade_date=2024-02-19 00:00:00 underlying=16155.6104 target_exp=2024-03-27 00:00:00 dte_row0=9
+2026-03-28 20:23:29,874 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=9214.0000 | raw_qty=13 -> capped_qty=13 (cap=80)
+2026-03-28 20:23:29,874 | INFO | iron_condor sized | put_ml=146.0000 call_ml=158.0000 naive_sum_pts=304.0000 budget_pts=184.2800 | $/contract=9214.00 qty=13 (sum would be $15200.00 /contract)
+2026-03-28 20:23:29,904 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 13, 'expiry': Timestamp('2024-03-27 00:00:00'), 'underlying_price': 16155.6103515625, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 15900.0, 'call_sell_strike': 15900.0}
+2026-03-28 20:23:30,531 | INFO | risk_mgmt budget | budget_pts=184.2800 qty=13 $=119782.00 (legacy sum avoided for IC)
+2026-03-28 20:23:30,532 | INFO | risk_mgmt | max_structural_risk=119782.00 stop_pct=0.380 stop_level_pnl=-45517.16 delta_limit=160
+2026-03-28 20:23:32,750 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:32,756 | INFO | week_cycle end | week_pnl=3250.00 cum_pnl=61850.00 | mtm_days=5 | metrics_cum=61850.0
+2026-03-28 20:23:32,757 | INFO | [2024-02-18] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 20:23:32,757 | INFO | [2024-02-18] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=61850.0 | elapsed_cum=28.22s
+2026-03-28 20:23:32,783 | INFO | [08/52] WEEK START | decision_date=2024-02-25 | entry_date=2024-02-26 | exit_date=2024-03-01 | cumulative_offset_before=61850.00
+2026-03-28 20:23:32,785 | INFO | [2024-02-25] use cached weekly analysis | week=2024-02-19→2024-02-25 | scenario=bull_medianvol
+2026-03-28 20:23:32,786 | INFO | week_cycle begin | decision=2024-02-25 00:00:00 entry=2024-02-26 00:00:00 exit=2024-03-01 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=61850.00 | carry_exec_scenario=range_highvol carry_strategy=iron_condor carry_qty_meta=13
+2026-03-28 20:23:32,786 | INFO | reversal check | held=range_highvol new=bull_medianvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.3, 'range': 0.3}
+2026-03-28 20:23:32,787 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:23:32,787 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-02-26 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:33,760 | INFO | option snapshot | trade_date=2024-02-26 00:00:00 underlying=16634.7402 target_exp=2024-03-27 00:00:00 dte_row0=2
+2026-03-28 20:23:33,775 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=3250.0000 | raw_qty=38 -> capped_qty=38 (cap=80)
+2026-03-28 20:23:33,775 | INFO | vertical spread | type=call_debit_spread k_buy=16100.0 k_sell=16200.0 max_loss_pts=65.0000 qty=38
+2026-03-28 20:23:33,805 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 38, 'expiry': Timestamp('2024-03-27 00:00:00'), 'underlying_price': 16634.740234375, 'buy_strike': 16100.0, 'sell_strike': 16200.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:34,305 | INFO | risk_mgmt budget | budget_pts=65.0000 qty=38 $=123500.00 (legacy sum avoided for IC)
+2026-03-28 20:23:34,306 | INFO | risk_mgmt | max_structural_risk=123500.00 stop_pct=0.380 stop_level_pnl=-46930.00 delta_limit=160
+2026-03-28 20:23:35,912 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:35,916 | INFO | week_cycle end | week_pnl=-1900.00 cum_pnl=59950.00 | mtm_days=5 | metrics_cum=59950.0
+2026-03-28 20:23:35,917 | INFO | [2024-02-25] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:23:35,917 | INFO | [2024-02-25] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=59950.0 | elapsed_cum=31.38s
+2026-03-28 20:23:35,941 | INFO | [09/52] WEEK START | decision_date=2024-03-03 | entry_date=2024-03-04 | exit_date=2024-03-08 | cumulative_offset_before=59950.00
+2026-03-28 20:23:35,942 | INFO | [2024-03-03] use cached weekly analysis | week=2024-02-26→2024-03-03 | scenario=bull_medianvol
+2026-03-28 20:23:35,943 | INFO | week_cycle begin | decision=2024-03-03 00:00:00 entry=2024-03-04 00:00:00 exit=2024-03-08 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=59950.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=38
+2026-03-28 20:23:35,943 | INFO | same_scenario roll | dte=23 threshold<=10 | expiry=2024-03-27 00:00:00
+2026-03-28 20:23:35,944 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:23:35,944 | INFO | carry forward | still bull_medianvol | signal_open_meta_date=2024-02-26 00:00:00 strikes={'buy_strike': 16100.0, 'sell_strike': 16200.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=38
+2026-03-28 20:23:36,428 | INFO | risk_mgmt budget | budget_pts=65.0000 qty=38 $=123500.00 (legacy sum avoided for IC)
+2026-03-28 20:23:36,459 | INFO | risk_mgmt | max_structural_risk=123500.00 stop_pct=0.380 stop_level_pnl=-46930.00 delta_limit=160
+2026-03-28 20:23:38,235 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:38,239 | INFO | week_cycle end | week_pnl=-13300.00 cum_pnl=46650.00 | mtm_days=5 | metrics_cum=46650.0
+2026-03-28 20:23:38,240 | INFO | [2024-03-03] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=46650.0 | elapsed_cum=33.70s
+2026-03-28 20:23:38,266 | INFO | [10/52] WEEK START | decision_date=2024-03-10 | entry_date=2024-03-11 | exit_date=2024-03-15 | cumulative_offset_before=46650.00
+2026-03-28 20:23:38,268 | INFO | [2024-03-10] use cached weekly analysis | week=2024-03-04→2024-03-10 | scenario=bear_medianvol
+2026-03-28 20:23:38,268 | INFO | week_cycle begin | decision=2024-03-10 00:00:00 entry=2024-03-11 00:00:00 exit=2024-03-15 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=46650.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=38
+2026-03-28 20:23:38,268 | INFO | reversal check | held=bull_medianvol new=bear_medianvol | p_bear=0.3500 need>=0.3300 | direction_probs={'bull': 0.35, 'bear': 0.35, 'range': 0.3}
+2026-03-28 20:23:38,269 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:23:38,269 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-03-11 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:39,351 | INFO | option snapshot | trade_date=2024-03-11 00:00:00 underlying=16587.5703 target_exp=2024-04-29 00:00:00 dte_row0=16
+2026-03-28 20:23:39,375 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2550.0000 | raw_qty=49 -> capped_qty=49 (cap=80)
+2026-03-28 20:23:39,377 | INFO | vertical spread | type=put_debit_spread k_buy=16700.0 k_sell=16600.0 max_loss_pts=51.0000 qty=49
+2026-03-28 20:23:39,411 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 49, 'expiry': Timestamp('2024-04-29 00:00:00'), 'underlying_price': 16587.5703125, 'buy_strike': 16700.0, 'sell_strike': 16600.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:39,859 | INFO | risk_mgmt budget | budget_pts=51.0000 qty=49 $=124950.00 (legacy sum avoided for IC)
+2026-03-28 20:23:39,860 | INFO | risk_mgmt | max_structural_risk=124950.00 stop_pct=0.380 stop_level_pnl=-47481.00 delta_limit=160
+2026-03-28 20:23:41,569 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:41,575 | INFO | week_cycle end | week_pnl=-9800.00 cum_pnl=36850.00 | mtm_days=5 | metrics_cum=36850.0
+2026-03-28 20:23:41,575 | INFO | [2024-03-10] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:23:41,575 | INFO | [2024-03-10] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=36850.0 | elapsed_cum=37.04s
+2026-03-28 20:23:41,601 | INFO | [11/52] WEEK START | decision_date=2024-03-17 | entry_date=2024-03-18 | exit_date=2024-03-22 | cumulative_offset_before=36850.00
+2026-03-28 20:23:41,603 | INFO | [2024-03-17] use cached weekly analysis | week=2024-03-11→2024-03-17 | scenario=bull_medianvol
+2026-03-28 20:23:41,603 | INFO | week_cycle begin | decision=2024-03-17 00:00:00 entry=2024-03-18 00:00:00 exit=2024-03-22 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=36850.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=49
+2026-03-28 20:23:41,603 | INFO | reversal check | held=bear_medianvol new=bull_medianvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.3, 'range': 0.3}
+2026-03-28 20:23:41,604 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:23:41,604 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-03-18 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:42,548 | INFO | option snapshot | trade_date=2024-03-18 00:00:00 underlying=16737.1191 target_exp=2024-04-29 00:00:00 dte_row0=9
+2026-03-28 20:23:42,563 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2700.0000 | raw_qty=46 -> capped_qty=46 (cap=80)
+2026-03-28 20:23:42,564 | INFO | vertical spread | type=call_debit_spread k_buy=16600.0 k_sell=16700.0 max_loss_pts=54.0000 qty=46
+2026-03-28 20:23:42,593 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 46, 'expiry': Timestamp('2024-04-29 00:00:00'), 'underlying_price': 16737.119140625, 'buy_strike': 16600.0, 'sell_strike': 16700.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:43,030 | INFO | risk_mgmt budget | budget_pts=54.0000 qty=46 $=124200.00 (legacy sum avoided for IC)
+2026-03-28 20:23:43,030 | INFO | risk_mgmt | max_structural_risk=124200.00 stop_pct=0.380 stop_level_pnl=-47196.00 delta_limit=160
+2026-03-28 20:23:44,728 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:44,733 | INFO | week_cycle end | week_pnl=-34500.00 cum_pnl=2350.00 | mtm_days=5 | metrics_cum=2350.0
+2026-03-28 20:23:44,736 | INFO | [2024-03-17] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:23:44,736 | INFO | [2024-03-17] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=2350.0 | elapsed_cum=40.20s
+2026-03-28 20:23:44,759 | INFO | [12/52] WEEK START | decision_date=2024-03-24 | entry_date=2024-03-25 | exit_date=2024-03-29 | cumulative_offset_before=2350.00
+2026-03-28 20:23:44,761 | INFO | [2024-03-24] use cached weekly analysis | week=2024-03-18→2024-03-24 | scenario=bull_medianvol
+2026-03-28 20:23:44,761 | INFO | week_cycle begin | decision=2024-03-24 00:00:00 entry=2024-03-25 00:00:00 exit=2024-03-29 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=2350.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=46
+2026-03-28 20:23:44,761 | INFO | same_scenario roll | dte=35 threshold<=10 | expiry=2024-04-29 00:00:00
+2026-03-28 20:23:44,762 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:23:44,762 | INFO | carry forward | still bull_medianvol | signal_open_meta_date=2024-03-18 00:00:00 strikes={'buy_strike': 16600.0, 'sell_strike': 16700.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=46
+2026-03-28 20:23:45,203 | INFO | risk_mgmt budget | budget_pts=54.0000 qty=46 $=124200.00 (legacy sum avoided for IC)
+2026-03-28 20:23:45,203 | INFO | risk_mgmt | max_structural_risk=124200.00 stop_pct=0.380 stop_level_pnl=-47196.00 delta_limit=160
+2026-03-28 20:23:46,893 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:46,898 | INFO | week_cycle end | week_pnl=9200.00 cum_pnl=11550.00 | mtm_days=5 | metrics_cum=11550.0
+2026-03-28 20:23:46,898 | INFO | [2024-03-24] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=11550.0 | elapsed_cum=42.36s
+2026-03-28 20:23:46,920 | INFO | [13/52] WEEK START | decision_date=2024-03-31 | entry_date=2024-04-01 | exit_date=2024-04-05 | cumulative_offset_before=11550.00
+2026-03-28 20:23:46,922 | INFO | [2024-03-31] use cached weekly analysis | week=2024-03-25→2024-03-31 | scenario=bear_medianvol
+2026-03-28 20:23:46,923 | INFO | week_cycle begin | decision=2024-03-31 00:00:00 entry=2024-04-01 00:00:00 exit=2024-04-05 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=11550.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=46
+2026-03-28 20:23:46,923 | INFO | reversal check | held=bull_medianvol new=bear_medianvol | p_bear=0.5000 need>=0.3300 | direction_probs={'bull': 0.2, 'bear': 0.5, 'range': 0.3}
+2026-03-28 20:23:46,923 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:23:46,924 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-04-01 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:47,911 | INFO | option snapshot | trade_date=2024-04-02 00:00:00 underlying=16931.5195 target_exp=2024-04-29 00:00:00 dte_row0=27
+2026-03-28 20:23:47,940 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2600.0000 | raw_qty=48 -> capped_qty=48 (cap=80)
+2026-03-28 20:23:47,941 | INFO | vertical spread | type=put_debit_spread k_buy=16900.0 k_sell=16800.0 max_loss_pts=52.0000 qty=48
+2026-03-28 20:23:47,970 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 48, 'expiry': Timestamp('2024-04-29 00:00:00'), 'underlying_price': 16931.51953125, 'buy_strike': 16900.0, 'sell_strike': 16800.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:48,429 | INFO | risk_mgmt budget | budget_pts=52.0000 qty=48 $=124800.00 (legacy sum avoided for IC)
+2026-03-28 20:23:48,430 | INFO | risk_mgmt | max_structural_risk=124800.00 stop_pct=0.380 stop_level_pnl=-47424.00 delta_limit=160
+2026-03-28 20:23:50,271 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:50,275 | INFO | week_cycle end | week_pnl=7200.00 cum_pnl=18750.00 | mtm_days=5 | metrics_cum=18750.0
+2026-03-28 20:23:50,276 | INFO | [2024-03-31] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:23:50,277 | INFO | [2024-03-31] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=18750.0 | elapsed_cum=45.74s
+2026-03-28 20:23:50,300 | INFO | [14/52] WEEK START | decision_date=2024-04-07 | entry_date=2024-04-08 | exit_date=2024-04-12 | cumulative_offset_before=18750.00
+2026-03-28 20:23:50,302 | INFO | WEEKLY PIPELINE START | week_start=2024-04-01 | week_end=2024-04-07 | candidate_limit=250 | max_pick_for_fulltext=35 | model=deepseek-reasoner
+2026-03-28 20:23:50,327 | INFO | candidates fetched=163
+2026-03-28 20:23:51,047 | INFO | llm selected count=0
+2026-03-28 20:23:51,048 | WARNING | [2024-04-07] news_result not ok | status=llm_selected_none | week_start=2024-04-01 | week_end=2024-04-07
+2026-03-28 20:23:51,049 | INFO | [15/52] WEEK START | decision_date=2024-04-14 | entry_date=2024-04-15 | exit_date=2024-04-19 | cumulative_offset_before=18750.00
+2026-03-28 20:23:51,051 | INFO | [2024-04-14] use cached weekly analysis | week=2024-04-08→2024-04-14 | scenario=bear_medianvol
+2026-03-28 20:23:51,052 | INFO | week_cycle begin | decision=2024-04-14 00:00:00 entry=2024-04-15 00:00:00 exit=2024-04-19 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=18750.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=48
+2026-03-28 20:23:51,052 | INFO | same_scenario roll | dte=14 threshold<=10 | expiry=2024-04-29 00:00:00
+2026-03-28 20:23:51,053 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:23:51,053 | INFO | carry forward | still bear_medianvol | signal_open_meta_date=2024-04-01 00:00:00 strikes={'buy_strike': 16900.0, 'sell_strike': 16800.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=48
+2026-03-28 20:23:51,532 | INFO | risk_mgmt budget | budget_pts=52.0000 qty=48 $=124800.00 (legacy sum avoided for IC)
+2026-03-28 20:23:51,532 | INFO | risk_mgmt | max_structural_risk=124800.00 stop_pct=0.380 stop_level_pnl=-47424.00 delta_limit=160
+2026-03-28 20:23:53,388 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:53,393 | INFO | week_cycle end | week_pnl=76800.00 cum_pnl=95550.00 | mtm_days=5 | metrics_cum=95550.0
+2026-03-28 20:23:53,394 | INFO | [2024-04-14] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=95550.0 | elapsed_cum=48.86s
+2026-03-28 20:23:53,425 | INFO | [16/52] WEEK START | decision_date=2024-04-21 | entry_date=2024-04-22 | exit_date=2024-04-26 | cumulative_offset_before=95550.00
+2026-03-28 20:23:53,427 | INFO | [2024-04-21] use cached weekly analysis | week=2024-04-15→2024-04-21 | scenario=range_highvol
+2026-03-28 20:23:53,427 | INFO | week_cycle begin | decision=2024-04-21 00:00:00 entry=2024-04-22 00:00:00 exit=2024-04-26 00:00:00 | llm_scenario=range_highvol | cum_pnl_in=95550.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=48
+2026-03-28 20:23:53,428 | INFO | reversal check | held=bear_medianvol new=range_highvol | p_range=0.5000 need>=0.3300 | direction_probs={'bull': 0.2, 'bear': 0.3, 'range': 0.5}
+2026-03-28 20:23:53,428 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:23:53,428 | INFO | generate_trade_signals | scenario=range_highvol date=2024-04-22 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:54,442 | INFO | option snapshot | trade_date=2024-04-22 00:00:00 underlying=16511.6895 target_exp=2024-05-30 00:00:00 dte_row0=7
+2026-03-28 20:23:54,486 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=10459.0000 | raw_qty=11 -> capped_qty=11 (cap=80)
+2026-03-28 20:23:54,487 | INFO | iron_condor sized | put_ml=191.0000 call_ml=101.0000 naive_sum_pts=292.0000 budget_pts=209.1800 | $/contract=10459.00 qty=11 (sum would be $14600.00 /contract)
+2026-03-28 20:23:54,525 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 11, 'expiry': Timestamp('2024-05-30 00:00:00'), 'underlying_price': 16511.689453125, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 17400.0, 'call_sell_strike': 19900.0}
+2026-03-28 20:23:55,086 | INFO | risk_mgmt budget | budget_pts=209.1800 qty=11 $=115049.00 (legacy sum avoided for IC)
+2026-03-28 20:23:55,086 | INFO | risk_mgmt | max_structural_risk=115049.00 stop_pct=0.380 stop_level_pnl=-43718.62 delta_limit=160
+2026-03-28 20:23:58,134 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:23:58,139 | INFO | week_cycle end | week_pnl=-23650.00 cum_pnl=71900.00 | mtm_days=5 | metrics_cum=71900.0
+2026-03-28 20:23:58,140 | INFO | [2024-04-21] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 20:23:58,140 | INFO | [2024-04-21] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=71900.0 | elapsed_cum=53.60s
+2026-03-28 20:23:58,168 | INFO | [17/52] WEEK START | decision_date=2024-04-28 | entry_date=2024-04-29 | exit_date=2024-05-03 | cumulative_offset_before=71900.00
+2026-03-28 20:23:58,170 | INFO | [2024-04-28] use cached weekly analysis | week=2024-04-22→2024-04-28 | scenario=bull_medianvol
+2026-03-28 20:23:58,170 | INFO | week_cycle begin | decision=2024-04-28 00:00:00 entry=2024-04-29 00:00:00 exit=2024-05-03 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=71900.00 | carry_exec_scenario=range_highvol carry_strategy=iron_condor carry_qty_meta=11
+2026-03-28 20:23:58,171 | INFO | reversal check | held=range_highvol new=bull_medianvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.3, 'range': 0.3}
+2026-03-28 20:23:58,171 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:23:58,172 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-04-29 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:23:59,223 | INFO | day_data dte filter | dropped_zero_or_nan_dte rows=2043 -> 1873
+2026-03-28 20:23:59,225 | INFO | option snapshot | trade_date=2024-04-29 00:00:00 underlying=17746.9102 target_exp=2024-05-30 00:00:00 dte_row0=31
+2026-03-28 20:23:59,244 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=3250.0000 | raw_qty=38 -> capped_qty=38 (cap=80)
+2026-03-28 20:23:59,245 | INFO | vertical spread | type=call_debit_spread k_buy=17400.0 k_sell=17500.0 max_loss_pts=65.0000 qty=38
+2026-03-28 20:23:59,276 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 38, 'expiry': Timestamp('2024-05-30 00:00:00'), 'underlying_price': 17746.91015625, 'buy_strike': 17400.0, 'sell_strike': 17500.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:23:59,742 | INFO | risk_mgmt budget | budget_pts=65.0000 qty=38 $=123500.00 (legacy sum avoided for IC)
+2026-03-28 20:23:59,742 | INFO | risk_mgmt | max_structural_risk=123500.00 stop_pct=0.380 stop_level_pnl=-46930.00 delta_limit=160
+2026-03-28 20:24:01,688 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:01,693 | INFO | week_cycle end | week_pnl=41800.00 cum_pnl=113700.00 | mtm_days=5 | metrics_cum=113700.0
+2026-03-28 20:24:01,693 | INFO | [2024-04-28] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:24:01,694 | INFO | [2024-04-28] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=113700.0 | elapsed_cum=57.16s
+2026-03-28 20:24:01,717 | INFO | [18/52] WEEK START | decision_date=2024-05-05 | entry_date=2024-05-06 | exit_date=2024-05-10 | cumulative_offset_before=113700.00
+2026-03-28 20:24:01,719 | INFO | [2024-05-05] use cached weekly analysis | week=2024-04-29→2024-05-05 | scenario=bull_medianvol
+2026-03-28 20:24:01,719 | INFO | week_cycle begin | decision=2024-05-05 00:00:00 entry=2024-05-06 00:00:00 exit=2024-05-10 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=113700.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=38
+2026-03-28 20:24:01,720 | INFO | same_scenario roll | dte=24 threshold<=10 | expiry=2024-05-30 00:00:00
+2026-03-28 20:24:01,720 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:24:01,720 | INFO | carry forward | still bull_medianvol | signal_open_meta_date=2024-04-29 00:00:00 strikes={'buy_strike': 17400.0, 'sell_strike': 17500.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=38
+2026-03-28 20:24:02,144 | INFO | risk_mgmt budget | budget_pts=65.0000 qty=38 $=123500.00 (legacy sum avoided for IC)
+2026-03-28 20:24:02,145 | INFO | risk_mgmt | max_structural_risk=123500.00 stop_pct=0.380 stop_level_pnl=-46930.00 delta_limit=160
+2026-03-28 20:24:03,764 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:03,770 | INFO | week_cycle end | week_pnl=5700.00 cum_pnl=119400.00 | mtm_days=5 | metrics_cum=119400.0
+2026-03-28 20:24:03,771 | INFO | [2024-05-05] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=119400.0 | elapsed_cum=59.24s
+2026-03-28 20:24:03,798 | INFO | [19/52] WEEK START | decision_date=2024-05-12 | entry_date=2024-05-13 | exit_date=2024-05-17 | cumulative_offset_before=119400.00
+2026-03-28 20:24:03,801 | INFO | [2024-05-12] use cached weekly analysis | week=2024-05-06→2024-05-12 | scenario=bull_medianvol
+2026-03-28 20:24:03,801 | INFO | week_cycle begin | decision=2024-05-12 00:00:00 entry=2024-05-13 00:00:00 exit=2024-05-17 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=119400.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=38
+2026-03-28 20:24:03,802 | INFO | same_scenario roll | dte=17 threshold<=10 | expiry=2024-05-30 00:00:00
+2026-03-28 20:24:03,802 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:24:03,802 | INFO | carry forward | still bull_medianvol | signal_open_meta_date=2024-04-29 00:00:00 strikes={'buy_strike': 17400.0, 'sell_strike': 17500.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=38
+2026-03-28 20:24:04,353 | INFO | risk_mgmt budget | budget_pts=65.0000 qty=38 $=123500.00 (legacy sum avoided for IC)
+2026-03-28 20:24:04,354 | INFO | risk_mgmt | max_structural_risk=123500.00 stop_pct=0.380 stop_level_pnl=-46930.00 delta_limit=160
+2026-03-28 20:24:06,187 | WARNING | risk_mgmt DELTA_BREACH | date=2024-05-17 00:00:00 net_delta=-1898.8 limit=160.0
+2026-03-28 20:24:06,188 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=DELTA_BREACH(-1898)
+2026-03-28 20:24:06,193 | INFO | week_cycle end | week_pnl=-20900.00 cum_pnl=98500.00 | mtm_days=5 | metrics_cum=98500.0
+2026-03-28 20:24:06,193 | INFO | [2024-05-12] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=98500.0 | elapsed_cum=61.66s
+2026-03-28 20:24:06,220 | INFO | [20/52] WEEK START | decision_date=2024-05-19 | entry_date=2024-05-20 | exit_date=2024-05-24 | cumulative_offset_before=98500.00
+2026-03-28 20:24:06,222 | INFO | [2024-05-19] use cached weekly analysis | week=2024-05-13→2024-05-19 | scenario=bull_medianvol
+2026-03-28 20:24:06,223 | INFO | week_cycle begin | decision=2024-05-19 00:00:00 entry=2024-05-20 00:00:00 exit=2024-05-24 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=98500.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=38
+2026-03-28 20:24:06,223 | INFO | same_scenario roll | dte=10 threshold<=10 | expiry=2024-05-30 00:00:00
+2026-03-28 20:24:06,223 | INFO | rebalance_decision | need=True reasons=['dte_le_10']
+2026-03-28 20:24:06,224 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-05-20 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:07,238 | INFO | option snapshot | trade_date=2024-05-20 00:00:00 underlying=19636.2207 target_exp=2024-06-27 00:00:00 dte_row0=10
+2026-03-28 20:24:07,253 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=6000.0000 | raw_qty=20 -> capped_qty=20 (cap=80)
+2026-03-28 20:24:07,254 | INFO | vertical spread | type=call_debit_spread k_buy=18000.0 k_sell=18100.0 max_loss_pts=120.0000 qty=20
+2026-03-28 20:24:07,283 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 20, 'expiry': Timestamp('2024-06-27 00:00:00'), 'underlying_price': 19636.220703125, 'buy_strike': 18000.0, 'sell_strike': 18100.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:07,793 | INFO | risk_mgmt budget | budget_pts=120.0000 qty=20 $=120000.00 (legacy sum avoided for IC)
+2026-03-28 20:24:07,793 | INFO | risk_mgmt | max_structural_risk=120000.00 stop_pct=0.380 stop_level_pnl=-45600.00 delta_limit=160
+2026-03-28 20:24:08,860 | WARNING | risk_mgmt STOP_LOSS | date=2024-05-23 00:00:00 mtm_pnl=-52000.00 threshold=-45600.00
+2026-03-28 20:24:08,861 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:24:08,943 | INFO | week_cycle end | week_pnl=-52000.00 cum_pnl=46500.00 | mtm_days=5 | metrics_cum=46500.0
+2026-03-28 20:24:08,943 | INFO | [2024-05-19] REBALANCE | reasons=dte_le_10 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:24:08,944 | INFO | [2024-05-19] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=46500.0 | elapsed_cum=64.41s
+2026-03-28 20:24:08,969 | INFO | [21/52] WEEK START | decision_date=2024-05-26 | entry_date=2024-05-27 | exit_date=2024-05-31 | cumulative_offset_before=46500.00
+2026-03-28 20:24:08,972 | INFO | [2024-05-26] use cached weekly analysis | week=2024-05-20→2024-05-26 | scenario=bear_medianvol
+2026-03-28 20:24:08,972 | INFO | week_cycle begin | decision=2024-05-26 00:00:00 entry=2024-05-27 00:00:00 exit=2024-05-31 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=46500.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=20
+2026-03-28 20:24:08,973 | INFO | reversal check | held=bull_medianvol new=bear_medianvol | p_bear=0.4000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.4, 'range': 0.3}
+2026-03-28 20:24:08,973 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:24:08,973 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-05-27 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:10,120 | INFO | option snapshot | trade_date=2024-05-27 00:00:00 underlying=18827.3496 target_exp=2024-06-27 00:00:00 dte_row0=3
+2026-03-28 20:24:10,142 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2700.0000 | raw_qty=46 -> capped_qty=46 (cap=80)
+2026-03-28 20:24:10,143 | INFO | vertical spread | type=put_debit_spread k_buy=18800.0 k_sell=18700.0 max_loss_pts=54.0000 qty=46
+2026-03-28 20:24:10,174 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 46, 'expiry': Timestamp('2024-06-27 00:00:00'), 'underlying_price': 18827.349609375, 'buy_strike': 18800.0, 'sell_strike': 18700.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:10,700 | INFO | risk_mgmt budget | budget_pts=54.0000 qty=46 $=124200.00 (legacy sum avoided for IC)
+2026-03-28 20:24:10,701 | INFO | risk_mgmt | max_structural_risk=124200.00 stop_pct=0.380 stop_level_pnl=-47196.00 delta_limit=160
+2026-03-28 20:24:12,402 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:12,407 | INFO | week_cycle end | week_pnl=73600.00 cum_pnl=120100.00 | mtm_days=5 | metrics_cum=120100.0
+2026-03-28 20:24:12,407 | INFO | [2024-05-26] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:24:12,407 | INFO | [2024-05-26] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=120100.0 | elapsed_cum=67.87s
+2026-03-28 20:24:12,432 | INFO | [22/52] WEEK START | decision_date=2024-06-02 | entry_date=2024-06-03 | exit_date=2024-06-07 | cumulative_offset_before=120100.00
+2026-03-28 20:24:12,434 | INFO | [2024-06-02] use cached weekly analysis | week=2024-05-27→2024-06-02 | scenario=range_medianvol
+2026-03-28 20:24:12,434 | INFO | week_cycle begin | decision=2024-06-02 00:00:00 entry=2024-06-03 00:00:00 exit=2024-06-07 00:00:00 | llm_scenario=range_medianvol | cum_pnl_in=120100.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=46
+2026-03-28 20:24:12,434 | INFO | reversal check | held=bear_medianvol new=range_medianvol | p_range=0.4000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.3, 'range': 0.4}
+2026-03-28 20:24:12,435 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:24:12,435 | INFO | generate_trade_signals | scenario=range_medianvol date=2024-06-03 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:13,565 | INFO | option snapshot | trade_date=2024-06-03 00:00:00 underlying=18403.0391 target_exp=2024-06-27 00:00:00 dte_row0=24
+2026-03-28 20:24:13,601 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=11551.0000 | raw_qty=10 -> capped_qty=10 (cap=80)
+2026-03-28 20:24:13,602 | INFO | iron_condor sized | put_ml=189.0000 call_ml=197.0000 naive_sum_pts=386.0000 budget_pts=231.0200 | $/contract=11551.00 qty=10 (sum would be $19300.00 /contract)
+2026-03-28 20:24:13,630 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 10, 'expiry': Timestamp('2024-06-27 00:00:00'), 'underlying_price': 18403.0390625, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 18700.0, 'call_sell_strike': 17800.0}
+2026-03-28 20:24:14,216 | INFO | risk_mgmt budget | budget_pts=231.0200 qty=10 $=115510.00 (legacy sum avoided for IC)
+2026-03-28 20:24:14,218 | INFO | risk_mgmt | max_structural_risk=115510.00 stop_pct=0.380 stop_level_pnl=-43893.80 delta_limit=160
+2026-03-28 20:24:16,634 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:16,639 | INFO | week_cycle end | week_pnl=-16500.00 cum_pnl=103600.00 | mtm_days=5 | metrics_cum=103600.0
+2026-03-28 20:24:16,640 | INFO | [2024-06-02] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 20:24:16,640 | INFO | [2024-06-02] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=103600.0 | elapsed_cum=72.10s
+2026-03-28 20:24:16,668 | INFO | [23/52] WEEK START | decision_date=2024-06-09 | entry_date=2024-06-10 | exit_date=2024-06-14 | cumulative_offset_before=103600.00
+2026-03-28 20:24:16,670 | INFO | [2024-06-09] use cached weekly analysis | week=2024-06-03→2024-06-09 | scenario=range_medianvol
+2026-03-28 20:24:16,670 | INFO | week_cycle begin | decision=2024-06-09 00:00:00 entry=2024-06-10 00:00:00 exit=2024-06-14 00:00:00 | llm_scenario=range_medianvol | cum_pnl_in=103600.00 | carry_exec_scenario=range_medianvol carry_strategy=iron_condor carry_qty_meta=10
+2026-03-28 20:24:16,671 | INFO | same_scenario roll | dte=17 threshold<=10 | expiry=2024-06-27 00:00:00
+2026-03-28 20:24:16,671 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:24:16,671 | INFO | carry forward | still range_medianvol | signal_open_meta_date=2024-06-03 00:00:00 strikes={'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 18700.0, 'call_sell_strike': 17800.0} qty=10
+2026-03-28 20:24:17,274 | INFO | risk_mgmt budget | budget_pts=231.0200 qty=10 $=115510.00 (legacy sum avoided for IC)
+2026-03-28 20:24:17,274 | INFO | risk_mgmt | max_structural_risk=115510.00 stop_pct=0.380 stop_level_pnl=-43893.80 delta_limit=160
+2026-03-28 20:24:19,614 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:19,619 | INFO | week_cycle end | week_pnl=-500.00 cum_pnl=103100.00 | mtm_days=5 | metrics_cum=103100.0
+2026-03-28 20:24:19,620 | INFO | [2024-06-09] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=N | cum_pnl=103100.0 | elapsed_cum=75.08s
+2026-03-28 20:24:19,644 | INFO | [24/52] WEEK START | decision_date=2024-06-16 | entry_date=2024-06-17 | exit_date=2024-06-21 | cumulative_offset_before=103100.00
+2026-03-28 20:24:19,645 | INFO | [2024-06-16] use cached weekly analysis | week=2024-06-10→2024-06-16 | scenario=bear_medianvol
+2026-03-28 20:24:19,646 | INFO | week_cycle begin | decision=2024-06-16 00:00:00 entry=2024-06-17 00:00:00 exit=2024-06-21 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=103100.00 | carry_exec_scenario=range_medianvol carry_strategy=iron_condor carry_qty_meta=10
+2026-03-28 20:24:19,646 | INFO | reversal check | held=range_medianvol new=bear_medianvol | p_bear=0.4000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.4, 'range': 0.3}
+2026-03-28 20:24:19,646 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:24:19,647 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-06-17 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:20,603 | INFO | option snapshot | trade_date=2024-06-17 00:00:00 underlying=17936.1191 target_exp=2024-07-30 00:00:00 dte_row0=10
+2026-03-28 20:24:20,620 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=4050.0000 | raw_qty=30 -> capped_qty=30 (cap=80)
+2026-03-28 20:24:20,620 | INFO | vertical spread | type=put_debit_spread k_buy=18200.0 k_sell=18100.0 max_loss_pts=81.0000 qty=30
+2026-03-28 20:24:20,650 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 30, 'expiry': Timestamp('2024-07-30 00:00:00'), 'underlying_price': 17936.119140625, 'buy_strike': 18200.0, 'sell_strike': 18100.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:21,099 | INFO | risk_mgmt budget | budget_pts=81.0000 qty=30 $=121500.00 (legacy sum avoided for IC)
+2026-03-28 20:24:21,100 | INFO | risk_mgmt | max_structural_risk=121500.00 stop_pct=0.380 stop_level_pnl=-46170.00 delta_limit=160
+2026-03-28 20:24:21,836 | WARNING | risk_mgmt STOP_LOSS | date=2024-06-19 00:00:00 mtm_pnl=-54000.00 threshold=-46170.00
+2026-03-28 20:24:21,837 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:24:21,910 | INFO | week_cycle end | week_pnl=-54000.00 cum_pnl=49100.00 | mtm_days=5 | metrics_cum=49100.0
+2026-03-28 20:24:21,911 | INFO | [2024-06-16] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:24:21,911 | INFO | [2024-06-16] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=49100.0 | elapsed_cum=77.38s
+2026-03-28 20:24:21,935 | INFO | [25/52] WEEK START | decision_date=2024-06-23 | entry_date=2024-06-24 | exit_date=2024-06-28 | cumulative_offset_before=49100.00
+2026-03-28 20:24:21,938 | INFO | [2024-06-23] use cached weekly analysis | week=2024-06-17→2024-06-23 | scenario=bear_medianvol
+2026-03-28 20:24:21,938 | INFO | week_cycle begin | decision=2024-06-23 00:00:00 entry=2024-06-24 00:00:00 exit=2024-06-28 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=49100.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=30
+2026-03-28 20:24:21,938 | INFO | same_scenario roll | dte=36 threshold<=10 | expiry=2024-07-30 00:00:00
+2026-03-28 20:24:21,938 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:24:21,938 | INFO | carry forward | still bear_medianvol | signal_open_meta_date=2024-06-17 00:00:00 strikes={'buy_strike': 18200.0, 'sell_strike': 18100.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=30
+2026-03-28 20:24:22,411 | INFO | risk_mgmt budget | budget_pts=81.0000 qty=30 $=121500.00 (legacy sum avoided for IC)
+2026-03-28 20:24:22,412 | INFO | risk_mgmt | max_structural_risk=121500.00 stop_pct=0.380 stop_level_pnl=-46170.00 delta_limit=160
+2026-03-28 20:24:24,105 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:24,109 | INFO | week_cycle end | week_pnl=69000.00 cum_pnl=118100.00 | mtm_days=5 | metrics_cum=118100.0
+2026-03-28 20:24:24,110 | INFO | [2024-06-23] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=118100.0 | elapsed_cum=79.57s
+2026-03-28 20:24:24,137 | INFO | [26/52] WEEK START | decision_date=2024-06-30 | entry_date=2024-07-01 | exit_date=2024-07-05 | cumulative_offset_before=118100.00
+2026-03-28 20:24:24,139 | INFO | [2024-06-30] use cached weekly analysis | week=2024-06-24→2024-06-30 | scenario=bull_medianvol
+2026-03-28 20:24:24,139 | INFO | week_cycle begin | decision=2024-06-30 00:00:00 entry=2024-07-01 00:00:00 exit=2024-07-05 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=118100.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=30
+2026-03-28 20:24:24,140 | INFO | reversal check | held=bear_medianvol new=bull_medianvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.3, 'range': 0.3}
+2026-03-28 20:24:24,140 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:24:24,140 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-07-01 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:25,114 | INFO | option snapshot | trade_date=2024-07-02 00:00:00 underlying=17769.1406 target_exp=2024-07-30 00:00:00 dte_row0=28
+2026-03-28 20:24:25,129 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=4300.0000 | raw_qty=29 -> capped_qty=29 (cap=80)
+2026-03-28 20:24:25,130 | INFO | vertical spread | type=call_debit_spread k_buy=17000.0 k_sell=17100.0 max_loss_pts=86.0000 qty=29
+2026-03-28 20:24:25,157 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 29, 'expiry': Timestamp('2024-07-30 00:00:00'), 'underlying_price': 17769.140625, 'buy_strike': 17000.0, 'sell_strike': 17100.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:25,735 | INFO | risk_mgmt budget | budget_pts=86.0000 qty=29 $=124700.00 (legacy sum avoided for IC)
+2026-03-28 20:24:25,736 | INFO | risk_mgmt | max_structural_risk=124700.00 stop_pct=0.380 stop_level_pnl=-47386.00 delta_limit=160
+2026-03-28 20:24:27,500 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:27,504 | INFO | week_cycle end | week_pnl=-10150.00 cum_pnl=107950.00 | mtm_days=5 | metrics_cum=107950.0
+2026-03-28 20:24:27,505 | INFO | [2024-06-30] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:24:27,505 | INFO | [2024-06-30] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=107950.0 | elapsed_cum=82.97s
+2026-03-28 20:24:27,528 | INFO | [27/52] WEEK START | decision_date=2024-07-07 | entry_date=2024-07-08 | exit_date=2024-07-12 | cumulative_offset_before=107950.00
+2026-03-28 20:24:27,530 | INFO | [2024-07-07] use cached weekly analysis | week=2024-07-01→2024-07-07 | scenario=bear_medianvol
+2026-03-28 20:24:27,530 | INFO | week_cycle begin | decision=2024-07-07 00:00:00 entry=2024-07-08 00:00:00 exit=2024-07-12 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=107950.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=29
+2026-03-28 20:24:27,531 | INFO | reversal check | held=bull_medianvol new=bear_medianvol | p_bear=0.5000 need>=0.3300 | direction_probs={'bull': 0.2, 'bear': 0.5, 'range': 0.3}
+2026-03-28 20:24:27,531 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:24:27,531 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-07-08 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:28,546 | INFO | option snapshot | trade_date=2024-07-08 00:00:00 underlying=17524.0605 target_exp=2024-07-30 00:00:00 dte_row0=22
+2026-03-28 20:24:28,566 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2500.0000 | raw_qty=50 -> capped_qty=50 (cap=80)
+2026-03-28 20:24:28,566 | INFO | vertical spread | type=put_debit_spread k_buy=17600.0 k_sell=17500.0 max_loss_pts=50.0000 qty=50
+2026-03-28 20:24:28,601 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 50, 'expiry': Timestamp('2024-07-30 00:00:00'), 'underlying_price': 17524.060546875, 'buy_strike': 17600.0, 'sell_strike': 17500.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:29,134 | INFO | risk_mgmt budget | budget_pts=50.0000 qty=50 $=125000.00 (legacy sum avoided for IC)
+2026-03-28 20:24:29,135 | INFO | risk_mgmt | max_structural_risk=125000.00 stop_pct=0.380 stop_level_pnl=-47500.00 delta_limit=160
+2026-03-28 20:24:30,854 | WARNING | risk_mgmt STOP_LOSS | date=2024-07-12 00:00:00 mtm_pnl=-85000.00 threshold=-47500.00
+2026-03-28 20:24:30,855 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:24:30,860 | INFO | week_cycle end | week_pnl=-85000.00 cum_pnl=22950.00 | mtm_days=5 | metrics_cum=22950.0
+2026-03-28 20:24:30,861 | INFO | [2024-07-07] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:24:30,861 | INFO | [2024-07-07] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=22950.0 | elapsed_cum=86.33s
+2026-03-28 20:24:30,892 | INFO | [28/52] WEEK START | decision_date=2024-07-14 | entry_date=2024-07-15 | exit_date=2024-07-19 | cumulative_offset_before=22950.00
+2026-03-28 20:24:30,895 | INFO | [2024-07-14] use cached weekly analysis | week=2024-07-08→2024-07-14 | scenario=bull_highvol
+2026-03-28 20:24:30,895 | INFO | week_cycle begin | decision=2024-07-14 00:00:00 entry=2024-07-15 00:00:00 exit=2024-07-19 00:00:00 | llm_scenario=bull_highvol | cum_pnl_in=22950.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=50
+2026-03-28 20:24:30,896 | INFO | reversal check | held=bear_medianvol new=bull_highvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.2, 'range': 0.4}
+2026-03-28 20:24:30,896 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:24:30,897 | INFO | generate_trade_signals | scenario=bull_highvol date=2024-07-15 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:31,959 | INFO | option snapshot | trade_date=2024-07-15 00:00:00 underlying=18015.9395 target_exp=2024-08-29 00:00:00 dte_row0=15
+2026-03-28 20:24:31,976 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=7250.0000 | raw_qty=17 -> capped_qty=17 (cap=80)
+2026-03-28 20:24:31,977 | INFO | vertical spread | type=put_credit_spread k_buy=17900.0 k_sell=17800.0 max_loss_pts=145.0000 qty=17
+2026-03-28 20:24:32,006 | INFO | opened/adjusted | strategy_type=put_credit_spread meta={'quantity': 17, 'expiry': Timestamp('2024-08-29 00:00:00'), 'underlying_price': 18015.939453125, 'buy_strike': 17900.0, 'sell_strike': 17800.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:32,486 | INFO | risk_mgmt budget | budget_pts=145.0000 qty=17 $=123250.00 (legacy sum avoided for IC)
+2026-03-28 20:24:32,486 | INFO | risk_mgmt | max_structural_risk=123250.00 stop_pct=0.380 stop_level_pnl=-46835.00 delta_limit=160
+2026-03-28 20:24:34,150 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:34,154 | INFO | week_cycle end | week_pnl=16150.00 cum_pnl=39100.00 | mtm_days=5 | metrics_cum=39100.0
+2026-03-28 20:24:34,154 | INFO | [2024-07-14] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_highvol | strategy_type=put_credit_spread
+2026-03-28 20:24:34,155 | INFO | [2024-07-14] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=Y | cum_pnl=39100.0 | elapsed_cum=89.62s
+2026-03-28 20:24:34,178 | INFO | [29/52] WEEK START | decision_date=2024-07-21 | entry_date=2024-07-22 | exit_date=2024-07-26 | cumulative_offset_before=39100.00
+2026-03-28 20:24:34,180 | INFO | [2024-07-21] use cached weekly analysis | week=2024-07-15→2024-07-21 | scenario=bear_medianvol
+2026-03-28 20:24:34,181 | INFO | week_cycle begin | decision=2024-07-21 00:00:00 entry=2024-07-22 00:00:00 exit=2024-07-26 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=39100.00 | carry_exec_scenario=bull_highvol carry_strategy=put_credit_spread carry_qty_meta=17
+2026-03-28 20:24:34,181 | INFO | reversal check | held=bull_highvol new=bear_medianvol | p_bear=0.3500 need>=0.3300 | direction_probs={'bull': 0.35, 'bear': 0.35, 'range': 0.3}
+2026-03-28 20:24:34,181 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:24:34,181 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-07-22 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:35,189 | INFO | option snapshot | trade_date=2024-07-22 00:00:00 underlying=17635.8809 target_exp=2024-08-29 00:00:00 dte_row0=8
+2026-03-28 20:24:35,205 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2750.0000 | raw_qty=45 -> capped_qty=45 (cap=80)
+2026-03-28 20:24:35,206 | INFO | vertical spread | type=put_debit_spread k_buy=17800.0 k_sell=17700.0 max_loss_pts=55.0000 qty=45
+2026-03-28 20:24:35,235 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 45, 'expiry': Timestamp('2024-08-29 00:00:00'), 'underlying_price': 17635.880859375, 'buy_strike': 17800.0, 'sell_strike': 17700.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:35,702 | INFO | risk_mgmt budget | budget_pts=55.0000 qty=45 $=123750.00 (legacy sum avoided for IC)
+2026-03-28 20:24:35,702 | INFO | risk_mgmt | max_structural_risk=123750.00 stop_pct=0.380 stop_level_pnl=-47025.00 delta_limit=160
+2026-03-28 20:24:37,425 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:37,429 | INFO | week_cycle end | week_pnl=51750.00 cum_pnl=90850.00 | mtm_days=5 | metrics_cum=90850.0
+2026-03-28 20:24:37,430 | INFO | [2024-07-21] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:24:37,430 | INFO | [2024-07-21] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=90850.0 | elapsed_cum=92.89s
+2026-03-28 20:24:37,453 | INFO | [30/52] WEEK START | decision_date=2024-07-28 | entry_date=2024-07-29 | exit_date=2024-08-02 | cumulative_offset_before=90850.00
+2026-03-28 20:24:37,456 | INFO | [2024-07-28] use cached weekly analysis | week=2024-07-22→2024-07-28 | scenario=bear_medianvol
+2026-03-28 20:24:37,456 | INFO | week_cycle begin | decision=2024-07-28 00:00:00 entry=2024-07-29 00:00:00 exit=2024-08-02 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=90850.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=45
+2026-03-28 20:24:37,456 | INFO | same_scenario roll | dte=31 threshold<=10 | expiry=2024-08-29 00:00:00
+2026-03-28 20:24:37,457 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:24:37,457 | INFO | carry forward | still bear_medianvol | signal_open_meta_date=2024-07-22 00:00:00 strikes={'buy_strike': 17800.0, 'sell_strike': 17700.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=45
+2026-03-28 20:24:37,999 | INFO | risk_mgmt budget | budget_pts=55.0000 qty=45 $=123750.00 (legacy sum avoided for IC)
+2026-03-28 20:24:37,999 | INFO | risk_mgmt | max_structural_risk=123750.00 stop_pct=0.380 stop_level_pnl=-47025.00 delta_limit=160
+2026-03-28 20:24:39,717 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:39,721 | INFO | week_cycle end | week_pnl=-4500.00 cum_pnl=86350.00 | mtm_days=5 | metrics_cum=86350.0
+2026-03-28 20:24:39,722 | INFO | [2024-07-28] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=86350.0 | elapsed_cum=95.19s
+2026-03-28 20:24:39,749 | INFO | [31/52] WEEK START | decision_date=2024-08-04 | entry_date=2024-08-05 | exit_date=2024-08-09 | cumulative_offset_before=86350.00
+2026-03-28 20:24:39,774 | INFO | [2024-08-04] use cached weekly analysis | week=2024-07-29→2024-08-04 | scenario=bear_highvol
+2026-03-28 20:24:39,775 | INFO | week_cycle begin | decision=2024-08-04 00:00:00 entry=2024-08-05 00:00:00 exit=2024-08-09 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=86350.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=45
+2026-03-28 20:24:39,775 | INFO | reversal check | held=bear_medianvol new=bear_highvol | p_bear=0.6000 need>=0.3300 | direction_probs={'bull': 0.15, 'bear': 0.6, 'range': 0.25}
+2026-03-28 20:24:39,775 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:24:39,776 | INFO | generate_trade_signals | scenario=bear_highvol date=2024-08-05 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:40,805 | INFO | option snapshot | trade_date=2024-08-05 00:00:00 underlying=16698.3594 target_exp=2024-08-29 00:00:00 dte_row0=24
+2026-03-28 20:24:40,821 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=5050.0000 | raw_qty=24 -> capped_qty=24 (cap=80)
+2026-03-28 20:24:40,822 | INFO | vertical spread | type=call_credit_spread k_buy=18900.0 k_sell=19000.0 max_loss_pts=101.0000 qty=24
+2026-03-28 20:24:40,852 | INFO | opened/adjusted | strategy_type=call_credit_spread meta={'quantity': 24, 'expiry': Timestamp('2024-08-29 00:00:00'), 'underlying_price': 16698.359375, 'buy_strike': 18900.0, 'sell_strike': 19000.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:41,317 | INFO | risk_mgmt budget | budget_pts=101.0000 qty=24 $=121200.00 (legacy sum avoided for IC)
+2026-03-28 20:24:41,318 | INFO | risk_mgmt | max_structural_risk=121200.00 stop_pct=0.380 stop_level_pnl=-46056.00 delta_limit=160
+2026-03-28 20:24:43,026 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:43,031 | INFO | week_cycle end | week_pnl=1200.00 cum_pnl=87550.00 | mtm_days=5 | metrics_cum=87550.0
+2026-03-28 20:24:43,031 | INFO | [2024-08-04] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 20:24:43,032 | INFO | [2024-08-04] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=87550.0 | elapsed_cum=98.50s
+2026-03-28 20:24:43,057 | INFO | [32/52] WEEK START | decision_date=2024-08-11 | entry_date=2024-08-12 | exit_date=2024-08-16 | cumulative_offset_before=87550.00
+2026-03-28 20:24:43,059 | INFO | [2024-08-11] use cached weekly analysis | week=2024-08-05→2024-08-11 | scenario=bear_highvol
+2026-03-28 20:24:43,060 | INFO | week_cycle begin | decision=2024-08-11 00:00:00 entry=2024-08-12 00:00:00 exit=2024-08-16 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=87550.00 | carry_exec_scenario=bear_highvol carry_strategy=call_credit_spread carry_qty_meta=24
+2026-03-28 20:24:43,060 | INFO | same_scenario roll | dte=17 threshold<=10 | expiry=2024-08-29 00:00:00
+2026-03-28 20:24:43,060 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:24:43,061 | INFO | carry forward | still bear_highvol | signal_open_meta_date=2024-08-05 00:00:00 strikes={'buy_strike': 18900.0, 'sell_strike': 19000.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=24
+2026-03-28 20:24:43,635 | INFO | risk_mgmt budget | budget_pts=101.0000 qty=24 $=121200.00 (legacy sum avoided for IC)
+2026-03-28 20:24:43,636 | INFO | risk_mgmt | max_structural_risk=121200.00 stop_pct=0.380 stop_level_pnl=-46056.00 delta_limit=160
+2026-03-28 20:24:45,347 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:45,351 | INFO | week_cycle end | week_pnl=-1200.00 cum_pnl=86350.00 | mtm_days=5 | metrics_cum=86350.0
+2026-03-28 20:24:45,352 | INFO | [2024-08-11] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=N | cum_pnl=86350.0 | elapsed_cum=100.82s
+2026-03-28 20:24:45,376 | INFO | [33/52] WEEK START | decision_date=2024-08-18 | entry_date=2024-08-19 | exit_date=2024-08-23 | cumulative_offset_before=86350.00
+2026-03-28 20:24:45,378 | INFO | [2024-08-18] use cached weekly analysis | week=2024-08-12→2024-08-18 | scenario=bull_medianvol
+2026-03-28 20:24:45,379 | INFO | week_cycle begin | decision=2024-08-18 00:00:00 entry=2024-08-19 00:00:00 exit=2024-08-23 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=86350.00 | carry_exec_scenario=bear_highvol carry_strategy=call_credit_spread carry_qty_meta=24
+2026-03-28 20:24:45,379 | INFO | reversal check | held=bear_highvol new=bull_medianvol | p_bull=0.4000 need>=0.3300 | direction_probs={'bull': 0.4, 'bear': 0.3, 'range': 0.3}
+2026-03-28 20:24:45,380 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:24:45,380 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-08-19 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:46,384 | INFO | option snapshot | trade_date=2024-08-19 00:00:00 underlying=17569.5703 target_exp=2024-09-27 00:00:00 dte_row0=10
+2026-03-28 20:24:46,402 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=3650.0000 | raw_qty=34 -> capped_qty=34 (cap=80)
+2026-03-28 20:24:46,402 | INFO | vertical spread | type=call_debit_spread k_buy=17100.0 k_sell=17200.0 max_loss_pts=73.0000 qty=34
+2026-03-28 20:24:46,430 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 34, 'expiry': Timestamp('2024-09-27 00:00:00'), 'underlying_price': 17569.5703125, 'buy_strike': 17100.0, 'sell_strike': 17200.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:46,934 | INFO | risk_mgmt budget | budget_pts=73.0000 qty=34 $=124100.00 (legacy sum avoided for IC)
+2026-03-28 20:24:46,934 | INFO | risk_mgmt | max_structural_risk=124100.00 stop_pct=0.380 stop_level_pnl=-47158.00 delta_limit=160
+2026-03-28 20:24:48,607 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:48,614 | INFO | week_cycle end | week_pnl=-8500.00 cum_pnl=77850.00 | mtm_days=5 | metrics_cum=77850.0
+2026-03-28 20:24:48,614 | INFO | [2024-08-18] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:24:48,615 | INFO | [2024-08-18] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=77850.0 | elapsed_cum=104.08s
+2026-03-28 20:24:48,644 | INFO | [34/52] WEEK START | decision_date=2024-08-25 | entry_date=2024-08-26 | exit_date=2024-08-30 | cumulative_offset_before=77850.00
+2026-03-28 20:24:48,646 | INFO | [2024-08-25] use cached weekly analysis | week=2024-08-19→2024-08-25 | scenario=bull_medianvol
+2026-03-28 20:24:48,646 | INFO | week_cycle begin | decision=2024-08-25 00:00:00 entry=2024-08-26 00:00:00 exit=2024-08-30 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=77850.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=34
+2026-03-28 20:24:48,647 | INFO | same_scenario roll | dte=32 threshold<=10 | expiry=2024-09-27 00:00:00
+2026-03-28 20:24:48,647 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:24:48,647 | INFO | carry forward | still bull_medianvol | signal_open_meta_date=2024-08-19 00:00:00 strikes={'buy_strike': 17100.0, 'sell_strike': 17200.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=34
+2026-03-28 20:24:49,094 | INFO | risk_mgmt budget | budget_pts=73.0000 qty=34 $=124100.00 (legacy sum avoided for IC)
+2026-03-28 20:24:49,094 | INFO | risk_mgmt | max_structural_risk=124100.00 stop_pct=0.380 stop_level_pnl=-47158.00 delta_limit=160
+2026-03-28 20:24:50,902 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:50,907 | INFO | week_cycle end | week_pnl=51000.00 cum_pnl=128850.00 | mtm_days=5 | metrics_cum=128850.0
+2026-03-28 20:24:50,908 | INFO | [2024-08-25] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=N | cum_pnl=128850.0 | elapsed_cum=106.37s
+2026-03-28 20:24:50,935 | INFO | [35/52] WEEK START | decision_date=2024-09-01 | entry_date=2024-09-02 | exit_date=2024-09-06 | cumulative_offset_before=128850.00
+2026-03-28 20:24:50,937 | INFO | [2024-09-01] use cached weekly analysis | week=2024-08-26→2024-09-01 | scenario=bear_highvol
+2026-03-28 20:24:50,937 | INFO | week_cycle begin | decision=2024-09-01 00:00:00 entry=2024-09-02 00:00:00 exit=2024-09-06 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=128850.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=34
+2026-03-28 20:24:50,937 | INFO | reversal check | held=bull_medianvol new=bear_highvol | p_bear=0.6000 need>=0.3300 | direction_probs={'bull': 0.1, 'bear': 0.6, 'range': 0.3}
+2026-03-28 20:24:50,938 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:24:50,938 | INFO | generate_trade_signals | scenario=bear_highvol date=2024-09-02 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:51,908 | INFO | option snapshot | trade_date=2024-09-02 00:00:00 underlying=17691.9707 target_exp=2024-09-27 00:00:00 dte_row0=25
+2026-03-28 20:24:51,923 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=9850.0000 | raw_qty=12 -> capped_qty=12 (cap=80)
+2026-03-28 20:24:51,924 | INFO | vertical spread | type=call_credit_spread k_buy=17000.0 k_sell=17100.0 max_loss_pts=197.0000 qty=12
+2026-03-28 20:24:51,953 | INFO | opened/adjusted | strategy_type=call_credit_spread meta={'quantity': 12, 'expiry': Timestamp('2024-09-27 00:00:00'), 'underlying_price': 17691.970703125, 'buy_strike': 17000.0, 'sell_strike': 17100.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:52,405 | INFO | risk_mgmt budget | budget_pts=197.0000 qty=12 $=118200.00 (legacy sum avoided for IC)
+2026-03-28 20:24:52,406 | INFO | risk_mgmt | max_structural_risk=118200.00 stop_pct=0.380 stop_level_pnl=-44916.00 delta_limit=160
+2026-03-28 20:24:54,174 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:54,179 | INFO | week_cycle end | week_pnl=-15000.00 cum_pnl=113850.00 | mtm_days=5 | metrics_cum=113850.0
+2026-03-28 20:24:54,179 | INFO | [2024-09-01] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 20:24:54,180 | INFO | [2024-09-01] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=113850.0 | elapsed_cum=109.64s
+2026-03-28 20:24:54,205 | INFO | [36/52] WEEK START | decision_date=2024-09-08 | entry_date=2024-09-09 | exit_date=2024-09-13 | cumulative_offset_before=113850.00
+2026-03-28 20:24:54,207 | INFO | [2024-09-08] use cached weekly analysis | week=2024-09-02→2024-09-08 | scenario=bear_medianvol
+2026-03-28 20:24:54,207 | INFO | week_cycle begin | decision=2024-09-08 00:00:00 entry=2024-09-09 00:00:00 exit=2024-09-13 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=113850.00 | carry_exec_scenario=bear_highvol carry_strategy=call_credit_spread carry_qty_meta=12
+2026-03-28 20:24:54,208 | INFO | reversal check | held=bear_highvol new=bear_medianvol | p_bear=0.3500 need>=0.3300 | direction_probs={'bull': 0.35, 'bear': 0.35, 'range': 0.3}
+2026-03-28 20:24:54,208 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:24:54,208 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-09-09 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:55,188 | INFO | option snapshot | trade_date=2024-09-09 00:00:00 underlying=17196.9609 target_exp=2024-10-30 00:00:00 dte_row0=18
+2026-03-28 20:24:55,205 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=4450.0000 | raw_qty=28 -> capped_qty=28 (cap=80)
+2026-03-28 20:24:55,205 | INFO | vertical spread | type=put_debit_spread k_buy=17800.0 k_sell=17700.0 max_loss_pts=89.0000 qty=28
+2026-03-28 20:24:55,240 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 28, 'expiry': Timestamp('2024-10-30 00:00:00'), 'underlying_price': 17196.9609375, 'buy_strike': 17800.0, 'sell_strike': 17700.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:24:55,760 | INFO | risk_mgmt budget | budget_pts=89.0000 qty=28 $=124600.00 (legacy sum avoided for IC)
+2026-03-28 20:24:55,760 | INFO | risk_mgmt | max_structural_risk=124600.00 stop_pct=0.380 stop_level_pnl=-47348.00 delta_limit=160
+2026-03-28 20:24:57,503 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:24:57,509 | INFO | week_cycle end | week_pnl=-30800.00 cum_pnl=83050.00 | mtm_days=5 | metrics_cum=83050.0
+2026-03-28 20:24:57,510 | INFO | [2024-09-08] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:24:57,510 | INFO | [2024-09-08] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=83050.0 | elapsed_cum=112.97s
+2026-03-28 20:24:57,536 | INFO | [37/52] WEEK START | decision_date=2024-09-15 | entry_date=2024-09-16 | exit_date=2024-09-20 | cumulative_offset_before=83050.00
+2026-03-28 20:24:57,539 | INFO | [2024-09-15] use cached weekly analysis | week=2024-09-09→2024-09-15 | scenario=range_medianvol
+2026-03-28 20:24:57,539 | INFO | week_cycle begin | decision=2024-09-15 00:00:00 entry=2024-09-16 00:00:00 exit=2024-09-20 00:00:00 | llm_scenario=range_medianvol | cum_pnl_in=83050.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=28
+2026-03-28 20:24:57,539 | INFO | reversal check | held=bear_medianvol new=range_medianvol | p_range=0.4500 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.25, 'range': 0.45}
+2026-03-28 20:24:57,540 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:24:57,540 | INFO | generate_trade_signals | scenario=range_medianvol date=2024-09-16 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:24:58,495 | INFO | option snapshot | trade_date=2024-09-16 00:00:00 underlying=17422.1191 target_exp=2024-10-30 00:00:00 dte_row0=11
+2026-03-28 20:24:58,526 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=8959.0000 | raw_qty=13 -> capped_qty=13 (cap=80)
+2026-03-28 20:24:58,527 | INFO | iron_condor sized | put_ml=152.0000 call_ml=151.0000 naive_sum_pts=303.0000 budget_pts=179.1800 | $/contract=8959.00 qty=13 (sum would be $15150.00 /contract)
+2026-03-28 20:24:58,553 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 13, 'expiry': Timestamp('2024-10-30 00:00:00'), 'underlying_price': 17422.119140625, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 17400.0, 'call_sell_strike': 17500.0}
+2026-03-28 20:24:59,146 | INFO | risk_mgmt budget | budget_pts=179.1800 qty=13 $=116467.00 (legacy sum avoided for IC)
+2026-03-28 20:24:59,147 | INFO | risk_mgmt | max_structural_risk=116467.00 stop_pct=0.380 stop_level_pnl=-44257.46 delta_limit=160
+2026-03-28 20:25:01,775 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:01,780 | INFO | week_cycle end | week_pnl=-2600.00 cum_pnl=80450.00 | mtm_days=5 | metrics_cum=80450.0
+2026-03-28 20:25:01,781 | INFO | [2024-09-15] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 20:25:01,781 | INFO | [2024-09-15] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=80450.0 | elapsed_cum=117.25s
+2026-03-28 20:25:01,806 | INFO | [38/52] WEEK START | decision_date=2024-09-22 | entry_date=2024-09-23 | exit_date=2024-09-27 | cumulative_offset_before=80450.00
+2026-03-28 20:25:01,808 | INFO | [2024-09-22] use cached weekly analysis | week=2024-09-16→2024-09-22 | scenario=bull_medianvol
+2026-03-28 20:25:01,808 | INFO | week_cycle begin | decision=2024-09-22 00:00:00 entry=2024-09-23 00:00:00 exit=2024-09-27 00:00:00 | llm_scenario=bull_medianvol | cum_pnl_in=80450.00 | carry_exec_scenario=range_medianvol carry_strategy=iron_condor carry_qty_meta=13
+2026-03-28 20:25:01,809 | INFO | reversal check | held=range_medianvol new=bull_medianvol | p_bull=0.5000 need>=0.3300 | direction_probs={'bull': 0.5, 'bear': 0.3, 'range': 0.2}
+2026-03-28 20:25:01,809 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:25:01,809 | INFO | generate_trade_signals | scenario=bull_medianvol date=2024-09-23 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:02,792 | INFO | option snapshot | trade_date=2024-09-23 00:00:00 underlying=18247.1094 target_exp=2024-10-30 00:00:00 dte_row0=4
+2026-03-28 20:25:02,806 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=5000.0000 | raw_qty=25 -> capped_qty=25 (cap=80)
+2026-03-28 20:25:02,806 | INFO | vertical spread | type=call_debit_spread k_buy=17600.0 k_sell=17700.0 max_loss_pts=100.0000 qty=25
+2026-03-28 20:25:02,833 | INFO | opened/adjusted | strategy_type=call_debit_spread meta={'quantity': 25, 'expiry': Timestamp('2024-10-30 00:00:00'), 'underlying_price': 18247.109375, 'buy_strike': 17600.0, 'sell_strike': 17700.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:25:03,335 | INFO | risk_mgmt budget | budget_pts=100.0000 qty=25 $=125000.00 (legacy sum avoided for IC)
+2026-03-28 20:25:03,335 | INFO | risk_mgmt | max_structural_risk=125000.00 stop_pct=0.380 stop_level_pnl=-47500.00 delta_limit=160
+2026-03-28 20:25:03,675 | WARNING | risk_mgmt STOP_LOSS | date=2024-09-24 00:00:00 mtm_pnl=-50000.00 threshold=-47500.00
+2026-03-28 20:25:03,676 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:25:03,758 | INFO | week_cycle end | week_pnl=-50000.00 cum_pnl=30450.00 | mtm_days=5 | metrics_cum=30450.0
+2026-03-28 20:25:03,758 | INFO | [2024-09-22] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_medianvol | strategy_type=call_debit_spread
+2026-03-28 20:25:03,758 | INFO | [2024-09-22] WEEK MTM DONE | held_scenario=bull_medianvol | rebalance=Y | cum_pnl=30450.0 | elapsed_cum=119.22s
+2026-03-28 20:25:03,784 | INFO | [39/52] WEEK START | decision_date=2024-09-29 | entry_date=2024-09-30 | exit_date=2024-10-04 | cumulative_offset_before=30450.00
+2026-03-28 20:25:03,786 | INFO | [2024-09-29] use cached weekly analysis | week=2024-09-23→2024-09-29 | scenario=bull_highvol
+2026-03-28 20:25:03,787 | INFO | week_cycle begin | decision=2024-09-29 00:00:00 entry=2024-09-30 00:00:00 exit=2024-10-04 00:00:00 | llm_scenario=bull_highvol | cum_pnl_in=30450.00 | carry_exec_scenario=bull_medianvol carry_strategy=call_debit_spread carry_qty_meta=25
+2026-03-28 20:25:03,787 | INFO | reversal check | held=bull_medianvol new=bull_highvol | p_bull=0.6000 need>=0.3300 | direction_probs={'bull': 0.6, 'bear': 0.1, 'range': 0.3}
+2026-03-28 20:25:03,787 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bull_ge_0.33']
+2026-03-28 20:25:03,788 | INFO | generate_trade_signals | scenario=bull_highvol date=2024-09-30 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:04,799 | INFO | option snapshot | trade_date=2024-09-30 00:00:00 underlying=21133.6797 target_exp=2024-10-30 00:00:00 dte_row0=30
+2026-03-28 20:25:04,821 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=5050.0000 | raw_qty=24 -> capped_qty=24 (cap=80)
+2026-03-28 20:25:04,822 | INFO | vertical spread | type=put_credit_spread k_buy=16900.0 k_sell=16800.0 max_loss_pts=101.0000 qty=24
+2026-03-28 20:25:04,852 | INFO | opened/adjusted | strategy_type=put_credit_spread meta={'quantity': 24, 'expiry': Timestamp('2024-10-30 00:00:00'), 'underlying_price': 21133.6796875, 'buy_strike': 16900.0, 'sell_strike': 16800.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:25:05,323 | INFO | risk_mgmt budget | budget_pts=101.0000 qty=24 $=121200.00 (legacy sum avoided for IC)
+2026-03-28 20:25:05,323 | INFO | risk_mgmt | max_structural_risk=121200.00 stop_pct=0.380 stop_level_pnl=-46056.00 delta_limit=160
+2026-03-28 20:25:07,060 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:07,065 | INFO | week_cycle end | week_pnl=-1200.00 cum_pnl=29250.00 | mtm_days=5 | metrics_cum=29250.0
+2026-03-28 20:25:07,066 | INFO | [2024-09-29] REBALANCE | reasons=scenario_reversal_p_bull_ge_0.33 | scenario=bull_highvol | strategy_type=put_credit_spread
+2026-03-28 20:25:07,066 | INFO | [2024-09-29] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=Y | cum_pnl=29250.0 | elapsed_cum=122.53s
+2026-03-28 20:25:07,090 | INFO | [40/52] WEEK START | decision_date=2024-10-06 | entry_date=2024-10-07 | exit_date=2024-10-11 | cumulative_offset_before=29250.00
+2026-03-28 20:25:07,092 | INFO | [2024-10-06] use cached weekly analysis | week=2024-09-30→2024-10-06 | scenario=bull_highvol
+2026-03-28 20:25:07,092 | INFO | week_cycle begin | decision=2024-10-06 00:00:00 entry=2024-10-07 00:00:00 exit=2024-10-11 00:00:00 | llm_scenario=bull_highvol | cum_pnl_in=29250.00 | carry_exec_scenario=bull_highvol carry_strategy=put_credit_spread carry_qty_meta=24
+2026-03-28 20:25:07,093 | INFO | same_scenario roll | dte=23 threshold<=10 | expiry=2024-10-30 00:00:00
+2026-03-28 20:25:07,093 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:25:07,093 | INFO | carry forward | still bull_highvol | signal_open_meta_date=2024-09-30 00:00:00 strikes={'buy_strike': 16900.0, 'sell_strike': 16800.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=24
+2026-03-28 20:25:07,521 | INFO | risk_mgmt budget | budget_pts=101.0000 qty=24 $=121200.00 (legacy sum avoided for IC)
+2026-03-28 20:25:07,521 | INFO | risk_mgmt | max_structural_risk=121200.00 stop_pct=0.380 stop_level_pnl=-46056.00 delta_limit=160
+2026-03-28 20:25:09,212 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:09,216 | INFO | week_cycle end | week_pnl=1200.00 cum_pnl=30450.00 | mtm_days=5 | metrics_cum=30450.0
+2026-03-28 20:25:09,217 | INFO | [2024-10-06] WEEK MTM DONE | held_scenario=bull_highvol | rebalance=N | cum_pnl=30450.0 | elapsed_cum=124.68s
+2026-03-28 20:25:09,244 | INFO | [41/52] WEEK START | decision_date=2024-10-13 | entry_date=2024-10-14 | exit_date=2024-10-18 | cumulative_offset_before=30450.00
+2026-03-28 20:25:09,246 | INFO | [2024-10-13] use cached weekly analysis | week=2024-10-07→2024-10-13 | scenario=range_highvol
+2026-03-28 20:25:09,246 | INFO | week_cycle begin | decision=2024-10-13 00:00:00 entry=2024-10-14 00:00:00 exit=2024-10-18 00:00:00 | llm_scenario=range_highvol | cum_pnl_in=30450.00 | carry_exec_scenario=bull_highvol carry_strategy=put_credit_spread carry_qty_meta=24
+2026-03-28 20:25:09,247 | INFO | reversal check | held=bull_highvol new=range_highvol | p_range=0.4000 need>=0.3300 | direction_probs={'bull': 0.25, 'bear': 0.35, 'range': 0.4}
+2026-03-28 20:25:09,247 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:25:09,247 | INFO | generate_trade_signals | scenario=range_highvol date=2024-10-14 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:10,221 | INFO | option snapshot | trade_date=2024-10-14 00:00:00 underlying=21092.8691 target_exp=2024-11-28 00:00:00 dte_row0=16
+2026-03-28 20:25:10,263 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=18467.0000 | raw_qty=6 -> capped_qty=6 (cap=80)
+2026-03-28 20:25:10,264 | INFO | iron_condor sized | put_ml=313.0000 call_ml=313.0000 naive_sum_pts=626.0000 budget_pts=369.3400 | $/contract=18467.00 qty=6 (sum would be $31300.00 /contract)
+2026-03-28 20:25:10,291 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 6, 'expiry': Timestamp('2024-11-28 00:00:00'), 'underlying_price': 21092.869140625, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 21000.0, 'call_sell_strike': 20800.0}
+2026-03-28 20:25:10,879 | INFO | risk_mgmt budget | budget_pts=369.3400 qty=6 $=110802.00 (legacy sum avoided for IC)
+2026-03-28 20:25:10,880 | INFO | risk_mgmt | max_structural_risk=110802.00 stop_pct=0.380 stop_level_pnl=-42104.76 delta_limit=160
+2026-03-28 20:25:13,214 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:13,219 | INFO | week_cycle end | week_pnl=300.00 cum_pnl=30750.00 | mtm_days=5 | metrics_cum=30750.0
+2026-03-28 20:25:13,219 | INFO | [2024-10-13] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 20:25:13,220 | INFO | [2024-10-13] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=30750.0 | elapsed_cum=128.68s
+2026-03-28 20:25:13,245 | INFO | [42/52] WEEK START | decision_date=2024-10-20 | entry_date=2024-10-21 | exit_date=2024-10-25 | cumulative_offset_before=30750.00
+2026-03-28 20:25:13,247 | INFO | [2024-10-20] use cached weekly analysis | week=2024-10-14→2024-10-20 | scenario=bear_medianvol
+2026-03-28 20:25:13,247 | INFO | week_cycle begin | decision=2024-10-20 00:00:00 entry=2024-10-21 00:00:00 exit=2024-10-25 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=30750.00 | carry_exec_scenario=range_highvol carry_strategy=iron_condor carry_qty_meta=6
+2026-03-28 20:25:13,248 | INFO | reversal check | held=range_highvol new=bear_medianvol | p_bear=0.4000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.4, 'range': 0.3}
+2026-03-28 20:25:13,248 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:25:13,248 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-10-21 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:14,213 | INFO | option snapshot | trade_date=2024-10-21 00:00:00 underlying=20478.4609 target_exp=2024-11-28 00:00:00 dte_row0=9
+2026-03-28 20:25:14,238 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=100.0000 | raw_qty=1250 -> capped_qty=80 (cap=80)
+2026-03-28 20:25:14,238 | INFO | vertical spread | type=put_debit_spread k_buy=16100.0 k_sell=16000.0 max_loss_pts=2.0000 qty=80
+2026-03-28 20:25:14,269 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 80, 'expiry': Timestamp('2024-11-28 00:00:00'), 'underlying_price': 20478.4609375, 'buy_strike': 16100.0, 'sell_strike': 16000.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:25:14,750 | INFO | risk_mgmt budget | budget_pts=2.0000 qty=80 $=8000.00 (legacy sum avoided for IC)
+2026-03-28 20:25:14,751 | INFO | risk_mgmt | max_structural_risk=8000.00 stop_pct=0.380 stop_level_pnl=-3040.00 delta_limit=160
+2026-03-28 20:25:15,525 | WARNING | risk_mgmt STOP_LOSS | date=2024-10-23 00:00:00 mtm_pnl=-4000.00 threshold=-3040.00
+2026-03-28 20:25:15,526 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:25:15,605 | INFO | week_cycle end | week_pnl=-4000.00 cum_pnl=26750.00 | mtm_days=5 | metrics_cum=26750.0
+2026-03-28 20:25:15,606 | INFO | [2024-10-20] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:25:15,606 | INFO | [2024-10-20] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=26750.0 | elapsed_cum=131.07s
+2026-03-28 20:25:15,629 | INFO | [43/52] WEEK START | decision_date=2024-10-27 | entry_date=2024-10-28 | exit_date=2024-11-01 | cumulative_offset_before=26750.00
+2026-03-28 20:25:15,631 | INFO | [2024-10-27] use cached weekly analysis | week=2024-10-21→2024-10-27 | scenario=bear_medianvol
+2026-03-28 20:25:15,632 | INFO | week_cycle begin | decision=2024-10-27 00:00:00 entry=2024-10-28 00:00:00 exit=2024-11-01 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=26750.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=80
+2026-03-28 20:25:15,632 | INFO | same_scenario roll | dte=31 threshold<=10 | expiry=2024-11-28 00:00:00
+2026-03-28 20:25:15,632 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:25:15,633 | INFO | carry forward | still bear_medianvol | signal_open_meta_date=2024-10-21 00:00:00 strikes={'buy_strike': 16100.0, 'sell_strike': 16000.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=80
+2026-03-28 20:25:16,067 | INFO | risk_mgmt budget | budget_pts=2.0000 qty=80 $=8000.00 (legacy sum avoided for IC)
+2026-03-28 20:25:16,068 | INFO | risk_mgmt | max_structural_risk=8000.00 stop_pct=0.380 stop_level_pnl=-3040.00 delta_limit=160
+2026-03-28 20:25:16,403 | WARNING | risk_mgmt STOP_LOSS | date=2024-10-29 00:00:00 mtm_pnl=-4000.00 threshold=-3040.00
+2026-03-28 20:25:16,404 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:25:16,497 | INFO | week_cycle end | week_pnl=0.00 cum_pnl=26750.00 | mtm_days=5 | metrics_cum=26750.0
+2026-03-28 20:25:16,498 | INFO | [2024-10-27] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=26750.0 | elapsed_cum=131.96s
+2026-03-28 20:25:16,528 | INFO | [44/52] WEEK START | decision_date=2024-11-03 | entry_date=2024-11-04 | exit_date=2024-11-08 | cumulative_offset_before=26750.00
+2026-03-28 20:25:16,530 | INFO | [2024-11-03] use cached weekly analysis | week=2024-10-28→2024-11-03 | scenario=range_medianvol
+2026-03-28 20:25:16,531 | INFO | week_cycle begin | decision=2024-11-03 00:00:00 entry=2024-11-04 00:00:00 exit=2024-11-08 00:00:00 | llm_scenario=range_medianvol | cum_pnl_in=26750.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=80
+2026-03-28 20:25:16,565 | INFO | reversal check | held=bear_medianvol new=range_medianvol | p_range=0.5000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.2, 'range': 0.5}
+2026-03-28 20:25:16,577 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:25:16,578 | INFO | generate_trade_signals | scenario=range_medianvol date=2024-11-04 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:17,704 | INFO | option snapshot | trade_date=2024-11-04 00:00:00 underlying=20567.5195 target_exp=2024-11-28 00:00:00 dte_row0=24
+2026-03-28 20:25:17,747 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=16559.0000 | raw_qty=7 -> capped_qty=7 (cap=80)
+2026-03-28 20:25:17,747 | INFO | iron_condor sized | put_ml=295.0000 call_ml=201.0000 naive_sum_pts=496.0000 budget_pts=331.1800 | $/contract=16559.00 qty=7 (sum would be $24800.00 /contract)
+2026-03-28 20:25:17,775 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 7, 'expiry': Timestamp('2024-11-28 00:00:00'), 'underlying_price': 20567.51953125, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 20200.0, 'call_sell_strike': 19700.0}
+2026-03-28 20:25:18,330 | INFO | risk_mgmt budget | budget_pts=331.1800 qty=7 $=115913.00 (legacy sum avoided for IC)
+2026-03-28 20:25:18,331 | INFO | risk_mgmt | max_structural_risk=115913.00 stop_pct=0.380 stop_level_pnl=-44046.94 delta_limit=160
+2026-03-28 20:25:20,679 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:20,684 | INFO | week_cycle end | week_pnl=-8400.00 cum_pnl=18350.00 | mtm_days=5 | metrics_cum=18350.0
+2026-03-28 20:25:20,685 | INFO | [2024-11-03] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 20:25:20,685 | INFO | [2024-11-03] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=18350.0 | elapsed_cum=136.15s
+2026-03-28 20:25:20,713 | INFO | [45/52] WEEK START | decision_date=2024-11-10 | entry_date=2024-11-11 | exit_date=2024-11-15 | cumulative_offset_before=18350.00
+2026-03-28 20:25:20,716 | INFO | [2024-11-10] use cached weekly analysis | week=2024-11-04→2024-11-10 | scenario=bear_highvol
+2026-03-28 20:25:20,716 | INFO | week_cycle begin | decision=2024-11-10 00:00:00 entry=2024-11-11 00:00:00 exit=2024-11-15 00:00:00 | llm_scenario=bear_highvol | cum_pnl_in=18350.00 | carry_exec_scenario=range_medianvol carry_strategy=iron_condor carry_qty_meta=7
+2026-03-28 20:25:20,717 | INFO | reversal check | held=range_medianvol new=bear_highvol | p_bear=0.4000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.4, 'range': 0.3}
+2026-03-28 20:25:20,717 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:25:20,717 | INFO | generate_trade_signals | scenario=bear_highvol date=2024-11-11 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:21,799 | INFO | option snapshot | trade_date=2024-11-11 00:00:00 underlying=20426.9297 target_exp=2024-12-30 00:00:00 dte_row0=17
+2026-03-28 20:25:21,818 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=9250.0000 | raw_qty=13 -> capped_qty=13 (cap=80)
+2026-03-28 20:25:21,819 | INFO | vertical spread | type=call_credit_spread k_buy=19500.0 k_sell=19600.0 max_loss_pts=185.0000 qty=13
+2026-03-28 20:25:21,847 | INFO | opened/adjusted | strategy_type=call_credit_spread meta={'quantity': 13, 'expiry': Timestamp('2024-12-30 00:00:00'), 'underlying_price': 20426.9296875, 'buy_strike': 19500.0, 'sell_strike': 19600.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:25:22,322 | INFO | risk_mgmt budget | budget_pts=185.0000 qty=13 $=120250.00 (legacy sum avoided for IC)
+2026-03-28 20:25:22,322 | INFO | risk_mgmt | max_structural_risk=120250.00 stop_pct=0.380 stop_level_pnl=-45695.00 delta_limit=160
+2026-03-28 20:25:23,967 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:23,972 | INFO | week_cycle end | week_pnl=-26000.00 cum_pnl=-7650.00 | mtm_days=5 | metrics_cum=-7650.0
+2026-03-28 20:25:23,973 | INFO | [2024-11-10] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_highvol | strategy_type=call_credit_spread
+2026-03-28 20:25:23,973 | INFO | [2024-11-10] WEEK MTM DONE | held_scenario=bear_highvol | rebalance=Y | cum_pnl=-7650.0 | elapsed_cum=139.44s
+2026-03-28 20:25:23,998 | INFO | [46/52] WEEK START | decision_date=2024-11-17 | entry_date=2024-11-18 | exit_date=2024-11-22 | cumulative_offset_before=-7650.00
+2026-03-28 20:25:24,000 | INFO | [2024-11-17] use cached weekly analysis | week=2024-11-11→2024-11-17 | scenario=bear_medianvol
+2026-03-28 20:25:24,000 | INFO | week_cycle begin | decision=2024-11-17 00:00:00 entry=2024-11-18 00:00:00 exit=2024-11-22 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=-7650.00 | carry_exec_scenario=bear_highvol carry_strategy=call_credit_spread carry_qty_meta=13
+2026-03-28 20:25:24,000 | INFO | reversal check | held=bear_highvol new=bear_medianvol | p_bear=0.5000 need>=0.3300 | direction_probs={'bull': 0.2, 'bear': 0.5, 'range': 0.3}
+2026-03-28 20:25:24,001 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:25:24,001 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-11-18 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:25,033 | INFO | option snapshot | trade_date=2024-11-18 00:00:00 underlying=19576.6094 target_exp=2024-12-30 00:00:00 dte_row0=10
+2026-03-28 20:25:25,054 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=2350.0000 | raw_qty=53 -> capped_qty=53 (cap=80)
+2026-03-28 20:25:25,055 | INFO | vertical spread | type=put_debit_spread k_buy=19500.0 k_sell=19400.0 max_loss_pts=47.0000 qty=53
+2026-03-28 20:25:25,081 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 53, 'expiry': Timestamp('2024-12-30 00:00:00'), 'underlying_price': 19576.609375, 'buy_strike': 19500.0, 'sell_strike': 19400.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:25:25,520 | INFO | risk_mgmt budget | budget_pts=47.0000 qty=53 $=124550.00 (legacy sum avoided for IC)
+2026-03-28 20:25:25,521 | INFO | risk_mgmt | max_structural_risk=124550.00 stop_pct=0.380 stop_level_pnl=-47329.00 delta_limit=160
+2026-03-28 20:25:27,280 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:27,284 | INFO | week_cycle end | week_pnl=31800.00 cum_pnl=24150.00 | mtm_days=5 | metrics_cum=24150.0
+2026-03-28 20:25:27,285 | INFO | [2024-11-17] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:25:27,285 | INFO | [2024-11-17] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=24150.0 | elapsed_cum=142.75s
+2026-03-28 20:25:27,309 | INFO | [47/52] WEEK START | decision_date=2024-11-24 | entry_date=2024-11-25 | exit_date=2024-11-29 | cumulative_offset_before=24150.00
+2026-03-28 20:25:27,311 | INFO | [2024-11-24] use cached weekly analysis | week=2024-11-18→2024-11-24 | scenario=range_medianvol
+2026-03-28 20:25:27,311 | INFO | week_cycle begin | decision=2024-11-24 00:00:00 entry=2024-11-25 00:00:00 exit=2024-11-29 00:00:00 | llm_scenario=range_medianvol | cum_pnl_in=24150.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=53
+2026-03-28 20:25:27,312 | INFO | reversal check | held=bear_medianvol new=range_medianvol | p_range=0.5000 need>=0.3300 | direction_probs={'bull': 0.2, 'bear': 0.3, 'range': 0.5}
+2026-03-28 20:25:27,312 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:25:27,312 | INFO | generate_trade_signals | scenario=range_medianvol date=2024-11-25 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:28,346 | INFO | option snapshot | trade_date=2024-11-25 00:00:00 underlying=19150.9902 target_exp=2024-12-30 00:00:00 dte_row0=3
+2026-03-28 20:25:28,390 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=9559.0000 | raw_qty=13 -> capped_qty=13 (cap=80)
+2026-03-28 20:25:28,391 | INFO | iron_condor sized | put_ml=151.0000 call_ml=164.0000 naive_sum_pts=315.0000 budget_pts=191.1800 | $/contract=9559.00 qty=13 (sum would be $15750.00 /contract)
+2026-03-28 20:25:28,417 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 13, 'expiry': Timestamp('2024-12-30 00:00:00'), 'underlying_price': 19150.990234375, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 19000.0, 'call_sell_strike': 18900.0}
+2026-03-28 20:25:29,087 | INFO | risk_mgmt budget | budget_pts=191.1800 qty=13 $=124267.00 (legacy sum avoided for IC)
+2026-03-28 20:25:29,087 | INFO | risk_mgmt | max_structural_risk=124267.00 stop_pct=0.380 stop_level_pnl=-47221.46 delta_limit=160
+2026-03-28 20:25:31,396 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:31,401 | INFO | week_cycle end | week_pnl=-5200.00 cum_pnl=18950.00 | mtm_days=5 | metrics_cum=18950.0
+2026-03-28 20:25:31,402 | INFO | [2024-11-24] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_medianvol | strategy_type=iron_condor
+2026-03-28 20:25:31,402 | INFO | [2024-11-24] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=Y | cum_pnl=18950.0 | elapsed_cum=146.87s
+2026-03-28 20:25:31,431 | INFO | [48/52] WEEK START | decision_date=2024-12-01 | entry_date=2024-12-02 | exit_date=2024-12-06 | cumulative_offset_before=18950.00
+2026-03-28 20:25:31,433 | INFO | [2024-12-01] use cached weekly analysis | week=2024-11-25→2024-12-01 | scenario=range_medianvol
+2026-03-28 20:25:31,433 | INFO | week_cycle begin | decision=2024-12-01 00:00:00 entry=2024-12-02 00:00:00 exit=2024-12-06 00:00:00 | llm_scenario=range_medianvol | cum_pnl_in=18950.00 | carry_exec_scenario=range_medianvol carry_strategy=iron_condor carry_qty_meta=13
+2026-03-28 20:25:31,434 | INFO | same_scenario roll | dte=28 threshold<=10 | expiry=2024-12-30 00:00:00
+2026-03-28 20:25:31,434 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:25:31,434 | INFO | carry forward | still range_medianvol | signal_open_meta_date=2024-11-25 00:00:00 strikes={'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 19000.0, 'call_sell_strike': 18900.0} qty=13
+2026-03-28 20:25:32,177 | INFO | risk_mgmt budget | budget_pts=191.1800 qty=13 $=124267.00 (legacy sum avoided for IC)
+2026-03-28 20:25:32,178 | INFO | risk_mgmt | max_structural_risk=124267.00 stop_pct=0.380 stop_level_pnl=-47221.46 delta_limit=160
+2026-03-28 20:25:34,865 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:34,870 | INFO | week_cycle end | week_pnl=-650.00 cum_pnl=18300.00 | mtm_days=5 | metrics_cum=18300.0
+2026-03-28 20:25:34,870 | INFO | [2024-12-01] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=N | cum_pnl=18300.0 | elapsed_cum=150.33s
+2026-03-28 20:25:34,902 | INFO | [49/52] WEEK START | decision_date=2024-12-08 | entry_date=2024-12-09 | exit_date=2024-12-13 | cumulative_offset_before=18300.00
+2026-03-28 20:25:34,904 | INFO | [2024-12-08] use cached weekly analysis | week=2024-12-02→2024-12-08 | scenario=range_medianvol
+2026-03-28 20:25:34,905 | INFO | week_cycle begin | decision=2024-12-08 00:00:00 entry=2024-12-09 00:00:00 exit=2024-12-13 00:00:00 | llm_scenario=range_medianvol | cum_pnl_in=18300.00 | carry_exec_scenario=range_medianvol carry_strategy=iron_condor carry_qty_meta=13
+2026-03-28 20:25:34,905 | INFO | same_scenario roll | dte=21 threshold<=10 | expiry=2024-12-30 00:00:00
+2026-03-28 20:25:34,905 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:25:34,906 | INFO | carry forward | still range_medianvol | signal_open_meta_date=2024-11-25 00:00:00 strikes={'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 19000.0, 'call_sell_strike': 18900.0} qty=13
+2026-03-28 20:25:35,474 | INFO | risk_mgmt budget | budget_pts=191.1800 qty=13 $=124267.00 (legacy sum avoided for IC)
+2026-03-28 20:25:35,475 | INFO | risk_mgmt | max_structural_risk=124267.00 stop_pct=0.380 stop_level_pnl=-47221.46 delta_limit=160
+2026-03-28 20:25:37,878 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:37,883 | INFO | week_cycle end | week_pnl=-1300.00 cum_pnl=17000.00 | mtm_days=5 | metrics_cum=17000.0
+2026-03-28 20:25:37,884 | INFO | [2024-12-08] WEEK MTM DONE | held_scenario=range_medianvol | rebalance=N | cum_pnl=17000.0 | elapsed_cum=153.35s
+2026-03-28 20:25:37,912 | INFO | [50/52] WEEK START | decision_date=2024-12-15 | entry_date=2024-12-16 | exit_date=2024-12-20 | cumulative_offset_before=17000.00
+2026-03-28 20:25:37,914 | INFO | [2024-12-15] use cached weekly analysis | week=2024-12-09→2024-12-15 | scenario=bear_medianvol
+2026-03-28 20:25:37,915 | INFO | week_cycle begin | decision=2024-12-15 00:00:00 entry=2024-12-16 00:00:00 exit=2024-12-20 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=17000.00 | carry_exec_scenario=range_medianvol carry_strategy=iron_condor carry_qty_meta=13
+2026-03-28 20:25:37,915 | INFO | reversal check | held=range_medianvol new=bear_medianvol | p_bear=0.4000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.4, 'range': 0.3}
+2026-03-28 20:25:37,915 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_bear_ge_0.33']
+2026-03-28 20:25:37,916 | INFO | generate_trade_signals | scenario=bear_medianvol date=2024-12-16 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:38,881 | INFO | option snapshot | trade_date=2024-12-16 00:00:00 underlying=19795.4902 target_exp=2025-01-27 00:00:00 dte_row0=14
+2026-03-28 20:25:38,900 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=100.0000 | raw_qty=1250 -> capped_qty=80 (cap=80)
+2026-03-28 20:25:38,901 | INFO | vertical spread | type=put_debit_spread k_buy=16600.0 k_sell=16500.0 max_loss_pts=2.0000 qty=80
+2026-03-28 20:25:38,928 | INFO | opened/adjusted | strategy_type=put_debit_spread meta={'quantity': 80, 'expiry': Timestamp('2025-01-27 00:00:00'), 'underlying_price': 19795.490234375, 'buy_strike': 16600.0, 'sell_strike': 16500.0, 'put_sell_strike': None, 'call_sell_strike': None}
+2026-03-28 20:25:39,375 | INFO | risk_mgmt budget | budget_pts=2.0000 qty=80 $=8000.00 (legacy sum avoided for IC)
+2026-03-28 20:25:39,376 | INFO | risk_mgmt | max_structural_risk=8000.00 stop_pct=0.380 stop_level_pnl=-3040.00 delta_limit=160
+2026-03-28 20:25:39,719 | WARNING | risk_mgmt STOP_LOSS | date=2024-12-17 00:00:00 mtm_pnl=-4000.00 threshold=-3040.00
+2026-03-28 20:25:39,720 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:25:39,860 | INFO | week_cycle end | week_pnl=-4000.00 cum_pnl=13000.00 | mtm_days=5 | metrics_cum=13000.0
+2026-03-28 20:25:39,860 | INFO | [2024-12-15] REBALANCE | reasons=scenario_reversal_p_bear_ge_0.33 | scenario=bear_medianvol | strategy_type=put_debit_spread
+2026-03-28 20:25:39,860 | INFO | [2024-12-15] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=Y | cum_pnl=13000.0 | elapsed_cum=155.32s
+2026-03-28 20:25:39,885 | INFO | [51/52] WEEK START | decision_date=2024-12-22 | entry_date=2024-12-23 | exit_date=2024-12-27 | cumulative_offset_before=13000.00
+2026-03-28 20:25:39,887 | INFO | [2024-12-22] use cached weekly analysis | week=2024-12-16→2024-12-22 | scenario=bear_medianvol
+2026-03-28 20:25:39,887 | INFO | week_cycle begin | decision=2024-12-22 00:00:00 entry=2024-12-23 00:00:00 exit=2024-12-27 00:00:00 | llm_scenario=bear_medianvol | cum_pnl_in=13000.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=80
+2026-03-28 20:25:39,887 | INFO | same_scenario roll | dte=35 threshold<=10 | expiry=2025-01-27 00:00:00
+2026-03-28 20:25:39,888 | INFO | rebalance_decision | need=False reasons=[]
+2026-03-28 20:25:39,888 | INFO | carry forward | still bear_medianvol | signal_open_meta_date=2024-12-16 00:00:00 strikes={'buy_strike': 16600.0, 'sell_strike': 16500.0, 'put_sell_strike': None, 'call_sell_strike': None} qty=80
+2026-03-28 20:25:40,337 | INFO | risk_mgmt budget | budget_pts=2.0000 qty=80 $=8000.00 (legacy sum avoided for IC)
+2026-03-28 20:25:40,337 | INFO | risk_mgmt | max_structural_risk=8000.00 stop_pct=0.380 stop_level_pnl=-3040.00 delta_limit=160
+2026-03-28 20:25:40,340 | WARNING | risk_mgmt STOP_LOSS | date=2024-12-23 00:00:00 mtm_pnl=-4000.00 threshold=-3040.00
+2026-03-28 20:25:40,340 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=STOP_LOSS
+2026-03-28 20:25:40,459 | INFO | week_cycle end | week_pnl=0.00 cum_pnl=13000.00 | mtm_days=5 | metrics_cum=13000.0
+2026-03-28 20:25:40,464 | INFO | [2024-12-22] WEEK MTM DONE | held_scenario=bear_medianvol | rebalance=N | cum_pnl=13000.0 | elapsed_cum=155.93s
+2026-03-28 20:25:40,494 | INFO | [52/52] WEEK START | decision_date=2024-12-29 | entry_date=2024-12-30 | exit_date=2024-12-31 | cumulative_offset_before=13000.00
+2026-03-28 20:25:40,498 | INFO | [2024-12-29] use cached weekly analysis | week=2024-12-23→2024-12-29 | scenario=range_highvol
+2026-03-28 20:25:40,499 | INFO | week_cycle begin | decision=2024-12-29 00:00:00 entry=2024-12-30 00:00:00 exit=2024-12-31 00:00:00 | llm_scenario=range_highvol | cum_pnl_in=13000.00 | carry_exec_scenario=bear_medianvol carry_strategy=put_debit_spread carry_qty_meta=80
+2026-03-28 20:25:40,500 | INFO | reversal check | held=bear_medianvol new=range_highvol | p_range=0.4000 need>=0.3300 | direction_probs={'bull': 0.3, 'bear': 0.3, 'range': 0.4}
+2026-03-28 20:25:40,501 | INFO | rebalance_decision | need=True reasons=['scenario_reversal_p_range_ge_0.33']
+2026-03-28 20:25:40,501 | INFO | generate_trade_signals | scenario=range_highvol date=2024-12-30 00:00:00 acct=1000000 risk_pct=0.1000 mult=1.250 max_c=80
+2026-03-28 20:25:41,544 | INFO | day_data dte filter | dropped_zero_or_nan_dte rows=2020 -> 1709
+2026-03-28 20:25:41,547 | INFO | option snapshot | trade_date=2024-12-30 00:00:00 underlying=20041.4199 target_exp=2025-01-27 00:00:00 dte_row0=28
+2026-03-28 20:25:41,585 | INFO | position_size | risk_budget=125000.00 (acct×risk_pct×mult) | max_loss/contract=10909.0000 | raw_qty=11 -> capped_qty=11 (cap=80)
+2026-03-28 20:25:41,586 | INFO | iron_condor sized | put_ml=101.0000 call_ml=200.0000 naive_sum_pts=301.0000 budget_pts=218.1800 | $/contract=10909.00 qty=11 (sum would be $15050.00 /contract)
+2026-03-28 20:25:41,612 | INFO | opened/adjusted | strategy_type=iron_condor meta={'quantity': 11, 'expiry': Timestamp('2025-01-27 00:00:00'), 'underlying_price': 20041.419921875, 'buy_strike': None, 'sell_strike': None, 'put_sell_strike': 17400.0, 'call_sell_strike': 17600.0}
+2026-03-28 20:25:42,265 | INFO | risk_mgmt budget | budget_pts=218.1800 qty=11 $=119999.00 (legacy sum avoided for IC)
+2026-03-28 20:25:42,265 | INFO | risk_mgmt | max_structural_risk=119999.00 stop_pct=0.380 stop_level_pnl=-45599.62 delta_limit=160
+2026-03-28 20:25:43,179 | INFO | intraweek risk | stop_pct=0.38 delta_cap=160.0 -> exit=None
+2026-03-28 20:25:43,184 | INFO | week_cycle end | week_pnl=0.00 cum_pnl=13000.00 | mtm_days=2 | metrics_cum=13000.0
+2026-03-28 20:25:43,185 | INFO | [2024-12-29] REBALANCE | reasons=scenario_reversal_p_range_ge_0.33 | scenario=range_highvol | strategy_type=iron_condor
+2026-03-28 20:25:43,185 | INFO | [2024-12-29] WEEK MTM DONE | held_scenario=range_highvol | rebalance=Y | cum_pnl=13000.0 | elapsed_cum=158.65s
+2026-03-28 20:25:43,210 | INFO | Assemble done | weekly_df rows=50
+2026-03-28 20:25:43,228 | INFO | OVERALL METRICS={'n_days': 247, 'cum_pnl': 13000.0, 'return_pct': 0.013, 'ann_return_pct': 0.013264895685154432, 'ann_vol_pct': np.float64(0.27432077463089627), 'sharpe': np.float64(0.04835541786072381), 'max_drawdown_pct': -0.1596429491030813, 'win_rate_daily': 0.3643724696356275}
+2026-03-28 20:25:43,228 | INFO | RUN END | run_id=weekly_timeline_20260328_122304_5b438e | total_elapsed=158.692s

@@ -14,15 +14,9 @@ from get_news.fetch_fulltext import read as fetch_fulltext
 from utils.chat_completion import THINKING_MODEL, achat_complete
 from db.operations import save_performance_record
 from utils.llm import choose_scenario
-from utils.backtest import summarize_mtm_df
 from utils.utils import trim_to_chars
 from utils.data import get_data, prepare_datasets
-from utils.strategy_pools import (
-    generate_trade_signals,
-    mark_signals_to_market,
-    extract_meta_from_signals,
-    compute_dte_days,
-)
+from utils.strategy_pools_new import WeeklyStrategyCarry, run_weekly_prediction_cycle
 
 import numpy as np
 import pandas as pd
@@ -325,6 +319,7 @@ async def llm_weekly_market_analysis(
         ensure_ascii=False,
     )
     out["scenario"] = choose_scenario(scenario_text)
+    print("LLM raw output:", scenario_text, "\nParsed scenario:", out["scenario"])
     out["raw_llm_text"] = raw
     return out
 
@@ -599,12 +594,30 @@ def _save_weekly_cache(cache_path: str, payload: Dict[str, Any]) -> None:
         pass
 
 
+def _attach_strategy_logging(pipeline_logger: logging.Logger) -> None:
+    """Route ``utils.strategy_pools_new`` INFO into the same handlers as the timeline run."""
+    strat = logging.getLogger("utils.strategy_pools_new")
+    strat.setLevel(logging.INFO)
+    strat.handlers.clear()
+    strat.propagate = False
+    for h in pipeline_logger.handlers:
+        strat.addHandler(h)
+
+
+def full_mtm_df_for_export(mtm_df: pd.DataFrame) -> pd.DataFrame:
+    """Drop any ``news*`` columns so MTM path CSVs stay price/PnL only (no URLs)."""
+    if mtm_df is None or mtm_df.empty:
+        return mtm_df
+    keep = [c for c in mtm_df.columns if not str(c).lower().startswith("news")]
+    return mtm_df[keep].copy()
+
+
 async def run_full_weekly_timeline(
     start_date: str = "2024-01-01",
     end_date: str = "2024-12-31",
     model_name: str = "deepseek-reasoner",
     account_value: float = 1_000_000.0,
-    risk_pct: float = 0.01,
+    risk_pct: float = 0.02,
     save_db: bool = True,
     # News pipeline params
     candidate_limit: int = 250,
@@ -614,23 +627,38 @@ async def run_full_weekly_timeline(
     max_concurrency: int = 3,
     use_cached_weekly_analysis: bool = True,
     cache_dir: str = "./cache/weekly",
+    max_contracts: int = 80,
+    intraweek_stop_loss_pct: Optional[float] = 0.38,
+    intraweek_delta_limit: float = 350.0,
+    scenario_reversal_prob_threshold: float = 0.33,
+    risk_budget_multiplier: float = 1.25,
 ) -> Dict[str, Any]:
     """
     Weekly full-year backtest:
     week decision (Mon-Sun news) -> LLM => scenario -> next-week option MTM backtest.
+
+    Strategy execution and intraweek risk controls are delegated to
+    ``run_weekly_prediction_cycle`` in ``utils.strategy_pools_new``.
     """
     run_id = f"weekly_timeline_{pd.Timestamp.utcnow():%Y%m%d_%H%M%S}_{uuid.uuid4().hex[:6]}"
     logger = setup_logger(run_id=run_id)
+    _attach_strategy_logging(logger)
 
     t0 = time.perf_counter()
     logger.info(
-        "RUN START | run_id=%s | start_date=%s | end_date=%s | model_name=%s | account_value=%.2f | risk_pct=%.4f | save_db=%s",
+        "RUN START | run_id=%s | start_date=%s | end_date=%s | model_name=%s | account_value=%.2f | "
+        "risk_pct=%.4f risk_budget_mult=%.3f scenario_rev_th=%.3f intraweek_stop=%s delta_limit=%.0f max_contracts=%d | save_db=%s",
         run_id,
         start_date,
         end_date,
         model_name,
         account_value,
         risk_pct,
+        risk_budget_multiplier,
+        scenario_reversal_prob_threshold,
+        intraweek_stop_loss_pct,
+        intraweek_delta_limit,
+        max_contracts,
         save_db,
     )
 
@@ -660,18 +688,7 @@ async def run_full_weekly_timeline(
         weekly_rows: List[Dict[str, Any]] = []
         mtm_parts: List[pd.DataFrame] = []
         cumulative_offset = 0.0
-
-        # -----------------------------
-        # Cross-week position state machine
-        # -----------------------------
-        current_scenario: Optional[str] = None
-        current_signals: Optional[List[Dict[str, Any]]] = None
-        current_meta: Optional[Dict[str, Any]] = None
-        current_strategy_type: Optional[str] = None
-        current_block_base_portfolio: float = cumulative_offset  # pnl offset at current block entry
-
-        # Rebalance triggers
-        dte_rebalance_threshold_days = 7
+        strategy_carry: Optional[WeeklyStrategyCarry] = None
 
         # 3) Weekly loop
         for i, (decision_date, entry_date, exit_date) in enumerate(
@@ -773,48 +790,38 @@ async def run_full_weekly_timeline(
                 logger.warning("[%s] scenario missing, skip backtest.", decision_date.date())
                 continue
 
-            # 3.2) State-machine execution (cross-week dynamic position)
-            need_rebalance = False
-            rebalance_reason: List[str] = []
-
-            if current_signals is None or current_scenario is None:
-                need_rebalance = True
-                rebalance_reason.append("no_position")
-            elif scenario != current_scenario:
-                # Threshold Trigger: only allow reversal with sufficiently high confidence.
-                extreme_threshold = 0.85
-                dir_key = str(scenario).split("_", 1)[0].strip().lower()  # bull / bear / range
-                p_dir = float(direction_probs.get(dir_key, 0.0) or 0.0)
-                if p_dir >= extreme_threshold:
-                    need_rebalance = True
-                    rebalance_reason.append(f"scenario_reversal_p_{dir_key}_ge_{extreme_threshold}")
-                else:
-                    need_rebalance = False
-                    rebalance_reason.append(f"scenario_reversal_blocked_p_{dir_key}={p_dir:.3f}")
-            else:
-                dte_days = compute_dte_days(
-                    (current_meta or {}).get("expiry") if current_meta else None,
-                    entry_date,
-                )
-                if dte_days is not None and dte_days <= dte_rebalance_threshold_days:
-                    need_rebalance = True
-                    rebalance_reason.append(f"dte_le_{dte_rebalance_threshold_days}")
+            cumulative_before_week = cumulative_offset
+            week_result = run_weekly_prediction_cycle(
+                merged_df,
+                scenario=scenario,
+                direction_probs=direction_probs,
+                entry_date=entry_date,
+                exit_date=exit_date,
+                decision_date_saved=decision_date_saved,
+                cumulative_offset=cumulative_offset,
+                carry=strategy_carry,
+                account_value=account_value,
+                risk_pct=risk_pct,
+                contract_multiplier=50.0,
+                max_contracts=max_contracts,
+                intraweek_stop_loss_pct=intraweek_stop_loss_pct,
+                intraweek_delta_limit=intraweek_delta_limit,
+                scenario_reversal_prob_threshold=scenario_reversal_prob_threshold,
+                risk_budget_multiplier=risk_budget_multiplier,
+            )
+            strategy_carry = week_result["carry"]
+            mtm_df = week_result["mtm_df"]
+            metrics = week_result["metrics"]
+            need_rebalance = week_result["need_rebalance"]
+            rebalance_reason = week_result["rebalance_reason"]
+            current_scenario = week_result["executed_scenario"]
+            current_strategy_type = week_result["strategy_type"]
+            current_signals = week_result["signals"]
+            cumulative_offset = week_result["new_cumulative_offset"]
+            week_pnl_delta = float(cumulative_offset - cumulative_before_week)
+            mtm_parts.append(mtm_df)
 
             if need_rebalance:
-                new_signals = generate_trade_signals(
-                    scenario=scenario,
-                    date=entry_date,
-                    df=merged_df,
-                    account_value=account_value,
-                    risk_pct=risk_pct,
-                )
-                current_signals = new_signals if new_signals else None
-                current_meta = extract_meta_from_signals(current_signals or [])
-                current_scenario = scenario
-                current_strategy_type = current_meta.get("strategy_type") if current_meta else None
-                # Start a new pnl block at this entry_date.
-                current_block_base_portfolio = cumulative_offset
-
                 logger.info(
                     "[%s] REBALANCE | reasons=%s | scenario=%s | strategy_type=%s",
                     decision_date_saved.date(),
@@ -822,63 +829,6 @@ async def run_full_weekly_timeline(
                     scenario,
                     current_strategy_type,
                 )
-
-            # 3.3) Week MTM for the currently held position
-            prev_offset = cumulative_offset
-            if current_signals:
-                mtm_df = mark_signals_to_market(
-                    option_df=merged_df,
-                    signals=current_signals,
-                    start_date=entry_date,
-                    end_date=exit_date,
-                    contract_multiplier=50.0,
-                )
-            else:
-                mtm_df = pd.DataFrame()
-
-            # If MTM is empty, still create a flat daily timeline (portfolio curve continuity).
-            if mtm_df is None or mtm_df.empty:
-                date_col = "Date"
-                mask = (merged_df[date_col] >= pd.to_datetime(entry_date)) & (merged_df[date_col] <= pd.to_datetime(exit_date))
-                dates = (
-                    pd.to_datetime(merged_df.loc[mask, date_col], errors="coerce")
-                    .dropna()
-                    .dt.normalize()
-                    .unique()
-                    .tolist()
-                )
-                dates = sorted(dates)
-                base = current_block_base_portfolio
-                mtm_df = pd.DataFrame(
-                    {
-                        "Date": dates,
-                        "Total_PnL": [prev_offset - base] * len(dates),
-                        "Daily_PnL": [0.0] * len(dates),
-                    }
-                )
-
-            mtm_df = mtm_df.copy()
-            mtm_df = mtm_df.sort_values("Date").reset_index(drop=True)
-            mtm_df["decision_date"] = decision_date_saved
-            mtm_df["entry_date"] = entry_date
-            mtm_df["exit_date"] = exit_date
-            mtm_df["scenario"] = current_scenario
-            mtm_df["strategy_type"] = current_strategy_type
-
-            mtm_df["portfolio_total_pnl"] = mtm_df["Total_PnL"] + current_block_base_portfolio
-            mtm_df["portfolio_total_pnl"] = pd.to_numeric(
-                mtm_df["portfolio_total_pnl"], errors="coerce"
-            ).ffill()
-            mtm_df["portfolio_daily_pnl"] = mtm_df["portfolio_total_pnl"].diff()
-            if len(mtm_df) > 0:
-                mtm_df.loc[0, "portfolio_daily_pnl"] = mtm_df.loc[0, "portfolio_total_pnl"] - prev_offset
-
-            tmp = mtm_df[["portfolio_total_pnl", "portfolio_daily_pnl"]].copy()
-            tmp = tmp.rename(columns={"portfolio_total_pnl": "Total_PnL", "portfolio_daily_pnl": "Daily_PnL"})
-            metrics = summarize_mtm_df(tmp, account_value=account_value)
-
-            cumulative_offset = float(mtm_df["portfolio_total_pnl"].iloc[-1]) if len(mtm_df) else cumulative_offset
-            mtm_parts.append(mtm_df)
 
             logger.info(
                 "[%s] WEEK MTM DONE | held_scenario=%s | rebalance=%s | cum_pnl=%s | elapsed_cum=%.2fs",
@@ -895,7 +845,7 @@ async def run_full_weekly_timeline(
                     [
                         f"Decision date: {decision_date_saved.date()}",
                         f"LLM scenario: {scenario}",
-                        f"Executed scenario: {current_scenario}",
+                        f"Executed scenario: {week_result['executed_scenario']}",
                         f"Strategy type: {current_strategy_type}",
                         f"Key drivers: {key_drivers}",
                         f"Main risks: {main_risks}",
@@ -931,8 +881,10 @@ async def run_full_weekly_timeline(
                     "news_selected_count": news_result.get("selected_count"),
                     "news_week_start": news_result.get("week_start"),
                     "news_week_end": news_result.get("week_end"),
-                    "news_selected_urls_preview": (news_result.get("selected_urls") or [])[:5],
                     "rebalance_reason": ",".join(rebalance_reason) if rebalance_reason else None,
+                    "intraweek_risk_exit": week_result.get("intraweek_risk_exit"),
+                    "week_pnl_delta": week_pnl_delta,
+                    "portfolio_cum_pnl_end": float(cumulative_offset),
                 }
             )
 
@@ -971,7 +923,7 @@ async def main():
         end_date="2024-12-31",
         model_name="deepseek-reasoner",
         account_value=1_000_000,
-        risk_pct=0.01,
+        risk_pct=0.02,
         save_db=True,
         candidate_limit=250,
         max_pick_for_fulltext=35,
@@ -988,7 +940,8 @@ async def main():
     os.makedirs(out_path, exist_ok=True)
     run_id = result["run_id"]
     result["weekly_df"].to_csv(os.path.join(out_path, f"weekly_summary_{run_id}.csv"), index=False)
-    result["full_mtm_df"].to_csv(os.path.join(out_path, f"full_weekly_mtm_path_{run_id}.csv"), index=False)
+    mtm_out = full_mtm_df_for_export(result["full_mtm_df"])
+    mtm_out.to_csv(os.path.join(out_path, f"full_weekly_mtm_path_{run_id}.csv"), index=False)
 
 
 if __name__ == "__main__":
